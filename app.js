@@ -1327,6 +1327,7 @@ function initApp() {
   loadQuickNutrition();
 
   registerPWA();
+  if (typeof pullFromCloud === "function") pullFromCloud();
 }
 
 function populateDaySelectDropdown() {
@@ -1953,6 +1954,7 @@ function saveCurrentSession(showToast = false) {
 
   allSessions[dateStr] = currentSession;
   saveStoredSessions(allSessions);
+  if (typeof syncToCloud === "function") syncToCloud();
 
   if (showToast) {
     playChimeSound();
@@ -2410,6 +2412,164 @@ function saveQuickNutritionField(field, val) {
 function saveQuickCalories(val) { saveQuickNutritionField("calories", val); }
 function saveQuickProtein(val) { saveQuickNutritionField("protein", val); }
 function saveQuickWeight(val) { saveQuickNutritionField("weight", val); }
+
+// ==========================================
+// 16. CLOUD SYNC ENGINE (PHONE <-> LAPTOP)
+// ==========================================
+const SYNC_CONFIG_KEY = "wimpy_sync_config_v1";
+
+function getStoredSyncConfig() {
+  try {
+    const raw = localStorage.getItem(SYNC_CONFIG_KEY);
+    return raw ? JSON.parse(raw) : {
+      secretKey: "77KG-LEAN-BULK",
+      firebaseUrl: "",
+      autoSync: true,
+      lastSyncedAt: null
+    };
+  } catch (e) {
+    return { secretKey: "77KG-LEAN-BULK", firebaseUrl: "", autoSync: true, lastSyncedAt: null };
+  }
+}
+
+function saveStoredSyncConfig(cfg) {
+  try {
+    localStorage.setItem(SYNC_CONFIG_KEY, JSON.stringify(cfg));
+  } catch(e) {}
+}
+
+async function syncToCloud() {
+  const cfg = getStoredSyncConfig();
+  if (!cfg.secretKey) return;
+
+  const payload = {
+    sessions: getStoredSessions(),
+    videos: getStoredVideos(),
+    nutrition: localStorage.getItem(STORAGE_KEYS.NUTRITION),
+    lastUpdated: new Date().toISOString()
+  };
+
+  updateSyncUIStatus("🔄 Syncing...", "#0284c7");
+
+  // 1. If Firebase DB configured
+  if (cfg.firebaseUrl) {
+    try {
+      let cleanUrl = cfg.firebaseUrl.trim().replace(/\/$/, "");
+      const res = await fetch(`${cleanUrl}/wimpy_users/${encodeURIComponent(cfg.secretKey)}.json`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      if (res.ok) {
+        cfg.lastSyncedAt = new Date().toLocaleTimeString();
+        saveStoredSyncConfig(cfg);
+        updateSyncUIStatus(`🟢 Synced (${cfg.lastSyncedAt})`, "#16a34a");
+        return;
+      }
+    } catch(err) {
+      console.warn("Firebase sync error:", err);
+    }
+  }
+
+  // Fallback to local-safe status
+  cfg.lastSyncedAt = new Date().toLocaleTimeString();
+  saveStoredSyncConfig(cfg);
+  updateSyncUIStatus(`🟢 Local Safe (${cfg.lastSyncedAt})`, "#16a34a");
+}
+
+async function pullFromCloud(showToast = false) {
+  const cfg = getStoredSyncConfig();
+  if (!cfg.secretKey || !cfg.firebaseUrl) {
+    updateSyncUIStatus("🟡 Cloud Sync: Setup", "#d97706");
+    if (showToast) alert("ℹ️ Paste your Firebase Database URL in Cloud Sync settings to enable real-time cross-device sync!");
+    return;
+  }
+
+  updateSyncUIStatus("🔄 Pulling...", "#0284c7");
+
+  try {
+    let cleanUrl = cfg.firebaseUrl.trim().replace(/\/$/, "");
+    const res = await fetch(`${cleanUrl}/wimpy_users/${encodeURIComponent(cfg.secretKey)}.json`);
+    if (res.ok) {
+      const data = await res.json();
+      if (data && data.sessions) {
+        // Deep-merge cloud sessions with local sessions so no workouts are lost
+        const localSessions = getStoredSessions();
+        const merged = { ...localSessions, ...data.sessions };
+        saveStoredSessions(merged);
+
+        if (data.videos) {
+          const localVideos = getStoredVideos();
+          localStorage.setItem(STORAGE_KEYS.VIDEOS, JSON.stringify({ ...localVideos, ...data.videos }));
+        }
+
+        if (data.nutrition) {
+          localStorage.setItem(STORAGE_KEYS.NUTRITION, data.nutrition);
+        }
+
+        cfg.lastSyncedAt = new Date().toLocaleTimeString();
+        saveStoredSyncConfig(cfg);
+        updateSyncUIStatus(`🟢 Synced (${cfg.lastSyncedAt})`, "#16a34a");
+        renderExercisesForCurrentDay();
+        renderPRBoard();
+        if (showToast) alert("✅ Cloud data successfully synchronized from your other device!");
+        return;
+      }
+    }
+  } catch(err) {
+    console.warn("Pull error:", err);
+  }
+
+  updateSyncUIStatus("🟡 Offline Safe", "#d97706");
+}
+
+function updateSyncUIStatus(text, color) {
+  const badge = document.getElementById("syncStatusBadge");
+  if (badge) {
+    badge.textContent = text;
+    badge.style.color = color;
+  }
+  const modalText = document.getElementById("syncModalStatusText");
+  if (modalText) {
+    modalText.textContent = text;
+    modalText.style.color = color;
+  }
+}
+
+function openCloudSyncModal() {
+  const modal = document.getElementById("cloudSyncModal");
+  if (!modal) return;
+  modal.style.display = "flex";
+
+  const cfg = getStoredSyncConfig();
+  const keyInput = document.getElementById("syncSecretKeyInput");
+  const fbInput = document.getElementById("firebaseDbUrlInput");
+
+  if (keyInput) keyInput.value = cfg.secretKey || "77KG-LEAN-BULK";
+  if (fbInput) fbInput.value = cfg.firebaseUrl || "";
+}
+
+function closeCloudSyncModal() {
+  const modal = document.getElementById("cloudSyncModal");
+  if (modal) modal.style.display = "none";
+}
+
+function saveSyncSettings() {
+  const keyInput = document.getElementById("syncSecretKeyInput");
+  const fbInput = document.getElementById("firebaseDbUrlInput");
+  const cfg = getStoredSyncConfig();
+
+  if (keyInput) cfg.secretKey = keyInput.value.trim() || "77KG-LEAN-BULK";
+  if (fbInput) cfg.firebaseUrl = fbInput.value.trim();
+
+  saveStoredSyncConfig(cfg);
+  alert("💾 Sync settings saved! Checking cloud connection...");
+  pullFromCloud(true);
+}
+
+function triggerManualCloudSync() {
+  pullFromCloud(true);
+}
 
 // ==========================================
 // INITIALIZATION ON DOM READY

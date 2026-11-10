@@ -1,13 +1,15 @@
 {
+  "id": "wimpy-bulk-journal-77kg",
   "name": "Wimpy Bulk Journal - 77kg A/B Program",
   "short_name": "WimpyBulk",
-  "description": "Master 2-Week A/B Workout Journal (77kg Lean Bulk)",
+  "description": "Master 14-Day (Week A / Week B) Hypertrophy, Core & Vitality Journal",
   "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
   "orientation": "portrait-primary",
   "background_color": "#2b2b36",
   "theme_color": "#fffde0",
-  "scope": "./",
+  "prefer_related_applications": false,
   "icons": [
     {
       "src": "icon-192.png",

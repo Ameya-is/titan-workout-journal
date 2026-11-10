@@ -75,13 +75,16 @@
           <p class="subtitle">The Master 14-Day (Week A / Week B) Hypertrophy, Core & Vitality Program</p>
         </div>
 
-        <!-- Mobile & Quick Actions -->
+        <!-- Mobile & Quick Actions (Added Cloud Sync Button) -->
         <div class="mobile-action-pill-bar">
-          <button class="sketch-btn small app-install-btn" id="btnInstallApp" onclick="triggerAppInstall()">
-            📲 Install App / APK
+          <button class="sketch-btn small sync-btn" id="btnOpenSyncModal" onclick="openCloudSyncModal()">
+            🔄 <span id="syncStatusBadge">Cloud Sync: Setup</span>
           </button>
           <button class="sketch-btn small qr-connect-btn" onclick="openQRConnectModal()">
-            📱 Phone Connect / QR
+            📱 QR Connect
+          </button>
+          <button class="sketch-btn small app-install-btn" id="btnInstallApp" onclick="triggerAppInstall()">
+            📲 Install Android App
           </button>
           <button class="sketch-btn small wakelock-btn" id="btnWakeLock" onclick="toggleWakeLock()">
             ☀️ Screen Awake: Off
@@ -413,37 +416,77 @@
         <div class="sticky-note yellow" style="margin:16px auto 0; text-align:left; max-width:340px; font-size:15px; transform:none;">
           <strong>⚡ How to install on your phone:</strong>
           <p style="margin:4px 0 2px;">• <strong>iPhone:</strong> Tap <strong>Share</strong> ➔ <strong>"Add to Home Screen"</strong>.</p>
-          <p style="margin:2px 0;">• <strong>Android:</strong> Tap <strong>"Install App"</strong> in Chrome banner.</p>
+          <p style="margin:2px 0;">• <strong>Android:</strong> Tap <strong>"Install App"</strong> in Chrome banner or 3-dots menu.</p>
           <p style="margin-top:4px; font-size:13px; color:#666;">Runs 100% full-screen & offline in the gym!</p>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- MODAL: APP INSTALLATION GUIDE & APK -->
+  <!-- MODAL: CLOUD SYNC SETTINGS (PHONE <-> LAPTOP) -->
+  <div id="cloudSyncModal" class="modal-overlay" style="display: none;">
+    <div class="modal-card hand-drawn-box" style="max-width: 520px;">
+      <button class="modal-close-btn" onclick="closeCloudSyncModal()">&times;</button>
+      <div class="modal-header">
+        <h3 style="font-family:'Permanent Marker'; font-size:22px; color:#111;">🔄 CLOUD SYNC (PHONE ↔ LAPTOP)</h3>
+        <p style="font-family:'Patrick Hand'; font-size:16px; color:#475569;">Keep your workouts identical across your Android phone and Laptop</p>
+      </div>
+      <div class="modal-body" style="padding:10px 0; font-family:'Patrick Hand'; font-size:17px;">
+        <div class="sync-status-card" style="background:#f0fdf4; border:1.5px solid #16a34a; border-radius:8px; padding:10px; margin-bottom:14px; display:flex; align-items:center; justify-content:space-between;">
+          <div>
+            <strong>Status:</strong> <span id="syncModalStatusText" style="color:#15803d; font-weight:bold;">Offline Storage Active (100% Safe)</span>
+          </div>
+          <button class="sketch-btn micro primary" onclick="triggerManualCloudSync()">🔄 Sync Now</button>
+        </div>
+
+        <div class="sticky-note yellow" style="margin-bottom:16px; transform:none; max-width:100%;">
+          <div class="sticky-title">SECRET SYNC KEY / ROOM</div>
+          <p style="margin:4px 0 8px;">Enter the <strong>exact same Secret Key</strong> on your Android phone and on your Laptop:</p>
+          <div style="display:flex; gap:8px;">
+            <input type="text" id="syncSecretKeyInput" class="handwritten-input" style="flex:1; font-weight:bold; letter-spacing:1px;" placeholder="e.g. 77KG-LEAN-BULK">
+            <button class="sketch-btn small primary" onclick="saveSyncSettings()">Save Key</button>
+          </div>
+        </div>
+
+        <div style="background:#f8fafc; border:1.5px dashed #64748b; border-radius:8px; padding:12px; margin-bottom:14px;">
+          <h4 style="font-family:'Permanent Marker'; font-size:15px; color:#1e293b; margin-bottom:4px;">GOOGLE FIREBASE REALTIME DB (100% FREE & GOOGLE-BACKED):</h4>
+          <p style="font-size:14px; color:#475569; margin-bottom:6px;">If you have a Google Firebase database URL, paste it below. Data updates in real time (< 1 sec):</p>
+          <input type="text" id="firebaseDbUrlInput" class="handwritten-input" style="width:100%; font-size:14px;" placeholder="https://your-project-default-rtdb.firebaseio.com">
+        </div>
+
+        <div style="border-top:1.5px dashed #cbd5e1; padding-top:12px; display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-size:15px; color:#64748b;">Instant Backup:</span>
+          <div>
+            <button class="sketch-btn small" onclick="exportDataBackup()">📥 Export File</button>
+            <button class="sketch-btn small" onclick="document.getElementById('importFileInput').click()">📤 Import File</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: ANDROID INSTALL GUIDE -->
   <div id="installGuideModal" class="modal-overlay" style="display: none;">
     <div class="modal-card hand-drawn-box">
       <button class="modal-close-btn" onclick="closeInstallGuideModal()">&times;</button>
       <div class="modal-header">
-        <h3 style="font-family:'Permanent Marker'; font-size:22px; color:#111;">📲 GET THE MOBILE APP / APK</h3>
+        <h3 style="font-family:'Permanent Marker'; font-size:22px; color:#111;">📲 INSTALL ON ANDROID IN 2 TAPS</h3>
       </div>
-      <div class="modal-body" style="padding:10px 0; font-family:'Patrick Hand'; font-size:17px;">
+      <div class="modal-body" style="padding:10px 0; font-family:'Patrick Hand'; font-size:18px;">
         <div id="installPromptDirect" style="display:none; text-align:center; margin-bottom:14px;">
           <button class="sketch-btn primary" style="font-size:18px; padding:10px 20px;" onclick="executeNativeInstall()">
             ⚡ Tap to Install Standalone App Now
           </button>
         </div>
-        <div class="install-steps">
-          <p><strong>1. Instant One-Tap Standalone Install (Recommended):</strong></p>
-          <ul style="margin-left:20px; margin-bottom:12px; line-height:1.4;">
-            <li><strong>iPhone (Safari):</strong> Tap the <strong>Share</strong> button (⎋) ➔ Tap <strong>"Add to Home Screen"</strong> (➕).</li>
-            <li><strong>Android (Chrome):</strong> Tap <strong>"Install app"</strong> or three dots (⋮) ➔ <strong>"Add to Home screen"</strong>.</li>
-            <li><em>Result:</em> An actual app icon on your phone that launches in full-screen mode with 100% offline support!</li>
-          </ul>
-          <p><strong>2. How to get a compiled .APK file for Android:</strong></p>
-          <p style="margin-top:4px; line-height:1.4;">
-            Because compiling a raw binary APK requires the Google Android SDK and Java JDK (which are not pre-installed on standard PCs), you can generate a signed APK in 30 seconds using Microsoft's free <a href="https://www.pwabuilder.com" target="_blank" style="color:#0284c7; font-weight:bold;">PWABuilder.com</a>: just paste your app link and click <strong>"Package for Android"</strong> to download your APK directly!
-          </p>
+        <p>If Chrome didn't automatically pop up the install banner, follow these 2 quick steps:</p>
+        <ol style="margin-left:24px; margin-top:8px; line-height:1.6;">
+          <li>In Chrome on your phone, tap the <strong>three vertical dots (⋮)</strong> in the top-right corner.</li>
+          <li>Tap <strong>"Install app"</strong> (or <strong>"Add to Home screen"</strong>).</li>
+          <li>Tap <strong>Install</strong> when prompted.</li>
+        </ol>
+        <div class="sticky-note yellow" style="margin-top:16px; transform:none; max-width:100%;">
+          <strong>Why this is awesome:</strong>
+          <p style="margin-top:4px;">Android compiles a real <strong>WebAPK</strong> and places the <strong>WimpyBulk</strong> icon in your Android App Drawer! It runs full-screen with no browser address bar and works 100% offline in the gym.</p>
         </div>
       </div>
     </div>
