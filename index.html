@@ -112,14 +112,57 @@
         </div>
       </div>
 
-      <!-- PRE-WORKOUT PROTOCOL -->
-      <div class="pre-workout-card" id="preWorkoutCard">
-        <div class="pre-workout-icon">🏃</div>
-        <div>
-          <div class="pre-workout-title">Daily Pre-Workout Nitric Oxide Warm-Up</div>
-          <div class="pre-workout-text" id="preWorkoutText">
-            Incline Treadmill Walk — 1 Set | Duration: 8–10 mins (3.5% incline, 5.2 km/h) | Rest: 0s
+      <!-- PRE-WORKOUT INTERACTIVE TREADMILL PROTOCOL HUB -->
+      <div class="treadmill-hub-card" id="preWorkoutCard">
+        <div class="treadmill-header">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 1.35rem;">🏃</span>
+            <div>
+              <div style="font-size: 0.72rem; font-weight: 800; text-transform: uppercase; color: var(--accent-blue); letter-spacing: 0.05em;">
+                Daily Protocol &bull; Endothelial Nitric Oxide Warm-Up
+              </div>
+              <div style="font-size: 0.84rem; font-weight: 700; color: var(--text-main);" id="preWorkoutText">
+                8–10 Min Zone 2 Incline Treadmill Walk (3.5% Incline @ 5.2 km/h)
+              </div>
+            </div>
           </div>
+          <span class="badge-tag badge-blue" id="treadmillStatusBadge">Pending</span>
+        </div>
+
+        <!-- Big 8-Minute Countdown Display -->
+        <div class="treadmill-timer-display" id="treadmillTimerDisplay">08:00</div>
+
+        <!-- Metrics Tracking Grid -->
+        <div class="treadmill-metrics-grid">
+          <div class="treadmill-metric-box">
+            <div class="treadmill-metric-label">Target Time</div>
+            <select id="selectTreadmillTarget" onchange="setTreadmillTarget(this.value)" style="background: transparent; border: none; color: var(--text-main); font-weight: 800; font-size: 0.85rem; text-align: center; outline: none; width: 100%;">
+              <option value="480" style="background: #111;">8 Minutes</option>
+              <option value="600" style="background: #111;">10 Minutes</option>
+            </select>
+          </div>
+          <div class="treadmill-metric-box">
+            <div class="treadmill-metric-label">Distance (km)</div>
+            <input type="number" step="0.01" class="treadmill-metric-input" id="inputTreadmillDistance" value="0.69" onfocus="this.select()">
+          </div>
+          <div class="treadmill-metric-box">
+            <div class="treadmill-metric-label">Incline / Speed</div>
+            <div style="font-size: 0.82rem; font-weight: 800; color: var(--accent-blue); margin-top: 4px;">
+              3.5% &bull; 5.2 km/h
+            </div>
+          </div>
+        </div>
+
+        <!-- Controls Row -->
+        <div class="treadmill-btn-row">
+          <button class="btn-treadmill primary" id="btnToggleTreadmill" onclick="toggleTreadmillTimer()">
+            <span>▶</span> Start 8-Min Walk
+          </button>
+          <button class="btn-treadmill" onclick="addTreadmillMinute(60)">+1 Min</button>
+          <button class="btn-treadmill" onclick="resetTreadmillTimer()">Reset</button>
+          <button class="btn-treadmill success" id="btnCompleteTreadmill" onclick="completeTreadmillProtocol()">
+            <span>✓</span> Done
+          </button>
         </div>
       </div>
 
@@ -296,6 +339,7 @@
     <div class="dock-btn-group">
       <button class="btn-dock-action" onclick="addRestTimerSeconds(30)">+30s</button>
       <button class="btn-dock-action skip" onclick="skipRestTimer()">Skip</button>
+      <button class="btn-close-dock" onclick="dismissRestTimer()" title="Close Timer">&times;</button>
     </div>
   </aside>
 

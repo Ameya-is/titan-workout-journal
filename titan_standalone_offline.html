@@ -887,28 +887,167 @@ body {
 
 .floating-rest-dock {
   position: fixed;
-  bottom: calc(16px + var(--safe-bottom));
+  bottom: calc(75px + var(--safe-bottom));
   left: 50%;
-  transform: translateX(-50%) translateY(120px);
-  z-index: 999;
-  width: calc(100% - 32px);
+  transform: translateX(-50%) translateY(160px);
+  z-index: 9999;
+  width: calc(100% - 24px);
   max-width: 480px;
-  background: rgba(19, 27, 40, 0.95);
+  background: rgba(15, 23, 36, 0.98);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1.5px solid var(--accent-amber);
   border-radius: var(--radius-full);
-  padding: 10px 18px;
+  padding: 10px 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 16px rgba(245, 158, 11, 0.25);
+  gap: 10px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.75), 0 0 20px rgba(245, 158, 11, 0.3);
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .floating-rest-dock.visible {
   transform: translateX(-50%) translateY(0);
+}
+
+.btn-close-dock {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.25rem;
+  line-height: 1;
+  padding: 4px 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-close-dock:hover {
+  color: var(--accent-rose);
+}
+
+/* ==========================================================================
+   TREADMILL PROTOCOL HUB (ZONE 2 WALK / RUN TIMER & DISTANCE TRACKER)
+   ========================================================================== */
+.treadmill-hub-card {
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.08) 0%, rgba(16, 185, 129, 0.06) 100%);
+  border: 1.5px solid rgba(56, 189, 248, 0.3);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  margin-bottom: 20px;
+  transition: all 0.25s ease;
+}
+
+.treadmill-hub-card.completed {
+  border-color: rgba(16, 185, 129, 0.55);
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(6, 182, 212, 0.06) 100%);
+}
+
+.treadmill-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.treadmill-timer-display {
+  font-family: var(--font-mono);
+  font-size: 2.3rem;
+  font-weight: 900;
+  color: var(--accent-blue);
+  text-align: center;
+  margin: 4px 0 10px 0;
+  letter-spacing: 0.05em;
+}
+
+.treadmill-timer-display.running {
+  color: var(--accent-emerald);
+  animation: pulseAnim 2s infinite ease-in-out;
+}
+
+.treadmill-metrics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.treadmill-metric-box {
+  background: var(--bg-main);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 8px;
+  text-align: center;
+}
+
+.treadmill-metric-label {
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.treadmill-metric-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: var(--text-main);
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+  font-weight: 800;
+  text-align: center;
+  outline: none;
+}
+
+.treadmill-btn-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.btn-treadmill {
+  flex: 1;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-main);
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 9px 14px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.btn-treadmill.primary {
+  background: var(--accent-blue);
+  color: #051322;
+  border-color: var(--accent-blue);
+  font-weight: 800;
+}
+
+.btn-treadmill.success {
+  background: var(--accent-emerald);
+  color: #022c22;
+  border-color: var(--accent-emerald);
+  font-weight: 800;
+}
+
+.btn-treadmill:active {
+  transform: scale(0.97);
+}
+
+/* Touch responsiveness idiot proofing */
+.stepper-btn, .btn-check-done, .btn-finish-workout, .tab-btn {
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .dock-timer-info {
@@ -1449,14 +1588,57 @@ body {
         </div>
       </div>
 
-      <!-- PRE-WORKOUT PROTOCOL -->
-      <div class="pre-workout-card" id="preWorkoutCard">
-        <div class="pre-workout-icon">🏃</div>
-        <div>
-          <div class="pre-workout-title">Daily Pre-Workout Nitric Oxide Warm-Up</div>
-          <div class="pre-workout-text" id="preWorkoutText">
-            Incline Treadmill Walk — 1 Set | Duration: 8–10 mins (3.5% incline, 5.2 km/h) | Rest: 0s
+      <!-- PRE-WORKOUT INTERACTIVE TREADMILL PROTOCOL HUB -->
+      <div class="treadmill-hub-card" id="preWorkoutCard">
+        <div class="treadmill-header">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 1.35rem;">🏃</span>
+            <div>
+              <div style="font-size: 0.72rem; font-weight: 800; text-transform: uppercase; color: var(--accent-blue); letter-spacing: 0.05em;">
+                Daily Protocol &bull; Endothelial Nitric Oxide Warm-Up
+              </div>
+              <div style="font-size: 0.84rem; font-weight: 700; color: var(--text-main);" id="preWorkoutText">
+                8–10 Min Zone 2 Incline Treadmill Walk (3.5% Incline @ 5.2 km/h)
+              </div>
+            </div>
           </div>
+          <span class="badge-tag badge-blue" id="treadmillStatusBadge">Pending</span>
+        </div>
+
+        <!-- Big 8-Minute Countdown Display -->
+        <div class="treadmill-timer-display" id="treadmillTimerDisplay">08:00</div>
+
+        <!-- Metrics Tracking Grid -->
+        <div class="treadmill-metrics-grid">
+          <div class="treadmill-metric-box">
+            <div class="treadmill-metric-label">Target Time</div>
+            <select id="selectTreadmillTarget" onchange="setTreadmillTarget(this.value)" style="background: transparent; border: none; color: var(--text-main); font-weight: 800; font-size: 0.85rem; text-align: center; outline: none; width: 100%;">
+              <option value="480" style="background: #111;">8 Minutes</option>
+              <option value="600" style="background: #111;">10 Minutes</option>
+            </select>
+          </div>
+          <div class="treadmill-metric-box">
+            <div class="treadmill-metric-label">Distance (km)</div>
+            <input type="number" step="0.01" class="treadmill-metric-input" id="inputTreadmillDistance" value="0.69" onfocus="this.select()">
+          </div>
+          <div class="treadmill-metric-box">
+            <div class="treadmill-metric-label">Incline / Speed</div>
+            <div style="font-size: 0.82rem; font-weight: 800; color: var(--accent-blue); margin-top: 4px;">
+              3.5% &bull; 5.2 km/h
+            </div>
+          </div>
+        </div>
+
+        <!-- Controls Row -->
+        <div class="treadmill-btn-row">
+          <button class="btn-treadmill primary" id="btnToggleTreadmill" onclick="toggleTreadmillTimer()">
+            <span>▶</span> Start 8-Min Walk
+          </button>
+          <button class="btn-treadmill" onclick="addTreadmillMinute(60)">+1 Min</button>
+          <button class="btn-treadmill" onclick="resetTreadmillTimer()">Reset</button>
+          <button class="btn-treadmill success" id="btnCompleteTreadmill" onclick="completeTreadmillProtocol()">
+            <span>✓</span> Done
+          </button>
         </div>
       </div>
 
@@ -1633,6 +1815,7 @@ body {
     <div class="dock-btn-group">
       <button class="btn-dock-action" onclick="addRestTimerSeconds(30)">+30s</button>
       <button class="btn-dock-action skip" onclick="skipRestTimer()">Skip</button>
+      <button class="btn-close-dock" onclick="dismissRestTimer()" title="Close Timer">&times;</button>
     </div>
   </aside>
 
@@ -3866,6 +4049,8 @@ function selectDay(dayNum) {
   document.getElementById('btnWeekA').classList.toggle('active', appState.currentWeek === 'A');
   document.getElementById('btnWeekB').classList.toggle('active', appState.currentWeek === 'B');
 
+  resetTreadmillTimer();
+  dismissRestTimer();
   saveLocalState();
   initWeekAndDayPills();
   renderCurrentDay();
@@ -4080,14 +4265,14 @@ function renderCurrentDay() {
           <div class="input-with-stepper">
             <button class="stepper-btn" onclick="stepWeight('${ex.id}', ${sIdx}, -2.5)">-</button>
             <input type="number" step="0.5" class="log-number-input" id="weight_${ex.id}_${sIdx}" 
-              value="${set.weight}" onchange="updateSetData('${ex.id}', ${sIdx})" placeholder="kg">
+              value="${set.weight}" onchange="updateSetData('${ex.id}', ${sIdx})" onfocus="this.select()" placeholder="kg">
             <button class="stepper-btn" onclick="stepWeight('${ex.id}', ${sIdx}, 2.5)">+</button>
           </div>
 
           <div class="input-with-stepper">
             <button class="stepper-btn" onclick="stepReps('${ex.id}', ${sIdx}, -1)">-</button>
             <input type="number" step="1" class="log-number-input" id="reps_${ex.id}_${sIdx}" 
-              value="${set.reps}" onchange="updateSetData('${ex.id}', ${sIdx})" placeholder="reps">
+              value="${set.reps}" onchange="updateSetData('${ex.id}', ${sIdx})" onfocus="this.select()" placeholder="reps">
             <button class="stepper-btn" onclick="stepReps('${ex.id}', ${sIdx}, 1)">+</button>
           </div>
 
@@ -4132,9 +4317,14 @@ function renderCurrentDay() {
       </div>
 
       <div class="card-footer-actions">
-        <button class="btn-text-action" onclick="addSetToExercise('${ex.id}', ${ex.minReps})">
-          + Add Extra Set
-        </button>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn-text-action" onclick="addSetToExercise('${ex.id}', ${ex.minReps})">
+            + Add Set
+          </button>
+          <button class="btn-text-action" onclick="removeSetFromExercise('${ex.id}')" style="color: var(--text-faint);">
+            🗑️ Remove Set
+          </button>
+        </div>
         <span style="font-size: 0.72rem; color: var(--text-faint);">
           Target: ${ex.minReps}–${ex.maxReps} reps
         </span>
@@ -4216,6 +4406,19 @@ function addSetToExercise(exId, defaultReps) {
   showToast('Set added!');
 }
 
+function removeSetFromExercise(exId) {
+  const day = appState.currentDay;
+  const sets = appState.inProgressLogs[day][exId];
+  if (sets && sets.length > 1) {
+    sets.pop();
+    saveLocalState();
+    renderCurrentDay();
+    showToast('Last set removed.');
+  } else {
+    showToast('Must keep at least 1 set.');
+  }
+}
+
 function toggleSetComplete(exId, setIdx, restSec) {
   const day = appState.currentDay;
   const set = appState.inProgressLogs[day][exId][setIdx];
@@ -4251,6 +4454,10 @@ function toggleSetComplete(exId, setIdx, restSec) {
     row.classList.remove('done');
     btn.classList.remove('done');
     btn.textContent = '○';
+    
+    // IDIOT-PROOF: If set is un-checked (misclick), immediately cancel rest timer!
+    dismissRestTimer();
+    showToast(`Set ${setIdx + 1} unmarked.`);
   }
 
   // Update card border if all sets are done
@@ -4263,7 +4470,7 @@ function toggleSetComplete(exId, setIdx, restSec) {
 }
 
 /* ==========================================================================
-   REST TIMER & AUDIO ALERTS
+   REST TIMER & AUDIO ALERTS (IDIOT-PROOFED)
    ========================================================================== */
 
 function startRestTimer(seconds) {
@@ -4308,7 +4515,159 @@ function addRestTimerSeconds(secs) {
 function skipRestTimer() {
   clearInterval(appState.restTimerInterval);
   appState.restTimerRunning = false;
-  document.getElementById('floatingRestDock').classList.remove('visible');
+  const dock = document.getElementById('floatingRestDock');
+  if (dock) dock.classList.remove('visible');
+}
+
+function dismissRestTimer() {
+  skipRestTimer();
+}
+
+/* ==========================================================================
+   TREADMILL PROTOCOL HUB (ZONE 2 WALK / RUN TIMER & DISTANCE TRACKER)
+   ========================================================================== */
+
+let treadmillState = {
+  targetSeconds: 480, // 8 mins default
+  currentSeconds: 480,
+  running: false,
+  interval: null,
+  completed: false,
+  distanceKm: 0.69
+};
+
+function updateTreadmillDisplay() {
+  const m = Math.floor(treadmillState.currentSeconds / 60);
+  const s = treadmillState.currentSeconds % 60;
+  const disp = document.getElementById('treadmillTimerDisplay');
+  if (disp) {
+    disp.textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+  }
+}
+
+function setTreadmillTarget(val) {
+  const secs = parseInt(val, 10) || 480;
+  treadmillState.targetSeconds = secs;
+  treadmillState.currentSeconds = secs;
+  const dist = ((secs / 3600) * 5.2).toFixed(2);
+  const distInput = document.getElementById('inputTreadmillDistance');
+  if (distInput) distInput.value = dist;
+  treadmillState.distanceKm = parseFloat(dist);
+  updateTreadmillDisplay();
+}
+
+function toggleTreadmillTimer() {
+  if (treadmillState.running) {
+    pauseTreadmillTimer();
+  } else {
+    startTreadmillTimer();
+  }
+}
+
+function startTreadmillTimer() {
+  if (treadmillState.running) return;
+  treadmillState.running = true;
+  const btn = document.getElementById('btnToggleTreadmill');
+  const disp = document.getElementById('treadmillTimerDisplay');
+  const badge = document.getElementById('treadmillStatusBadge');
+  
+  if (btn) btn.innerHTML = '<span>⏸</span> Pause';
+  if (disp) disp.classList.add('running');
+  if (badge) {
+    badge.className = 'badge-tag badge-emerald';
+    badge.textContent = 'Active Warm-Up';
+  }
+
+  // Also auto-start the overall workout session stopwatch if not started
+  if (!appState.sessionTimerRunning) {
+    startSessionTimer();
+  }
+
+  treadmillState.interval = setInterval(() => {
+    treadmillState.currentSeconds--;
+    if (treadmillState.currentSeconds <= 0) {
+      clearInterval(treadmillState.interval);
+      treadmillState.running = false;
+      treadmillState.currentSeconds = 0;
+      updateTreadmillDisplay();
+      if (btn) btn.innerHTML = '<span>▶</span> Restart';
+      if (disp) disp.classList.remove('running');
+      completeTreadmillProtocol();
+      playGymChime();
+      showToast('🔔 8-Min Warm-Up Finished! Synovial joints & eNOS primed!');
+    } else {
+      updateTreadmillDisplay();
+    }
+  }, 1000);
+}
+
+function pauseTreadmillTimer() {
+  treadmillState.running = false;
+  clearInterval(treadmillState.interval);
+  const btn = document.getElementById('btnToggleTreadmill');
+  const disp = document.getElementById('treadmillTimerDisplay');
+  const badge = document.getElementById('treadmillStatusBadge');
+  if (btn) btn.innerHTML = '<span>▶</span> Resume';
+  if (disp) disp.classList.remove('running');
+  if (badge && !treadmillState.completed) {
+    badge.className = 'badge-tag badge-amber';
+    badge.textContent = 'Paused';
+  }
+}
+
+function addTreadmillMinute(secs) {
+  treadmillState.currentSeconds += secs;
+  treadmillState.targetSeconds += secs;
+  const dist = ((treadmillState.targetSeconds / 3600) * 5.2).toFixed(2);
+  const distInput = document.getElementById('inputTreadmillDistance');
+  if (distInput) distInput.value = dist;
+  updateTreadmillDisplay();
+}
+
+function resetTreadmillTimer() {
+  pauseTreadmillTimer();
+  treadmillState.currentSeconds = treadmillState.targetSeconds;
+  treadmillState.completed = false;
+  const card = document.getElementById('preWorkoutCard');
+  const badge = document.getElementById('treadmillStatusBadge');
+  const btnComp = document.getElementById('btnCompleteTreadmill');
+  const btn = document.getElementById('btnToggleTreadmill');
+  if (card) card.classList.remove('completed');
+  if (badge) {
+    badge.className = 'badge-tag badge-blue';
+    badge.textContent = 'Pending';
+  }
+  if (btnComp) btnComp.innerHTML = '<span>✓</span> Done';
+  if (btn) btn.innerHTML = '<span>▶</span> Start Walk';
+  updateTreadmillDisplay();
+}
+
+function completeTreadmillProtocol() {
+  treadmillState.completed = true;
+  pauseTreadmillTimer();
+  const card = document.getElementById('preWorkoutCard');
+  const badge = document.getElementById('treadmillStatusBadge');
+  const btnComp = document.getElementById('btnCompleteTreadmill');
+  const distInput = document.getElementById('inputTreadmillDistance');
+  const loggedDist = distInput ? distInput.value : '0.69';
+
+  if (card) card.classList.add('completed');
+  if (badge) {
+    badge.className = 'badge-tag badge-emerald';
+    badge.textContent = `Completed (${loggedDist} km)`;
+  }
+  if (btnComp) btnComp.innerHTML = '<span>✓</span> Completed';
+
+  // Save to in-progress logs
+  const day = appState.currentDay;
+  if (!appState.inProgressLogs[day]) appState.inProgressLogs[day] = {};
+  appState.inProgressLogs[day].treadmillCompleted = {
+    done: true,
+    distanceKm: loggedDist,
+    timestamp: Date.now()
+  };
+  saveLocalState();
+  showToast(`🏃 Warm-up logged: ${loggedDist} km at 3.5% incline!`);
 }
 
 /* ==========================================================================
@@ -4423,6 +4782,11 @@ function finishCurrentWorkout() {
     timestamp: Date.now(),
     durationMinutes: durationMin,
     totalVolumeKg: totalVolume,
+    treadmillProtocol: {
+      completed: treadmillState.completed,
+      distanceKm: treadmillState.distanceKm,
+      targetMinutes: Math.round(treadmillState.targetSeconds / 60)
+    },
     exercises: workoutExercises
   };
 
@@ -4431,6 +4795,8 @@ function finishCurrentWorkout() {
   // Reset active session
   delete appState.inProgressLogs[dayData.day];
   pauseSessionTimer();
+  resetTreadmillTimer();
+  dismissRestTimer();
   appState.sessionSeconds = 0;
   document.getElementById('sessionTimerClock').textContent = '00:00:00';
 
