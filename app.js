@@ -20,6 +20,7 @@ let appState = {
   restTimerInterval: null,
   
   syncKey: '',
+  firebaseUrl: '',
   completedWorkouts: [],
   inProgressLogs: {}, // { [day]: { [exId]: [{ weight, reps, done }] } }
   personalRecords: {}, // { [canonName]: { maxWeight, reps, date } }
@@ -99,6 +100,7 @@ function loadLocalState() {
       appState.currentDay = parsed.currentDay || 1;
       appState.currentWeek = parsed.currentDay > 7 ? 'B' : 'A';
       appState.syncKey = parsed.syncKey || '';
+      appState.firebaseUrl = parsed.firebaseUrl || '';
       appState.completedWorkouts = parsed.completedWorkouts || [];
       appState.inProgressLogs = parsed.inProgressLogs || {};
       appState.personalRecords = parsed.personalRecords || {};
@@ -121,6 +123,7 @@ function saveLocalState() {
     const toSave = {
       currentDay: appState.currentDay,
       syncKey: appState.syncKey,
+      firebaseUrl: appState.firebaseUrl,
       completedWorkouts: appState.completedWorkouts,
       inProgressLogs: appState.inProgressLogs,
       personalRecords: appState.personalRecords,
@@ -132,15 +135,26 @@ function saveLocalState() {
   }
 }
 
-// Handle URL query parameter `?sync=KEY` for 1-second instant phone pairing
+// Handle URL query parameter `?sync=KEY&fb=URL` for 1-second instant phone pairing
 function handleUrlSyncKey() {
   try {
     const urlParams = new URLSearchParams(window.location.search);
     const syncParam = urlParams.get('sync');
+    const fbParam = urlParams.get('fb');
+    let updated = false;
+
     if (syncParam && syncParam.trim() !== '') {
       appState.syncKey = syncParam.trim();
+      updated = true;
+    }
+    if (fbParam && fbParam.trim() !== '') {
+      appState.firebaseUrl = fbParam.trim();
+      updated = true;
+    }
+
+    if (updated) {
       saveLocalState();
-      showToast(`📲 Synced to device vault: ${appState.syncKey}`);
+      showToast(`📲 Synced to device vault!`);
       // Clean up URL without reloading
       const cleanUrl = window.location.origin + window.location.pathname;
       window.history.replaceState({}, document.title, cleanUrl);
@@ -905,9 +919,26 @@ function renderPRsAndHistory() {
    ========================================================================== */
 
 function initSyncKeyUI() {
-  const input = document.getElementById('inputSyncKey');
-  if (input) input.value = appState.syncKey;
+  const inputKey = document.getElementById('inputSyncKey');
+  if (inputKey) inputKey.value = appState.syncKey;
+
+  const inputFb = document.getElementById('inputFirebaseUrl');
+  if (inputFb) inputFb.value = appState.firebaseUrl || '';
+
+  updateCloudStatusUI();
   renderSyncQR();
+}
+
+function updateCloudStatusUI() {
+  const tag = document.getElementById('cloudStatusTag');
+  if (!tag) return;
+  if (appState.firebaseUrl && appState.firebaseUrl.startsWith('http')) {
+    tag.className = 'badge-tag badge-emerald';
+    tag.textContent = 'Google Cloud Active';
+  } else {
+    tag.className = 'badge-tag badge-amber';
+    tag.textContent = 'Local Only';
+  }
 }
 
 function saveCustomSyncKey() {
@@ -925,13 +956,36 @@ function saveCustomSyncKey() {
   silentCloudPull();
 }
 
+function saveFirebaseUrl() {
+  const input = document.getElementById('inputFirebaseUrl');
+  if (!input) return;
+  let val = input.value.trim().replace(/\/+$/, '');
+  if (val && !val.startsWith('http')) {
+    val = 'https://' + val;
+  }
+  appState.firebaseUrl = val;
+  saveLocalState();
+  updateCloudStatusUI();
+  renderSyncQR();
+  if (val) {
+    showToast('☁️ Firebase Database connected!');
+    silentCloudPush();
+  } else {
+    showToast('Cloud database disconnected (Local mode).');
+  }
+}
+
 function getPairingUrl() {
   // If running via python server with tunnel, use public HTTPS tunnel
   const baseUrl = (window.PUBLIC_TUNNEL_URL && window.PUBLIC_TUNNEL_URL.startsWith('http'))
     ? window.PUBLIC_TUNNEL_URL
     : window.location.origin + window.location.pathname;
 
-  return `${baseUrl}?sync=${encodeURIComponent(appState.syncKey)}`;
+  let url = `${baseUrl}?sync=${encodeURIComponent(appState.syncKey)}`;
+  if (appState.firebaseUrl) {
+    url += `&fb=${encodeURIComponent(appState.firebaseUrl)}`;
+  }
+  return url;
 }
 
 function renderSyncQR() {
@@ -956,66 +1010,111 @@ function renderSyncQR() {
 }
 
 /**
- * Multi-Channel Silent Sync:
- * Channel 1: Local PC REST API (/api/sync) when connected via local network or tunnel
- * Channel 2: LocalStorage (Always instant offline fallback)
+ * Multi-Tiered Silent Cloud Sync Engine:
+ * Tier 1: Google Firebase Realtime Database (If URL provided)
+ * Tier 2: Local PC REST API (/api/sync) (If running local mobile_server.py)
+ * Tier 3: LocalStorage (Always persistent offline safety net)
  */
 async function silentCloudPush() {
   updateSyncStatus('Syncing...', false);
-  try {
-    const payload = JSON.stringify({
-      syncKey: appState.syncKey,
-      completedWorkouts: appState.completedWorkouts,
-      personalRecords: appState.personalRecords,
-      customVideos: appState.customVideos,
-      inProgressLogs: appState.inProgressLogs,
-      timestamp: Date.now()
-    });
+  const payload = {
+    syncKey: appState.syncKey,
+    completedWorkouts: appState.completedWorkouts,
+    personalRecords: appState.personalRecords,
+    customVideos: appState.customVideos,
+    inProgressLogs: appState.inProgressLogs,
+    timestamp: Date.now()
+  };
 
-    // Try posting to local PC server
-    const serverRes = await fetch('/api/sync', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: payload
-    });
+  let synced = false;
 
-    if (serverRes.ok) {
-      updateSyncStatus('Synced', true);
-      return;
+  // 1. Push to Google Firebase if configured
+  if (appState.firebaseUrl && appState.firebaseUrl.startsWith('http')) {
+    try {
+      const targetUrl = `${appState.firebaseUrl}/vault/${encodeURIComponent(appState.syncKey)}.json`;
+      const res = await fetch(targetUrl, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (res.ok) {
+        synced = true;
+        updateSyncStatus('Cloud Synced', true);
+      }
+    } catch (e) {
+      console.log('Firebase sync error:', e);
     }
-  } catch (e) {
-    // If PC server offline, local storage is already safely preserved
   }
-  updateSyncStatus('Saved Locally', true);
+
+  // 2. Try posting to local PC server
+  if (!synced) {
+    try {
+      const serverRes = await fetch('/api/sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (serverRes.ok) {
+        synced = true;
+        updateSyncStatus('PC Synced', true);
+      }
+    } catch (e) {}
+  }
+
+  if (!synced) {
+    updateSyncStatus('Saved Locally', true);
+  }
 }
 
 async function silentCloudPull() {
+  // 1. Pull from Google Firebase if configured
+  if (appState.firebaseUrl && appState.firebaseUrl.startsWith('http')) {
+    try {
+      const targetUrl = `${appState.firebaseUrl}/vault/${encodeURIComponent(appState.syncKey)}.json`;
+      const res = await fetch(targetUrl);
+      if (res.ok) {
+        const cloudData = await res.json();
+        if (cloudData && (cloudData.completedWorkouts || cloudData.personalRecords)) {
+          mergeSyncedData(cloudData);
+          updateSyncStatus('Cloud Synced', true);
+          return;
+        }
+      }
+    } catch (e) {
+      console.log('Firebase pull error:', e);
+    }
+  }
+
+  // 2. Pull from local PC server
   try {
     const res = await fetch('/api/sync');
     if (res.ok) {
       const serverData = await res.json();
       if (serverData && serverData.completedWorkouts) {
-        // Merge without losing data
-        if (serverData.completedWorkouts.length >= appState.completedWorkouts.length) {
-          appState.completedWorkouts = serverData.completedWorkouts;
-        }
-        if (serverData.personalRecords) {
-          appState.personalRecords = { ...appState.personalRecords, ...serverData.personalRecords };
-        }
-        if (serverData.customVideos) {
-          appState.customVideos = { ...appState.customVideos, ...serverData.customVideos };
-        }
-        saveLocalState();
-        renderCurrentDay();
-        renderPRsAndHistory();
-        updateSyncStatus('Synced', true);
+        mergeSyncedData(serverData);
+        updateSyncStatus('PC Synced', true);
         return;
       }
     }
-  } catch (e) {
-    // Offline or standalone
-  }
+  } catch (e) {}
+
   updateSyncStatus('Saved Locally', true);
+}
+
+function mergeSyncedData(incoming) {
+  if (incoming.completedWorkouts && incoming.completedWorkouts.length >= appState.completedWorkouts.length) {
+    appState.completedWorkouts = incoming.completedWorkouts;
+  }
+  if (incoming.personalRecords) {
+    appState.personalRecords = { ...appState.personalRecords, ...incoming.personalRecords };
+  }
+  if (incoming.customVideos) {
+    appState.customVideos = { ...appState.customVideos, ...incoming.customVideos };
+  }
+  saveLocalState();
+  renderCurrentDay();
+  renderPRsAndHistory();
 }
 
 function forceCloudPush() {
@@ -1059,6 +1158,7 @@ function exportDataJSON() {
     athlete: "6'3\" 77kg Lean Bulk",
     exportedAt: new Date().toISOString(),
     syncKey: appState.syncKey,
+    firebaseUrl: appState.firebaseUrl || '',
     completedWorkouts: appState.completedWorkouts,
     personalRecords: appState.personalRecords,
     customVideos: appState.customVideos,
@@ -1095,6 +1195,7 @@ function importDataJSON(event) {
         if (data.customVideos) appState.customVideos = data.customVideos;
         if (data.inProgressLogs) appState.inProgressLogs = data.inProgressLogs;
         if (data.syncKey) appState.syncKey = data.syncKey;
+        if (data.firebaseUrl) appState.firebaseUrl = data.firebaseUrl;
 
         saveLocalState();
         renderCurrentDay();

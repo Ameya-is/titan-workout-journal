@@ -210,10 +210,29 @@
           <button class="btn-vault-action" onclick="saveCustomSyncKey()">Save Key</button>
         </div>
 
-        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <!-- FIREBASE CLOUD DATABASE CONNECTOR -->
+        <div style="margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border-subtle);">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+            <span style="font-size: 0.78rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase;">
+              ☁️ Cloud Sync Database (Free Google Firebase)
+            </span>
+            <span id="cloudStatusTag" class="badge-tag badge-amber" style="font-size: 0.68rem;">Local Only</span>
+          </div>
+          <div class="vault-key-box" style="margin-bottom: 8px;">
+            <input type="url" class="vault-key-input" id="inputFirebaseUrl" placeholder="https://your-project-default-rtdb.firebaseio.com" style="font-size: 0.85rem;" spellcheck="false">
+            <button class="btn-vault-action" onclick="saveFirebaseUrl()">Connect Cloud</button>
+          </div>
+          <p style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 10px;">
+            <strong>How to get a 100% free permanent Google database in 60s:</strong><br>
+            1. Open <a href="https://console.firebase.google.com" target="_blank" rel="noopener noreferrer" style="color: var(--accent-blue);">console.firebase.google.com</a> &rarr; <em>Create a project</em>.<br>
+            2. In sidebar, tap <strong>Build &rarr; Realtime Database &rarr; Create Database</strong> (choose <em>"Start in test mode"</em>).<br>
+            3. Copy the URL at the top and paste it above! Both your phone & laptop will sync in real time forever.
+          </p>
+        </div>
+
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px;">
           <button class="btn-vault-action" onclick="forceCloudPull()">⬇️ Pull Latest from Cloud</button>
           <button class="btn-vault-action" onclick="forceCloudPush()">⬆️ Push to Cloud Now</button>
-          <button class="btn-vault-action" onclick="testLocalServerConnection()">🔄 Check PC Server Sync</button>
         </div>
 
         <!-- QR PAIRING CODE -->
