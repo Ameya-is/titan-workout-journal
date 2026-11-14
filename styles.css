@@ -570,9 +570,7 @@ a[href*="netlify.app"] {
   border-radius: var(--radius-md);
   padding: 12px 14px;
   margin-bottom: 16px;
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
+  display: block;
 }
 
 .pre-workout-icon {
@@ -1073,6 +1071,7 @@ a[href*="netlify.app"] {
    TREADMILL PROTOCOL HUB (ZONE 2 WALK / RUN TIMER & DISTANCE TRACKER)
    ========================================================================== */
 .treadmill-hub-card {
+  display: block !important;
   background: linear-gradient(135deg, rgba(56, 189, 248, 0.08) 0%, rgba(16, 185, 129, 0.06) 100%);
   border: 1.5px solid rgba(56, 189, 248, 0.3);
   border-radius: var(--radius-lg);

@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Register Service Worker for PWA with auto-update
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js?v=5.0')
+    navigator.serviceWorker.register('sw.js?v=6.0')
       .then(reg => reg.update())
       .catch(err => console.log('SW registration note:', err));
   }
@@ -378,7 +378,7 @@ function renderCurrentDay() {
     return;
   }
 
-  preCard.style.display = 'flex';
+  preCard.style.display = 'block';
   restMessage.style.display = 'none';
   finishContainer.style.display = 'block';
   document.getElementById('preWorkoutText').textContent = dayData.preWorkout;
@@ -1123,7 +1123,12 @@ function finishCurrentWorkout() {
         id: ex.id,
         canonName: ex.canonName,
         name: ex.name,
-        sets: completedSets
+        sets: completedSets.map((s, idx) => ({
+          setNumber: idx + 1,
+          weightKg: parseFloat(s.weight) || 0,
+          reps: parseInt(s.reps, 10) || 0,
+          done: true
+        }))
       });
     }
   });
@@ -1144,16 +1149,22 @@ function finishCurrentWorkout() {
     title: dayData.title,
     focus: dayData.focus,
     date: new Date().toLocaleDateString(),
+    isoDate: new Date().toISOString(),
     timestamp: Date.now(),
     startTime: appState.workoutStartTimeStr || 'Earlier',
     endTime: nowEndTime,
     durationMinutes: durationMin,
     totalVolumeKg: totalVolume,
+    totalCompletedSets: totalCompletedSets,
+    athleteWeightKg: 77,
+    athleteHeightCm: 190.5,
     challengeDay: (appState.completedWorkouts ? appState.completedWorkouts.length : 0) + 1,
     treadmillProtocol: {
-      completed: treadmillState.completed,
-      distanceKm: treadmillState.distanceKm,
-      targetMinutes: Math.round(treadmillState.targetSeconds / 60)
+      completed: !!treadmillState.completed,
+      distanceKm: parseFloat(treadmillState.distanceKm) || 0.69,
+      targetMinutes: Math.round(treadmillState.targetSeconds / 60),
+      inclinePercent: 3.5,
+      speedKmh: 5.2
     },
     exercises: workoutExercises
   };
@@ -1405,9 +1416,11 @@ function renderSyncQR() {
         height: 180,
         colorDark: '#0a0e17',
         colorLight: '#ffffff',
-        correctLevel: QRCode.CorrectLevel ? QRCode.CorrectLevel.M : 0
+        correctLevel: (QRCode.CorrectLevel && QRCode.CorrectLevel.M) ? QRCode.CorrectLevel.M : 0
       });
-      rendered = true;
+      if (qrContainer.children.length > 0) {
+        rendered = true;
+      }
     } catch (e) {
       console.warn('QRCode library error, falling back to image API:', e);
     }
