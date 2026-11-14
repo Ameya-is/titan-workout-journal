@@ -17,8 +17,10 @@ with open(os.path.join(dir_path, 'program_data.js'), 'r', encoding='utf-8') as f
 with open(os.path.join(dir_path, 'app.js'), 'r', encoding='utf-8') as f:
     app_js = f.read()
 
+import re
+
 # Replace css link with inlined style
-html = html.replace('<link rel="stylesheet" href="styles.css">', f'<style>\n{css}\n</style>')
+html = re.sub(r'<link\s+rel="stylesheet"\s+href="styles\.css[^"]*">', lambda m: f'<style>\n{css}\n</style>', html)
 
 # Replace script tags with inlined scripts
 script_block = f"""
@@ -34,10 +36,10 @@ script_block = f"""
 """
 
 # Remove old script tags
-html = html.replace('<script src="tunnel_info.js"></script>', '')
-html = html.replace('<script src="qr-generator.js"></script>', '')
-html = html.replace('<script src="program_data.js"></script>', '')
-html = html.replace('<script src="app.js"></script>', script_block)
+html = re.sub(r'<script\s+src="tunnel_info\.js[^"]*"></script>', '', html)
+html = re.sub(r'<script\s+src="qr-generator\.js[^"]*"></script>', '', html)
+html = re.sub(r'<script\s+src="program_data\.js[^"]*"></script>', '', html)
+html = re.sub(r'<script\s+src="app\.js[^"]*"></script>', lambda m: script_block, html)
 
 with open(os.path.join(dir_path, 'wimpy_standalone_offline.html'), 'w', encoding='utf-8') as f:
     f.write(html)

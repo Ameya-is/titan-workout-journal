@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&family=JetBrains+Mono:wght@600;700;800&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=5.0">
 </head>
 <body>
 
@@ -48,16 +48,16 @@
     <!-- TABS BAR -->
     <nav class="tabs-nav-bar" role="tablist">
       <button class="tab-btn active" id="tabBtnWorkout" onclick="switchTab('workout')">
-        <span>💪</span> Today's Log
+        <span>💪</span> <span class="tab-label-full">Today's Log</span><span class="tab-label-short">Log</span>
       </button>
       <button class="tab-btn" id="tabBtnSplit" onclick="switchTab('split')">
-        <span>📋</span> 14-Day Split
+        <span>📋</span> <span class="tab-label-full">14-Day Split</span><span class="tab-label-short">Split</span>
       </button>
       <button class="tab-btn" id="tabBtnHistory" onclick="switchTab('history')">
-        <span>🏆</span> PRs & History
+        <span>🏆</span> <span class="tab-label-full">PRs & History</span><span class="tab-label-short">PRs</span>
       </button>
       <button class="tab-btn" id="tabBtnSync" onclick="switchTab('sync')">
-        <span>☁️</span> Sync Vault
+        <span>☁️</span> <span class="tab-label-full">Sync Vault</span><span class="tab-label-short">Vault</span>
       </button>
     </nav>
   </header>
@@ -101,19 +101,49 @@
           </div>
         </div>
 
-        <!-- Session Duration Timer with Cortisol Warning -->
+        <!-- 90-DAY TRANSFORMATION TRACKER & CLOCK TIME -->
+        <div class="transformation-banner" id="transformationBanner">
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <span style="font-size: 1.1rem;">🔥</span>
+            <span>90-DAY TRANSFORMATION &bull; <span id="transformationDayCount" style="color: var(--accent-emerald);">DAY 1 OF 90</span></span>
+          </div>
+          <div id="workoutStartClockDisplay" style="font-family: var(--font-mono); font-size: 0.76rem; color: var(--accent-blue);">
+            Not Started
+          </div>
+        </div>
+
+        <!-- Session Duration Timer with Cortisol Warning & Workout Controls -->
         <div class="session-timer-bar">
           <div class="timer-digits-group">
             <span style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted);">SESSION:</span>
             <span class="timer-clock" id="sessionTimerClock">00:00:00</span>
             <span class="cortisol-pill" id="cortisolPill">🟢 Anabolic (&lt;75m)</span>
           </div>
-          <button class="timer-btn-toggle" id="btnToggleTimer" onclick="toggleSessionTimer()">Start Workout</button>
+          <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+            <button class="btn-start-workout-hero" id="btnStartWorkoutHero" onclick="startWorkoutSession()">
+              ▶ START WORKOUT
+            </button>
+            <button class="timer-btn-toggle" id="btnToggleTimer" onclick="toggleSessionTimer()" style="display: none;">
+              Pause
+            </button>
+            <button class="btn-restart-workout" id="btnRestartWorkout" onclick="restartWorkoutSession()" style="display: none;">
+              🔄 Restart (2 left)
+            </button>
+          </div>
         </div>
       </div>
 
-      <!-- PRE-WORKOUT INTERACTIVE TREADMILL PROTOCOL HUB -->
-      <div class="treadmill-hub-card" id="preWorkoutCard">
+      <!-- WORKOUT LOCK NOTICE (VISIBLE UNTIL WORKOUT STARTS) -->
+      <div class="workout-lock-banner" id="workoutLockNotice">
+        <span style="font-size: 1.1rem;">🔒</span>
+        <span><strong>Workout Locked:</strong> Tap <strong>"▶ START WORKOUT"</strong> above to unlock treadmill timer and exercise logging.</span>
+      </div>
+
+      <!-- WORKABLE ZONE (LOCKED UNTIL USER TAPS START) -->
+      <div id="workoutInteractiveZone" class="workout-locked-zone">
+
+        <!-- PRE-WORKOUT INTERACTIVE TREADMILL PROTOCOL HUB -->
+        <div class="treadmill-hub-card" id="preWorkoutCard">
         <div class="treadmill-header">
           <div style="display: flex; align-items: center; gap: 8px;">
             <span style="font-size: 1.35rem;">🏃</span>
@@ -179,6 +209,8 @@
       <div class="exercise-list" id="exerciseList">
         <!-- Rendered dynamically by app.js -->
       </div>
+
+      </div> <!-- /workoutInteractiveZone -->
 
       <!-- FINISH WORKOUT BUTTON -->
       <div class="workout-finish-container" id="finishWorkoutContainer">
@@ -262,14 +294,12 @@
             <span id="cloudStatusTag" class="badge-tag badge-amber" style="font-size: 0.68rem;">Local Only</span>
           </div>
           <div class="vault-key-box" style="margin-bottom: 8px;">
-            <input type="url" class="vault-key-input" id="inputFirebaseUrl" placeholder="https://your-project-default-rtdb.firebaseio.com" style="font-size: 0.85rem;" spellcheck="false">
+            <input type="url" class="vault-key-input" id="inputFirebaseUrl" value="https://bulk-tracker-78452-default-rtdb.asia-southeast1.firebasedatabase.app" placeholder="https://bulk-tracker-78452-default-rtdb.asia-southeast1.firebasedatabase.app" style="font-size: 0.85rem;" spellcheck="false">
             <button class="btn-vault-action" onclick="saveFirebaseUrl()">Connect Cloud</button>
           </div>
-          <p style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 10px;">
-            <strong>How to get a 100% free permanent Google database in 60s:</strong><br>
-            1. Open <a href="https://console.firebase.google.com" target="_blank" rel="noopener noreferrer" style="color: var(--accent-blue);">console.firebase.google.com</a> &rarr; <em>Create a project</em>.<br>
-            2. In sidebar, tap <strong>Build &rarr; Realtime Database &rarr; Create Database</strong> (choose <em>"Start in test mode"</em>).<br>
-            3. Copy the URL at the top and paste it above! Both your phone & laptop will sync in real time forever.
+          <p style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.45; margin-bottom: 10px;">
+            <strong>Connected to your Firebase Database!</strong><br>
+            <span style="color: var(--accent-amber);">⚠️ Important:</span> Make sure database rules allow access: In <a href="https://console.firebase.google.com" target="_blank" rel="noopener noreferrer" style="color: var(--accent-blue);">Firebase Console</a> &rarr; <strong>Realtime Database</strong> &rarr; <strong>Rules</strong> tab &rarr; ensure <code>".read": true, ".write": true</code> &rarr; click <strong>Publish</strong>.
           </p>
         </div>
 
@@ -372,12 +402,12 @@
 
   <!-- SCRIPTS -->
   <!-- Tunnel Info (auto-generated when server is running) -->
-  <script src="tunnel_info.js"></script>
+  <script src="tunnel_info.js?v=5.0"></script>
   <!-- QR Generator Library -->
-  <script src="qr-generator.js"></script>
+  <script src="qr-generator.js?v=5.0"></script>
   <!-- Complete 14-Day Master Workout Program Data -->
-  <script src="program_data.js"></script>
+  <script src="program_data.js?v=5.0"></script>
   <!-- Main Application Logic & Progressive Overload Engine -->
-  <script src="app.js"></script>
+  <script src="app.js?v=5.0"></script>
 </body>
 </html>

@@ -3,13 +3,16 @@
  * Master 14-Day A/B Program | 77kg Lean Bulk Protocol
  */
 
-// Storage Key
+// Storage Key & Default Live Firebase Database
 const APP_STORAGE_KEY = 'titan_workout_journal_v2';
+const DEFAULT_FIREBASE_URL = 'https://bulk-tracker-78452-default-rtdb.asia-southeast1.firebasedatabase.app';
 
 // Application State
 let appState = {
   currentDay: 1,
   currentWeek: 'A',
+  workoutActive: false,
+  restartsRemaining: 2,
   sessionStartTime: null,
   sessionSeconds: 0,
   sessionTimerRunning: false,
@@ -20,7 +23,7 @@ let appState = {
   restTimerInterval: null,
   
   syncKey: '',
-  firebaseUrl: '',
+  firebaseUrl: DEFAULT_FIREBASE_URL,
   completedWorkouts: [],
   inProgressLogs: {}, // { [day]: { [exId]: [{ weight, reps, done }] } }
   personalRecords: {}, // { [canonName]: { maxWeight, reps, date } }
@@ -82,14 +85,21 @@ document.addEventListener('DOMContentLoaded', () => {
   renderSplitRoadmap();
   renderPRsAndHistory();
   initSyncKeyUI();
+  updateWorkoutControlBarUI();
   
-  // Register Service Worker for PWA
+  // Register Service Worker for PWA with auto-update
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js').catch(err => console.log('SW registration note:', err));
+    navigator.serviceWorker.register('sw.js?v=5.0')
+      .then(reg => reg.update())
+      .catch(err => console.log('SW registration note:', err));
   }
   
-  // Try silent cloud pull
+  // Try silent cloud pull from live Firebase Database
   silentCloudPull();
+
+  // Auto-pull on window focus & every 25s so Phone & PC stay 100% mirrored in real time
+  window.addEventListener('focus', () => silentCloudPull());
+  setInterval(() => silentCloudPull(), 25000);
 });
 
 function loadLocalState() {
@@ -99,8 +109,12 @@ function loadLocalState() {
       const parsed = JSON.parse(raw);
       appState.currentDay = parsed.currentDay || 1;
       appState.currentWeek = parsed.currentDay > 7 ? 'B' : 'A';
+      appState.unlockedDay = parsed.unlockedDay || 1;
+      appState.workoutActive = parsed.workoutActive || false;
+      appState.restartsRemaining = typeof parsed.restartsRemaining === 'number' ? parsed.restartsRemaining : 2;
+      appState.workoutStartTimeStr = parsed.workoutStartTimeStr || '';
       appState.syncKey = parsed.syncKey || '';
-      appState.firebaseUrl = parsed.firebaseUrl || '';
+      appState.firebaseUrl = parsed.firebaseUrl || DEFAULT_FIREBASE_URL;
       appState.completedWorkouts = parsed.completedWorkouts || [];
       appState.inProgressLogs = parsed.inProgressLogs || {};
       appState.personalRecords = parsed.personalRecords || {};
@@ -122,6 +136,10 @@ function saveLocalState() {
   try {
     const toSave = {
       currentDay: appState.currentDay,
+      unlockedDay: appState.unlockedDay,
+      workoutActive: appState.workoutActive,
+      restartsRemaining: appState.restartsRemaining,
+      workoutStartTimeStr: appState.workoutStartTimeStr,
       syncKey: appState.syncKey,
       firebaseUrl: appState.firebaseUrl,
       completedWorkouts: appState.completedWorkouts,
@@ -198,6 +216,11 @@ function switchTab(tabName) {
    ========================================================================== */
 
 function selectWeek(week) {
+  if (week === 'B' && appState.unlockedDay < 8) {
+    showToast('🔒 Week B is locked! Complete all 7 days of Week A first.');
+    return;
+  }
+
   appState.currentWeek = week;
   document.getElementById('btnWeekA').classList.toggle('active', week === 'A');
   document.getElementById('btnWeekB').classList.toggle('active', week === 'B');
@@ -213,22 +236,41 @@ function selectWeek(week) {
 }
 
 function selectDay(dayNum) {
+  if (dayNum > appState.unlockedDay) {
+    showToast(`🔒 Day ${dayNum} is locked! Complete Day ${dayNum - 1} first.`);
+    return;
+  }
+
   appState.currentDay = dayNum;
   appState.currentWeek = dayNum <= 7 ? 'A' : 'B';
   document.getElementById('btnWeekA').classList.toggle('active', appState.currentWeek === 'A');
   document.getElementById('btnWeekB').classList.toggle('active', appState.currentWeek === 'B');
+
+  // Check if current day has active in-progress sets
+  const dayLogs = appState.inProgressLogs[dayNum];
+  const hasActiveSets = dayLogs && Object.values(dayLogs).some(sets => Array.isArray(sets) && sets.some(s => s.done));
+  appState.workoutActive = hasActiveSets;
 
   resetTreadmillTimer();
   dismissRestTimer();
   saveLocalState();
   initWeekAndDayPills();
   renderCurrentDay();
+  updateWorkoutControlBarUI();
   switchTab('workout');
 }
 
 function initWeekAndDayPills() {
   const container = document.getElementById('daysScrollRow');
+  if (!container) return;
   container.innerHTML = '';
+
+  const btnWeekB = document.getElementById('btnWeekB');
+  if (btnWeekB) {
+    const isWeekBLocked = appState.unlockedDay < 8;
+    btnWeekB.classList.toggle('locked', isWeekBLocked);
+    btnWeekB.title = isWeekBLocked ? 'Locked: Complete Week A first' : 'Week B';
+  }
 
   const startDay = appState.currentWeek === 'A' ? 1 : 8;
   const endDay = appState.currentWeek === 'A' ? 7 : 14;
@@ -237,15 +279,20 @@ function initWeekAndDayPills() {
     const dayData = MASTER_WORKOUT_PROGRAM.find(item => item.day === d);
     if (!dayData) continue;
 
+    const isLocked = d > appState.unlockedDay;
+    const isCompleted = d < appState.unlockedDay || (appState.completedWorkouts.some(w => w.day === d));
+
     const btn = document.createElement('button');
-    btn.className = `day-pill-btn ${d === appState.currentDay ? 'active' : ''}`;
+    btn.className = `day-pill-btn ${d === appState.currentDay ? 'active' : ''} ${isLocked ? 'locked' : ''} ${isCompleted ? 'completed' : ''}`;
     btn.onclick = () => selectDay(d);
 
     const titleParts = dayData.title.split(' ');
     const shortTitle = titleParts[0];
 
+    const lockIcon = isLocked ? '🔒' : (isCompleted ? '✓' : '');
+
     btn.innerHTML = `
-      <span class="day-pill-num">Day ${d}</span>
+      <span class="day-pill-num">Day ${d} ${lockIcon}</span>
       <span class="day-pill-name">${shortTitle}</span>
     `;
     container.appendChild(btn);
@@ -422,14 +469,15 @@ function renderCurrentDay() {
     // Build Sets Rows
     let setsRowsHtml = '';
     currentSets.forEach((set, sIdx) => {
-      const prevSetDisplay = (prev && prev.sets[sIdx]) 
-        ? `${prev.sets[sIdx].weight}kg × ${prev.sets[sIdx].reps}`
-        : (prev && prev.sets[0] ? `${prev.sets[0].weight}kg × ${prev.sets[0].reps}` : '—');
+      const prevWeight = (prev && prev.sets[sIdx]) ? prev.sets[sIdx].weight : (prev && prev.sets[0] ? prev.sets[0].weight : null);
+      const prevReps = (prev && prev.sets[sIdx]) ? prev.sets[sIdx].reps : (prev && prev.sets[0] ? prev.sets[0].reps : null);
+      const prevSetDisplay = (prevWeight !== null && prevReps !== null) ? `${prevWeight}×${prevReps}` : '—';
+      const prevTooltip = (prevWeight !== null && prevReps !== null) ? `Previous: ${prevWeight} kg × ${prevReps} reps` : 'No previous session';
 
       setsRowsHtml += `
         <div class="set-row ${set.done ? 'done' : ''}" id="row_${ex.id}_${sIdx}">
           <div class="set-index-badge">${sIdx + 1}</div>
-          <div class="prev-data-cell" title="Previous session">${prevSetDisplay}</div>
+          <div class="prev-data-cell" title="${prevTooltip}">${prevSetDisplay}</div>
           
           <div class="input-with-stepper">
             <button class="stepper-btn" onclick="stepWeight('${ex.id}', ${sIdx}, -2.5)">-</button>
@@ -509,6 +557,10 @@ function renderCurrentDay() {
    ========================================================================== */
 
 function applyOverload(exId, newWeight, bottomReps) {
+  if (!appState.workoutActive) {
+    showToast('⚠️ Tap "▶ START WORKOUT" first to unlock logging!');
+    return;
+  }
   const dayData = MASTER_WORKOUT_PROGRAM.find(d => d.day === appState.currentDay);
   if (!dayData) return;
 
@@ -529,6 +581,10 @@ function applyOverload(exId, newWeight, bottomReps) {
 }
 
 function stepWeight(exId, setIdx, delta) {
+  if (!appState.workoutActive) {
+    showToast('⚠️ Tap "▶ START WORKOUT" first to unlock logging!');
+    return;
+  }
   const day = appState.currentDay;
   const set = appState.inProgressLogs[day][exId][setIdx];
   let cur = parseFloat(set.weight) || 0;
@@ -540,6 +596,10 @@ function stepWeight(exId, setIdx, delta) {
 }
 
 function stepReps(exId, setIdx, delta) {
+  if (!appState.workoutActive) {
+    showToast('⚠️ Tap "▶ START WORKOUT" first to unlock logging!');
+    return;
+  }
   const day = appState.currentDay;
   const set = appState.inProgressLogs[day][exId][setIdx];
   let cur = parseInt(set.reps, 10) || 0;
@@ -551,6 +611,10 @@ function stepReps(exId, setIdx, delta) {
 }
 
 function updateSetData(exId, setIdx) {
+  if (!appState.workoutActive) {
+    showToast('⚠️ Tap "▶ START WORKOUT" first to unlock logging!');
+    return;
+  }
   const day = appState.currentDay;
   const set = appState.inProgressLogs[day][exId][setIdx];
   const wInput = document.getElementById(`weight_${exId}_${setIdx}`);
@@ -562,6 +626,10 @@ function updateSetData(exId, setIdx) {
 }
 
 function addSetToExercise(exId, defaultReps) {
+  if (!appState.workoutActive) {
+    showToast('⚠️ Tap "▶ START WORKOUT" first to unlock logging!');
+    return;
+  }
   const day = appState.currentDay;
   const sets = appState.inProgressLogs[day][exId];
   const lastSet = sets[sets.length - 1] || { weight: 20, reps: defaultReps };
@@ -576,6 +644,10 @@ function addSetToExercise(exId, defaultReps) {
 }
 
 function removeSetFromExercise(exId) {
+  if (!appState.workoutActive) {
+    showToast('⚠️ Tap "▶ START WORKOUT" first to unlock logging!');
+    return;
+  }
   const day = appState.currentDay;
   const sets = appState.inProgressLogs[day][exId];
   if (sets && sets.length > 1) {
@@ -589,6 +661,10 @@ function removeSetFromExercise(exId) {
 }
 
 function toggleSetComplete(exId, setIdx, restSec) {
+  if (!appState.workoutActive) {
+    showToast('⚠️ Tap "▶ START WORKOUT" first to unlock set logging!');
+    return;
+  }
   const day = appState.currentDay;
   const set = appState.inProgressLogs[day][exId][setIdx];
   
@@ -726,6 +802,10 @@ function setTreadmillTarget(val) {
 }
 
 function toggleTreadmillTimer() {
+  if (!appState.workoutActive) {
+    showToast('⚠️ Tap "▶ START WORKOUT" first to start your session!');
+    return;
+  }
   if (treadmillState.running) {
     pauseTreadmillTimer();
   } else {
@@ -812,6 +892,10 @@ function resetTreadmillTimer() {
 }
 
 function completeTreadmillProtocol() {
+  if (!appState.workoutActive) {
+    showToast('⚠️ Tap "▶ START WORKOUT" first to start your session!');
+    return;
+  }
   treadmillState.completed = true;
   pauseTreadmillTimer();
   const card = document.getElementById('preWorkoutCard');
@@ -840,8 +924,108 @@ function completeTreadmillProtocol() {
 }
 
 /* ==========================================================================
-   WORKOUT SESSION TIMER & 75–85 MIN CORTISOL CAP
+   WORKOUT SESSION TIMER, CONTROLS & 75–85 MIN CORTISOL CAP
    ========================================================================== */
+
+function updateWorkoutControlBarUI() {
+  const btnHero = document.getElementById('btnStartWorkoutHero');
+  const btnToggle = document.getElementById('btnToggleTimer');
+  const btnRestart = document.getElementById('btnRestartWorkout');
+  const lockNotice = document.getElementById('workoutLockNotice');
+  const interactiveZone = document.getElementById('workoutInteractiveZone');
+  const clockDisplay = document.getElementById('workoutStartClockDisplay');
+  const dayCountDisplay = document.getElementById('transformationDayCount');
+
+  // Update 90-day challenge counter
+  const completedCount = appState.completedWorkouts ? appState.completedWorkouts.length : 0;
+  const challengeDay = Math.min(90, completedCount + 1);
+  if (dayCountDisplay) {
+    dayCountDisplay.textContent = `DAY ${challengeDay} OF 90`;
+  }
+
+  // Update clock start display
+  if (clockDisplay) {
+    if (appState.workoutActive && appState.workoutStartTimeStr) {
+      clockDisplay.textContent = `Started: ${appState.workoutStartTimeStr}`;
+      clockDisplay.style.color = 'var(--accent-emerald)';
+    } else {
+      clockDisplay.textContent = 'Not Started';
+      clockDisplay.style.color = 'var(--accent-blue)';
+    }
+  }
+
+  if (appState.workoutActive) {
+    if (btnHero) btnHero.style.display = 'none';
+    if (btnToggle) btnToggle.style.display = 'inline-flex';
+    if (btnRestart) {
+      btnRestart.style.display = 'inline-flex';
+      btnRestart.textContent = `🔄 Restart (${appState.restartsRemaining} left)`;
+      if (appState.restartsRemaining <= 0) {
+        btnRestart.style.opacity = '0.5';
+        btnRestart.style.cursor = 'not-allowed';
+      } else {
+        btnRestart.style.opacity = '1';
+        btnRestart.style.cursor = 'pointer';
+      }
+    }
+    if (lockNotice) lockNotice.style.display = 'none';
+    if (interactiveZone) interactiveZone.classList.remove('workout-locked-zone');
+  } else {
+    if (btnHero) btnHero.style.display = 'inline-flex';
+    if (btnToggle) btnToggle.style.display = 'none';
+    if (btnRestart) btnRestart.style.display = 'none';
+    if (lockNotice) lockNotice.style.display = 'flex';
+    if (interactiveZone) interactiveZone.classList.add('workout-locked-zone');
+  }
+}
+
+function startWorkoutSession() {
+  appState.workoutActive = true;
+  appState.restartsRemaining = 2;
+  appState.workoutStartTimeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  updateWorkoutControlBarUI();
+  startSessionTimer();
+  showToast(`▶ Workout Started at ${appState.workoutStartTimeStr}!`);
+  saveLocalState();
+  silentCloudPush();
+}
+
+function restartWorkoutSession() {
+  if (appState.restartsRemaining <= 0) {
+    alert("You have reached the maximum of 2 restarts for this session.");
+    return;
+  }
+
+  const left = appState.restartsRemaining;
+  const ok = confirm(`Restart workout timer?\n\nRestarts remaining: ${left}.\n\nThis will reset the session stopwatch to 00:00:00 and uncheck sets, but will KEEP all your weights and target reps intact.`);
+  if (!ok) return;
+
+  appState.restartsRemaining--;
+  appState.sessionSeconds = 0;
+  pauseSessionTimer();
+  startSessionTimer();
+
+  dismissRestTimer();
+  resetTreadmillTimer();
+
+  // Uncheck sets, but DO NOT touch weight or reps!
+  const day = appState.currentDay;
+  const dayLogs = appState.inProgressLogs[day];
+  if (dayLogs) {
+    Object.keys(dayLogs).forEach(exId => {
+      if (Array.isArray(dayLogs[exId])) {
+        dayLogs[exId].forEach(s => {
+          s.done = false; // uncheck only! Keep weights & reps!
+        });
+      }
+    });
+  }
+
+  saveLocalState();
+  renderCurrentDay();
+  updateWorkoutControlBarUI();
+  showToast(`🔄 Workout restarted! Weights & reps preserved (${appState.restartsRemaining} restart left).`);
+}
 
 function toggleSessionTimer() {
   if (appState.sessionTimerRunning) {
@@ -854,28 +1038,35 @@ function toggleSessionTimer() {
 function startSessionTimer() {
   if (appState.sessionTimerRunning) return;
   appState.sessionTimerRunning = true;
-  document.getElementById('btnToggleTimer').textContent = 'Pause';
-  document.getElementById('btnToggleTimer').classList.add('running');
+  const btn = document.getElementById('btnToggleTimer');
+  if (btn) {
+    btn.textContent = 'Pause';
+    btn.classList.add('running');
+  }
 
   appState.sessionTimerInterval = setInterval(() => {
     appState.sessionSeconds++;
     const h = Math.floor(appState.sessionSeconds / 3600);
     const m = Math.floor((appState.sessionSeconds % 3600) / 60);
     const s = appState.sessionSeconds % 60;
-    document.getElementById('sessionTimerClock').textContent = 
-      `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    const clockEl = document.getElementById('sessionTimerClock');
+    if (clockEl) {
+      clockEl.textContent = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    }
 
     // Cortisol threshold monitoring
     const pill = document.getElementById('cortisolPill');
-    if (appState.sessionSeconds < 75 * 60) {
-      pill.className = 'cortisol-pill';
-      pill.textContent = '🟢 Anabolic (<75m)';
-    } else if (appState.sessionSeconds <= 85 * 60) {
-      pill.className = 'cortisol-pill warning';
-      pill.textContent = '🟡 Cortisol Zone (75-85m)';
-    } else {
-      pill.className = 'cortisol-pill danger';
-      pill.textContent = '🔴 85m Cap Exceeded! Wrap Up';
+    if (pill) {
+      if (appState.sessionSeconds < 75 * 60) {
+        pill.className = 'cortisol-pill';
+        pill.textContent = '🟢 Anabolic (<75m)';
+      } else if (appState.sessionSeconds <= 85 * 60) {
+        pill.className = 'cortisol-pill warning';
+        pill.textContent = '🟡 Cortisol Zone (75-85m)';
+      } else {
+        pill.className = 'cortisol-pill danger';
+        pill.textContent = '🔴 85m Cap Exceeded! Wrap Up';
+      }
     }
   }, 1000);
 }
@@ -883,8 +1074,11 @@ function startSessionTimer() {
 function pauseSessionTimer() {
   appState.sessionTimerRunning = false;
   clearInterval(appState.sessionTimerInterval);
-  document.getElementById('btnToggleTimer').textContent = 'Resume';
-  document.getElementById('btnToggleTimer').classList.remove('running');
+  const btn = document.getElementById('btnToggleTimer');
+  if (btn) {
+    btn.textContent = 'Resume';
+    btn.classList.remove('running');
+  }
 }
 
 /* ==========================================================================
@@ -941,6 +1135,8 @@ function finishCurrentWorkout() {
   }
 
   const durationMin = Math.round(appState.sessionSeconds / 60);
+  const nowEndTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
   const workoutRecord = {
     id: `workout_${Date.now()}`,
     day: dayData.day,
@@ -949,8 +1145,11 @@ function finishCurrentWorkout() {
     focus: dayData.focus,
     date: new Date().toLocaleDateString(),
     timestamp: Date.now(),
+    startTime: appState.workoutStartTimeStr || 'Earlier',
+    endTime: nowEndTime,
     durationMinutes: durationMin,
     totalVolumeKg: totalVolume,
+    challengeDay: (appState.completedWorkouts ? appState.completedWorkouts.length : 0) + 1,
     treadmillProtocol: {
       completed: treadmillState.completed,
       distanceKm: treadmillState.distanceKm,
@@ -961,27 +1160,31 @@ function finishCurrentWorkout() {
 
   appState.completedWorkouts.push(workoutRecord);
   
+  // UNLOCK NEXT DAY IN STRICT PROGRESSION
+  if (appState.currentDay === appState.unlockedDay) {
+    appState.unlockedDay = (appState.unlockedDay % 14) + 1;
+  }
+
   // Reset active session
   delete appState.inProgressLogs[dayData.day];
+  appState.workoutActive = false;
+  appState.restartsRemaining = 2;
+  appState.workoutStartTimeStr = '';
   pauseSessionTimer();
   resetTreadmillTimer();
   dismissRestTimer();
   appState.sessionSeconds = 0;
-  document.getElementById('sessionTimerClock').textContent = '00:00:00';
+  const clockEl = document.getElementById('sessionTimerClock');
+  if (clockEl) clockEl.textContent = '00:00:00';
 
   saveLocalState();
   silentCloudPush();
 
-  showToast(`🏆 Workout Saved! Volume: ${totalVolume} kg in ${durationMin} mins!`);
+  showToast(`🏆 Workout Saved (${durationMin}m)! Day ${appState.unlockedDay} is now UNLOCKED!`);
 
-  // Prompt to advance to next day
-  const nextDay = (appState.currentDay % 14) + 1;
+  // Auto-advance to newly unlocked day
   setTimeout(() => {
-    if (confirm(`Great session! Advance to Day ${nextDay} in rotation?`)) {
-      selectDay(nextDay);
-    } else {
-      renderCurrentDay();
-    }
+    selectDay(appState.unlockedDay);
   }, 400);
 }
 
@@ -995,9 +1198,21 @@ function renderSplitRoadmap() {
   container.innerHTML = '';
 
   MASTER_WORKOUT_PROGRAM.forEach(day => {
+    const isLocked = day.day > appState.unlockedDay;
+    const isCompleted = day.day < appState.unlockedDay || (appState.completedWorkouts && appState.completedWorkouts.some(w => w.day === day.day));
+
     const card = document.createElement('div');
-    card.className = 'split-day-card';
+    card.className = `split-day-card ${isLocked ? 'locked' : ''} ${isCompleted ? 'completed' : ''}`;
     card.onclick = () => selectDay(day.day);
+
+    let statusBadge = '';
+    if (isLocked) {
+      statusBadge = '<span style="font-size: 0.72rem; color: var(--accent-rose); font-weight: 700;">🔒 Locked</span>';
+    } else if (isCompleted) {
+      statusBadge = '<span style="font-size: 0.72rem; color: var(--accent-emerald); font-weight: 700;">✓ Completed</span>';
+    } else {
+      statusBadge = '<span style="font-size: 0.72rem; color: var(--accent-blue); font-weight: 700;">▶ Ready</span>';
+    }
 
     let exListHtml = '';
     if (day.isRestDay) {
@@ -1018,7 +1233,7 @@ function renderSplitRoadmap() {
     card.innerHTML = `
       <div class="split-day-header">
         <span class="split-day-num">${day.week} &bull; Day ${day.day}</span>
-        <span style="font-size: 0.72rem; color: var(--text-faint);">Tap to open</span>
+        ${statusBadge}
       </div>
       <h3 class="split-day-title">${day.title}</h3>
       <div class="split-day-focus">${day.focus}</div>
@@ -1180,15 +1395,33 @@ function renderSyncQR() {
   if (pairingUrlText) pairingUrlText.textContent = url;
 
   qrContainer.innerHTML = '';
-  if (typeof qrcode !== 'undefined') {
+
+  let rendered = false;
+  if (typeof QRCode !== 'undefined') {
     try {
-      const qr = qrcode(0, 'M');
-      qr.addData(url);
-      qr.make();
-      qrContainer.innerHTML = qr.createImgTag(5, 8);
+      new QRCode(qrContainer, {
+        text: url,
+        width: 180,
+        height: 180,
+        colorDark: '#0a0e17',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel ? QRCode.CorrectLevel.M : 0
+      });
+      rendered = true;
     } catch (e) {
-      qrContainer.innerHTML = `<a href="${url}" target="_blank" style="color: #38bdf8; word-break: break-all;">${url}</a>`;
+      console.warn('QRCode library error, falling back to image API:', e);
     }
+  }
+
+  if (!rendered) {
+    const encodedUrl = encodeURIComponent(url);
+    const img = document.createElement('img');
+    img.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodedUrl}`;
+    img.alt = 'Scan to pair mobile phone';
+    img.style.width = '180px';
+    img.style.height = '180px';
+    img.style.display = 'block';
+    qrContainer.appendChild(img);
   }
 }
 
@@ -1202,10 +1435,12 @@ async function silentCloudPush() {
   updateSyncStatus('Syncing...', false);
   const payload = {
     syncKey: appState.syncKey,
+    device: navigator.userAgent.includes('Mobile') ? 'Mobile' : 'Desktop',
     completedWorkouts: appState.completedWorkouts,
     personalRecords: appState.personalRecords,
     customVideos: appState.customVideos,
     inProgressLogs: appState.inProgressLogs,
+    unlockedDay: appState.unlockedDay,
     timestamp: Date.now()
   };
 
@@ -1223,6 +1458,18 @@ async function silentCloudPush() {
       if (res.ok) {
         synced = true;
         updateSyncStatus('Cloud Synced', true);
+        const tag = document.getElementById('cloudStatusTag');
+        if (tag) {
+          tag.className = 'badge-tag badge-emerald';
+          tag.textContent = 'Firebase Synced ✓';
+        }
+      } else if (res.status === 401) {
+        updateSyncStatus('Rules Locked (401)', false);
+        const tag = document.getElementById('cloudStatusTag');
+        if (tag) {
+          tag.className = 'badge-tag badge-amber';
+          tag.textContent = 'Rules Locked (401)';
+        }
       }
     } catch (e) {
       console.log('Firebase sync error:', e);
@@ -1258,10 +1505,22 @@ async function silentCloudPull() {
       const res = await fetch(targetUrl);
       if (res.ok) {
         const cloudData = await res.json();
-        if (cloudData && (cloudData.completedWorkouts || cloudData.personalRecords)) {
+        if (cloudData && (cloudData.completedWorkouts || cloudData.personalRecords || cloudData.unlockedDay)) {
           mergeSyncedData(cloudData);
           updateSyncStatus('Cloud Synced', true);
+          const tag = document.getElementById('cloudStatusTag');
+          if (tag) {
+            tag.className = 'badge-tag badge-emerald';
+            tag.textContent = 'Firebase Synced ✓';
+          }
           return;
+        }
+      } else if (res.status === 401) {
+        updateSyncStatus('Rules Locked (401)', false);
+        const tag = document.getElementById('cloudStatusTag');
+        if (tag) {
+          tag.className = 'badge-tag badge-amber';
+          tag.textContent = 'Rules Locked (401)';
         }
       }
     } catch (e) {
@@ -1295,16 +1554,72 @@ function mergeSyncedData(incoming) {
   if (incoming.customVideos) {
     appState.customVideos = { ...appState.customVideos, ...incoming.customVideos };
   }
+  if (incoming.unlockedDay && incoming.unlockedDay > appState.unlockedDay) {
+    appState.unlockedDay = incoming.unlockedDay;
+    initWeekAndDayPills();
+  }
   saveLocalState();
   renderCurrentDay();
   renderPRsAndHistory();
 }
 
-function forceCloudPush() {
+async function forceCloudPush() {
+  updateSyncStatus('Syncing...', false);
+  if (appState.firebaseUrl && appState.firebaseUrl.startsWith('http')) {
+    try {
+      const targetUrl = `${appState.firebaseUrl}/vault/${encodeURIComponent(appState.syncKey)}.json`;
+      const res = await fetch(targetUrl, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          syncKey: appState.syncKey,
+          completedWorkouts: appState.completedWorkouts,
+          personalRecords: appState.personalRecords,
+          customVideos: appState.customVideos,
+          inProgressLogs: appState.inProgressLogs,
+          unlockedDay: appState.unlockedDay,
+          timestamp: Date.now()
+        })
+      });
+      if (res.ok) {
+        updateSyncStatus('Cloud Synced', true);
+        showToast('✅ Synced to Firebase Cloud successfully!');
+        return;
+      } else if (res.status === 401) {
+        updateSyncStatus('Rules Locked (401)', false);
+        alert('⚠️ Firebase Error 401: Permission Denied.\n\nPlease open Firebase Console -> Realtime Database -> Rules tab, change ".read": true and ".write": true, and click "Publish".');
+        return;
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
   silentCloudPush().then(() => showToast('Data pushed to sync vault!'));
 }
 
-function forceCloudPull() {
+async function forceCloudPull() {
+  updateSyncStatus('Syncing...', false);
+  if (appState.firebaseUrl && appState.firebaseUrl.startsWith('http')) {
+    try {
+      const targetUrl = `${appState.firebaseUrl}/vault/${encodeURIComponent(appState.syncKey)}.json`;
+      const res = await fetch(targetUrl);
+      if (res.ok) {
+        const cloudData = await res.json();
+        if (cloudData) {
+          mergeSyncedData(cloudData);
+          updateSyncStatus('Cloud Synced', true);
+          showToast('✅ Synced latest data from Firebase Cloud!');
+          return;
+        }
+      } else if (res.status === 401) {
+        updateSyncStatus('Rules Locked (401)', false);
+        alert('⚠️ Firebase Error 401: Permission Denied.\n\nPlease open Firebase Console -> Realtime Database -> Rules tab, change ".read": true and ".write": true, and click "Publish".');
+        return;
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
   silentCloudPull().then(() => showToast('Data refreshed from sync vault!'));
 }
 
@@ -1484,3 +1799,35 @@ function showToast(message) {
     setTimeout(() => toast.remove(), 250);
   }, 2600);
 }
+
+/* ==========================================================================
+   NETLIFY WATERMARK PURGER (IDIOT-PROOFED BRANDING REMOVER)
+   ========================================================================== */
+
+function purgeNetlifyWatermarks() {
+  const badSelectors = [
+    '[data-netlify-deploy-id]',
+    '.netlify-badge',
+    '#netlify-badge',
+    'div[class*="netlify"]',
+    'div[id*="netlify"]',
+    'iframe[id*="netlify"]',
+    'iframe[src*="netlify"]',
+    'netlify-drawer',
+    'a[href*="netlify.com"]',
+    'a[href*="netlify.app"]'
+  ];
+  badSelectors.forEach(sel => {
+    try {
+      document.querySelectorAll(sel).forEach(el => el.remove());
+    } catch (e) {}
+  });
+}
+
+try {
+  const badgeObserver = new MutationObserver(() => purgeNetlifyWatermarks());
+  badgeObserver.observe(document.documentElement, { childList: true, subtree: true });
+} catch (e) {}
+setInterval(purgeNetlifyWatermarks, 2000);
+window.addEventListener('load', purgeNetlifyWatermarks);
+
