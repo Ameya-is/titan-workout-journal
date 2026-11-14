@@ -1,0 +1,4836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Master 14-Day A/B Hypertrophy Journal | 77kg Lean Bulk</title>
+  
+  <!-- Mobile PWA Meta Tags -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0a0e17">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="TitanBulk">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <meta name="mobile-web-app-capable" content="yes">
+
+  <!-- Inter / Modern Athletic Font Stack -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&family=JetBrains+Mono:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+/* ==========================================================================
+   MASTER 14-DAY A/B HYPERTROPHY JOURNAL - MODERN ATHLETIC UI
+   Designed for Mobile & Desktop | High Contrast | Ultra Usable
+   ========================================================================== */
+
+:root {
+  --bg-main: #0a0e17;
+  --bg-card: #131b28;
+  --bg-card-hover: #1a2436;
+  --bg-elevated: #1f2c40;
+  --bg-input: #0e1420;
+  
+  --border-subtle: #223048;
+  --border-focus: #38bdf8;
+  --border-done: #10b981;
+  
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-faint: #64748b;
+  
+  --accent-blue: #38bdf8;
+  --accent-emerald: #10b981;
+  --accent-amber: #f59e0b;
+  --accent-rose: #f43f5e;
+  --accent-purple: #a855f7;
+  --accent-cyan: #06b6d4;
+  
+  --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-full: 9999px;
+  
+  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 20px rgba(16, 185, 129, 0.25);
+  
+  --safe-bottom: env(safe-area-inset-bottom, 16px);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  font-family: var(--font-main);
+  line-height: 1.5;
+  min-height: 100vh;
+  padding-bottom: calc(90px + var(--safe-bottom));
+  overflow-x: hidden;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+/* ==========================================================================
+   APP HEADER & ATHLETE STATUS
+   ========================================================================== */
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10, 14, 23, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 12px 16px;
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.brand-badge-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-blue);
+}
+
+.pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--accent-emerald);
+  box-shadow: 0 0 8px var(--accent-emerald);
+  animation: pulseAnim 2s infinite ease-in-out;
+}
+
+@keyframes pulseAnim {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+.app-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text-main);
+}
+
+.athlete-tag {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-icon-header {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-main);
+  padding: 7px 12px;
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.btn-icon-header:active {
+  transform: scale(0.96);
+  background: var(--bg-card-hover);
+}
+
+.btn-sync-status.synced {
+  color: var(--accent-emerald);
+  border-color: rgba(16, 185, 129, 0.4);
+}
+
+/* ==========================================================================
+   PRIMARY NAVIGATION TABS
+   ========================================================================== */
+
+.tabs-nav-bar {
+  display: flex;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  padding: 4px;
+  max-width: 900px;
+  margin: 12px auto 0 auto;
+}
+
+.tab-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 8px 10px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+}
+
+.tab-btn.active {
+  background: var(--accent-blue);
+  color: #051322;
+  box-shadow: 0 2px 8px rgba(56, 189, 248, 0.35);
+}
+
+/* ==========================================================================
+   CONTAINER & TAB PANELS
+   ========================================================================== */
+
+.app-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.tab-panel {
+  display: none;
+}
+
+.tab-panel.active {
+  display: block;
+  animation: fadeIn 0.25s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================================================
+   WEEK A / WEEK B ROTATION & DAY CAROUSEL
+   ========================================================================== */
+
+.week-switch-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 14px;
+  margin-bottom: 16px;
+}
+
+.week-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.week-btn-group {
+  display: flex;
+  background: var(--bg-main);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  padding: 3px;
+  flex: 1;
+}
+
+.week-toggle-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-weight: 700;
+  font-size: 0.8rem;
+  padding: 7px 12px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+
+.week-toggle-btn.active {
+  background: var(--bg-elevated);
+  color: var(--accent-blue);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+}
+
+.days-scroll-row {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.days-scroll-row::-webkit-scrollbar {
+  display: none;
+}
+
+.day-pill-btn {
+  flex: 0 0 auto;
+  background: var(--bg-main);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 8px 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: var(--text-muted);
+  min-width: 72px;
+}
+
+.day-pill-btn:hover {
+  border-color: var(--accent-blue);
+}
+
+.day-pill-btn.active {
+  background: linear-gradient(135deg, #1e3a5f 0%, #0f243d 100%);
+  border-color: var(--accent-blue);
+  color: var(--text-main);
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.2);
+}
+
+.day-pill-num {
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: block;
+}
+
+.day-pill-name {
+  font-size: 0.82rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   ACTIVE DAY BANNER & WORKOUT CONTROLS
+   ========================================================================== */
+
+.active-day-banner {
+  background: linear-gradient(145deg, #162030 0%, #101622 100%);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.day-banner-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.day-badge-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+
+.badge-tag {
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  letter-spacing: 0.06em;
+}
+
+.badge-blue { background: rgba(56, 189, 248, 0.15); color: var(--accent-blue); }
+.badge-emerald { background: rgba(16, 185, 129, 0.15); color: var(--accent-emerald); }
+.badge-amber { background: rgba(245, 158, 11, 0.15); color: var(--accent-amber); }
+.badge-purple { background: rgba(168, 85, 247, 0.15); color: var(--accent-purple); }
+
+.day-main-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--text-main);
+  line-height: 1.25;
+}
+
+.day-focus-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* Session Timer & Cortisol Cap */
+.session-timer-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg-main);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  margin-top: 12px;
+  gap: 12px;
+}
+
+.timer-digits-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.timer-clock {
+  font-family: var(--font-mono);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--accent-blue);
+  letter-spacing: 0.05em;
+}
+
+.cortisol-pill {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--accent-emerald);
+}
+
+.cortisol-pill.warning {
+  background: rgba(245, 158, 11, 0.18);
+  color: var(--accent-amber);
+}
+
+.cortisol-pill.danger {
+  background: rgba(244, 63, 94, 0.2);
+  color: var(--accent-rose);
+  animation: pulseAnim 1.5s infinite;
+}
+
+.timer-btn-toggle {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-main);
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.timer-btn-toggle.running {
+  border-color: var(--accent-rose);
+  color: var(--accent-rose);
+}
+
+/* Pre-workout protocol card */
+.pre-workout-card {
+  background: rgba(56, 189, 248, 0.06);
+  border: 1px solid rgba(56, 189, 248, 0.22);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.pre-workout-icon {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.pre-workout-text {
+  font-size: 0.84rem;
+  color: #bae6fd;
+}
+
+.pre-workout-title {
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  margin-bottom: 2px;
+  color: var(--accent-blue);
+}
+
+/* ==========================================================================
+   EXERCISE CARDS (CLEAN ATHLETIC DESIGN)
+   ========================================================================== */
+
+.exercise-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.exercise-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.2s ease;
+}
+
+.exercise-card.all-done {
+  border-color: rgba(16, 185, 129, 0.4);
+}
+
+.exercise-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.ex-title-group {
+  flex: 1;
+}
+
+.ex-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+
+.superset-badge {
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+}
+
+.superset-badge.superset-A {
+  background: rgba(6, 182, 212, 0.2);
+  color: var(--accent-cyan);
+  border: 1px solid rgba(6, 182, 212, 0.4);
+}
+
+.superset-badge.superset-B {
+  background: rgba(168, 85, 247, 0.2);
+  color: var(--accent-purple);
+  border: 1px solid rgba(168, 85, 247, 0.4);
+}
+
+.topset-badge {
+  background: rgba(245, 158, 11, 0.2);
+  color: var(--accent-amber);
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: var(--radius-full);
+}
+
+.target-badge {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.ex-name {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--text-main);
+  line-height: 1.3;
+}
+
+.ex-video-btn {
+  background: var(--bg-main);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 6px 10px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.ex-video-btn:hover {
+  color: var(--accent-blue);
+  border-color: var(--accent-blue);
+}
+
+/* SMART PROGRESSIVE OVERLOAD BANNER */
+.overload-banner {
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.overload-banner.ready {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(6, 182, 212, 0.1) 100%);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+}
+
+.overload-banner.hold {
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.overload-banner.baseline {
+  background: rgba(56, 189, 248, 0.08);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+}
+
+.overload-text {
+  font-size: 0.82rem;
+  font-weight: 600;
+  flex: 1;
+  min-width: 200px;
+}
+
+.overload-banner.ready .overload-text {
+  color: #6ee7b7;
+}
+
+.overload-banner.hold .overload-text {
+  color: #fde68a;
+}
+
+.overload-banner.baseline .overload-text {
+  color: #bae6fd;
+}
+
+.btn-apply-overload {
+  background: var(--accent-emerald);
+  color: #022c22;
+  border: none;
+  font-size: 0.78rem;
+  font-weight: 800;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+  white-space: nowrap;
+}
+
+.btn-apply-overload:active {
+  transform: scale(0.96);
+}
+
+/* EXECUTION CUE ACCORDION */
+.cue-box {
+  background: var(--bg-main);
+  border-left: 3px solid var(--accent-blue);
+  padding: 8px 12px;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 14px;
+  line-height: 1.45;
+}
+
+.cue-box strong {
+  color: var(--text-main);
+}
+
+/* SETS INTERACTIVE TABLE */
+.sets-table {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sets-header-row {
+  display: grid;
+  grid-template-columns: 36px 70px 1fr 1fr 48px;
+  gap: 8px;
+  padding: 4px 6px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-align: center;
+}
+
+.set-row {
+  display: grid;
+  grid-template-columns: 36px 70px 1fr 1fr 48px;
+  gap: 8px;
+  align-items: center;
+  background: var(--bg-main);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 6px 8px;
+  transition: all 0.2s ease;
+}
+
+.set-row.done {
+  background: rgba(16, 185, 129, 0.08);
+  border-color: rgba(16, 185, 129, 0.4);
+}
+
+.set-index-badge {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--text-muted);
+  text-align: center;
+  font-family: var(--font-mono);
+}
+
+.set-row.done .set-index-badge {
+  color: var(--accent-emerald);
+}
+
+.prev-data-cell {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-align: center;
+  font-family: var(--font-mono);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.input-with-stepper {
+  display: flex;
+  align-items: center;
+  background: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  position: relative;
+}
+
+.input-with-stepper:focus-within {
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
+}
+
+.stepper-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  width: 24px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 700;
+  user-select: none;
+}
+
+.stepper-btn:active {
+  background: var(--bg-card-hover);
+  color: var(--text-main);
+}
+
+.log-number-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: var(--text-main);
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-align: center;
+  font-family: var(--font-mono);
+  padding: 6px 2px;
+  outline: none;
+  -moz-appearance: textfield;
+}
+
+.log-number-input::-webkit-outer-spin-button,
+.log-number-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.btn-check-done {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-input);
+  border: 1.5px solid var(--border-subtle);
+  color: var(--text-faint);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.1rem;
+  margin: 0 auto;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-check-done:hover {
+  border-color: var(--accent-emerald);
+  color: var(--accent-emerald);
+}
+
+.btn-check-done.done {
+  background: var(--accent-emerald);
+  border-color: var(--accent-emerald);
+  color: #022c22;
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
+}
+
+/* Quick card action bar */
+.card-footer-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.btn-text-action {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.btn-text-action:hover {
+  color: var(--accent-blue);
+}
+
+/* ==========================================================================
+   FINISH WORKOUT FOOTER
+   ========================================================================== */
+
+.workout-finish-container {
+  margin-top: 24px;
+  padding: 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  text-align: center;
+}
+
+.btn-finish-workout {
+  width: 100%;
+  max-width: 400px;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #ffffff;
+  border: none;
+  font-size: 1rem;
+  font-weight: 800;
+  padding: 14px 24px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.35);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.btn-finish-workout:active {
+  transform: scale(0.98);
+}
+
+/* ==========================================================================
+   FLOATING REST TIMER DOCK (MOBILE OPTIMIZED)
+   ========================================================================== */
+
+.floating-rest-dock {
+  position: fixed;
+  bottom: calc(16px + var(--safe-bottom));
+  left: 50%;
+  transform: translateX(-50%) translateY(120px);
+  z-index: 999;
+  width: calc(100% - 32px);
+  max-width: 480px;
+  background: rgba(19, 27, 40, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1.5px solid var(--accent-amber);
+  border-radius: var(--radius-full);
+  padding: 10px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 16px rgba(245, 158, 11, 0.25);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.floating-rest-dock.visible {
+  transform: translateX(-50%) translateY(0);
+}
+
+.dock-timer-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dock-clock-icon {
+  font-size: 1.25rem;
+  animation: rotateClock 4s linear infinite;
+}
+
+@keyframes rotateClock {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.dock-time-countdown {
+  font-family: var(--font-mono);
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--accent-amber);
+  letter-spacing: 0.05em;
+}
+
+.dock-label {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.dock-btn-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-dock-action {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-main);
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-dock-action:active {
+  transform: scale(0.95);
+}
+
+.btn-dock-action.skip {
+  background: transparent;
+  color: var(--text-muted);
+  border-color: transparent;
+}
+
+/* ==========================================================================
+   TAB 2: 14-DAY PROGRAM ROADMAP VIEW
+   ========================================================================== */
+
+.split-overview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.split-day-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.split-day-card:hover {
+  border-color: var(--accent-blue);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.split-day-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.split-day-num {
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--accent-blue);
+}
+
+.split-day-title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 4px;
+}
+
+.split-day-focus {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.split-ex-list {
+  list-style: none;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.split-ex-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+/* ==========================================================================
+   TAB 3: PR LEADERBOARD & WORKOUT HISTORY
+   ========================================================================== */
+
+.pr-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.pr-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 14px;
+}
+
+.pr-exercise-name {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.pr-weight-display {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--accent-emerald);
+  font-family: var(--font-mono);
+}
+
+.pr-date-tag {
+  font-size: 0.7rem;
+  color: var(--text-faint);
+  margin-top: 4px;
+}
+
+.history-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.history-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 14px;
+}
+
+.history-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.history-day-title {
+  font-weight: 800;
+  font-size: 0.95rem;
+}
+
+.history-date {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   TAB 4: SYNC & CLOUD VAULT SETTINGS
+   ========================================================================== */
+
+.sync-vault-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.vault-header {
+  margin-bottom: 16px;
+}
+
+.vault-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.vault-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+.vault-key-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-main);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  margin-bottom: 14px;
+}
+
+.vault-key-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--accent-blue);
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  font-weight: 800;
+  outline: none;
+  letter-spacing: 0.05em;
+}
+
+.btn-vault-action {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-main);
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.qr-sync-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--bg-main);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  margin: 16px 0;
+  text-align: center;
+}
+
+.qr-code-wrapper {
+  background: #ffffff;
+  padding: 12px;
+  border-radius: var(--radius-md);
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+.qr-code-wrapper canvas, .qr-code-wrapper img {
+  display: block;
+  width: 180px;
+  height: 180px;
+}
+
+.qr-helper-text {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  max-width: 320px;
+}
+
+.backup-actions-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.btn-backup {
+  background: var(--bg-main);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-main);
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 12px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+
+.btn-backup:hover {
+  border-color: var(--accent-blue);
+  color: var(--accent-blue);
+}
+
+/* ==========================================================================
+   MODALS (VIDEO / CLOUD SYNC / CELEBRATION)
+   ========================================================================== */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 8, 14, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.modal-backdrop.open {
+  display: flex;
+  animation: modalFadeIn 0.2s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-content-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  max-width: 520px;
+  width: 100%;
+  padding: 20px;
+  box-shadow: var(--shadow-md);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.modal-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.btn-close-modal {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 4px;
+}
+
+/* ==========================================================================
+   TOAST NOTIFICATIONS
+   ========================================================================== */
+
+.toast-container {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.toast-item {
+  background: var(--bg-card);
+  border: 1px solid var(--accent-blue);
+  color: var(--text-main);
+  padding: 10px 18px;
+  border-radius: var(--radius-full);
+  font-size: 0.82rem;
+  font-weight: 700;
+  box-shadow: var(--shadow-md);
+  animation: toastIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@keyframes toastIn {
+  from { opacity: 0; transform: translateY(-12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive Tweaks */
+@media (max-width: 480px) {
+  .app-header {
+    padding: 10px 12px;
+  }
+  .app-title {
+    font-size: 1rem;
+  }
+  .sets-header-row,
+  .set-row {
+    grid-template-columns: 28px 58px 1fr 1fr 40px;
+    gap: 6px;
+    padding: 6px 4px;
+  }
+  .stepper-btn {
+    width: 20px;
+  }
+  .log-number-input {
+    font-size: 0.9rem;
+  }
+  .btn-check-done {
+    width: 36px;
+    height: 36px;
+  }
+  .backup-actions-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+</style>
+</head>
+<body>
+
+  <!-- ========================================================================
+       STICKY APP HEADER
+       ======================================================================== -->
+  <header class="app-header">
+    <div class="header-top">
+      <div class="brand-badge-group">
+        <div class="brand-pill">
+          <span class="pulse-dot"></span>
+          <span>14-Day A/B Hypertrophy</span>
+        </div>
+        <h1 class="app-title">TITAN WORKOUT JOURNAL</h1>
+        <div class="athlete-tag">Athlete: 6'3" &bull; 77kg Lean Bulk &bull; 75–85m Cap</div>
+      </div>
+
+      <div class="header-actions">
+        <button class="btn-icon-header btn-sync-status" id="btnHeaderSync" onclick="switchTab('sync')" title="Cloud Sync Status">
+          <span id="syncStatusIcon">☁️</span>
+          <span id="syncStatusText">Synced</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- TABS BAR -->
+    <nav class="tabs-nav-bar" role="tablist">
+      <button class="tab-btn active" id="tabBtnWorkout" onclick="switchTab('workout')">
+        <span>💪</span> Today's Log
+      </button>
+      <button class="tab-btn" id="tabBtnSplit" onclick="switchTab('split')">
+        <span>📋</span> 14-Day Split
+      </button>
+      <button class="tab-btn" id="tabBtnHistory" onclick="switchTab('history')">
+        <span>🏆</span> PRs & History
+      </button>
+      <button class="tab-btn" id="tabBtnSync" onclick="switchTab('sync')">
+        <span>☁️</span> Sync Vault
+      </button>
+    </nav>
+  </header>
+
+  <!-- ========================================================================
+       MAIN APP CONTAINER
+       ======================================================================== -->
+  <main class="app-container">
+
+    <!-- ====================================================================
+         TAB 1: TODAY'S WORKOUT LOGGER
+         ==================================================================== -->
+    <section class="tab-panel active" id="panelWorkout">
+      
+      <!-- WEEK & DAY SELECTOR -->
+      <div class="week-switch-card">
+        <div class="week-toggle-row">
+          <span style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted);">PROGRAM BLOCK:</span>
+          <div class="week-btn-group">
+            <button class="week-toggle-btn active" id="btnWeekA" onclick="selectWeek('A')">Week A (Days 1–7)</button>
+            <button class="week-toggle-btn" id="btnWeekB" onclick="selectWeek('B')">Week B (Days 8–14)</button>
+          </div>
+        </div>
+
+        <div class="days-scroll-row" id="daysScrollRow">
+          <!-- Day pills generated dynamically via app.js -->
+        </div>
+      </div>
+
+      <!-- ACTIVE DAY SUMMARY BANNER -->
+      <div class="active-day-banner" id="activeDayBanner">
+        <div class="day-banner-header">
+          <div>
+            <div class="day-badge-line">
+              <span class="badge-tag badge-blue" id="dayWeekBadge">Week A</span>
+              <span class="badge-tag badge-emerald" id="dayNumberBadge">Day 1</span>
+              <span class="badge-tag badge-amber" id="sessionCapBadge">75–85 Min Cap</span>
+            </div>
+            <h2 class="day-main-title" id="dayMainTitle">Upper Body</h2>
+            <p class="day-focus-desc" id="dayFocusDesc">Heavy Compound, Frame Width & Lower Abs</p>
+          </div>
+        </div>
+
+        <!-- Session Duration Timer with Cortisol Warning -->
+        <div class="session-timer-bar">
+          <div class="timer-digits-group">
+            <span style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted);">SESSION:</span>
+            <span class="timer-clock" id="sessionTimerClock">00:00:00</span>
+            <span class="cortisol-pill" id="cortisolPill">🟢 Anabolic (&lt;75m)</span>
+          </div>
+          <button class="timer-btn-toggle" id="btnToggleTimer" onclick="toggleSessionTimer()">Start Workout</button>
+        </div>
+      </div>
+
+      <!-- PRE-WORKOUT PROTOCOL -->
+      <div class="pre-workout-card" id="preWorkoutCard">
+        <div class="pre-workout-icon">🏃</div>
+        <div>
+          <div class="pre-workout-title">Daily Pre-Workout Nitric Oxide Warm-Up</div>
+          <div class="pre-workout-text" id="preWorkoutText">
+            Incline Treadmill Walk — 1 Set | Duration: 8–10 mins (3.5% incline, 5.2 km/h) | Rest: 0s
+          </div>
+        </div>
+      </div>
+
+      <!-- REST DAY SPECIAL BANNER (WHEN ACTIVE DAY IS REST) -->
+      <div id="restDayMessage" style="display: none; background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 32px 20px; text-align: center; margin-bottom: 24px;">
+        <div style="font-size: 2.5rem; margin-bottom: 8px;">🧘‍♂️</div>
+        <h3 style="font-size: 1.3rem; font-weight: 800; margin-bottom: 6px;">Complete CNS & Muscular Recovery</h3>
+        <p style="color: var(--text-muted); font-size: 0.9rem; max-width: 480px; margin: 0 auto;">
+          No resistance training today. Focus on deep hydration, 77kg lean protein intake (160–175g), and 8+ hours of deep REM sleep to prime androgen receptors for tomorrow.
+        </p>
+      </div>
+
+      <!-- EXERCISE CARDS CONTAINER -->
+      <div class="exercise-list" id="exerciseList">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+
+      <!-- FINISH WORKOUT BUTTON -->
+      <div class="workout-finish-container" id="finishWorkoutContainer">
+        <button class="btn-finish-workout" onclick="finishCurrentWorkout()">
+          <span>✓</span> Complete & Save Today's Workout
+        </button>
+      </div>
+
+    </section>
+
+    <!-- ====================================================================
+         TAB 2: 14-DAY PROGRAM SPLIT ROADMAP
+         ==================================================================== -->
+    <section class="tab-panel" id="panelSplit">
+      <div style="margin-bottom: 16px;">
+        <h2 style="font-size: 1.35rem; font-weight: 800;">14-Day A/B Master Program Split</h2>
+        <p style="color: var(--text-muted); font-size: 0.85rem;">
+          Continuous 14-day rotating periodization. Tap any day card to view and log its exercises.
+        </p>
+      </div>
+
+      <div class="split-overview-grid" id="splitOverviewGrid">
+        <!-- Generated dynamically via app.js -->
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         TAB 3: PR LEADERBOARD & WORKOUT HISTORY
+         ==================================================================== -->
+    <section class="tab-panel" id="panelHistory">
+      <div style="margin-bottom: 16px;">
+        <h2 style="font-size: 1.35rem; font-weight: 800;">Personal Records Leaderboard</h2>
+        <p style="color: var(--text-muted); font-size: 0.85rem;">
+          Highest recorded working weight for each exercise in the 14-day rotation.
+        </p>
+      </div>
+
+      <div class="pr-grid" id="prGrid">
+        <!-- Populated dynamically via app.js -->
+      </div>
+
+      <div style="margin: 24px 0 16px 0;">
+        <h2 style="font-size: 1.35rem; font-weight: 800;">Completed Workouts History</h2>
+        <p style="color: var(--text-muted); font-size: 0.85rem;">
+          Chronological log of completed sessions with volume and overload progression.
+        </p>
+      </div>
+
+      <div class="history-timeline" id="historyTimeline">
+        <!-- Populated dynamically via app.js -->
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         TAB 4: SYNC & CLOUD VAULT SETTINGS
+         ==================================================================== -->
+    <section class="tab-panel" id="panelSync">
+      <div class="sync-vault-card">
+        <div class="vault-header">
+          <h2 class="vault-title">Seamless Device Sync Vault</h2>
+          <p class="vault-desc">
+            Your workout logs, PRs, and progressive overload history stay synchronized between your Phone and PC.
+            Enter your permanent Sync Key once or scan the QR code from your laptop—you will never need to type it again.
+          </p>
+        </div>
+
+        <div style="font-size: 0.78rem; font-weight: 800; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase;">
+          Permanent Device Sync Key
+        </div>
+        <div class="vault-key-box">
+          <input type="text" class="vault-key-input" id="inputSyncKey" placeholder="TITAN-77KG-..." spellcheck="false" autocomplete="off">
+          <button class="btn-vault-action" onclick="saveCustomSyncKey()">Save Key</button>
+        </div>
+
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <button class="btn-vault-action" onclick="forceCloudPull()">⬇️ Pull Latest from Cloud</button>
+          <button class="btn-vault-action" onclick="forceCloudPush()">⬆️ Push to Cloud Now</button>
+          <button class="btn-vault-action" onclick="testLocalServerConnection()">🔄 Check PC Server Sync</button>
+        </div>
+
+        <!-- QR PAIRING CODE -->
+        <div class="qr-sync-container">
+          <div style="font-weight: 800; font-size: 0.95rem; margin-bottom: 4px;">📲 Instant 1-Second Phone Pairing</div>
+          <p class="qr-helper-text">
+            Open the Camera app on your Android phone and scan this code. It automatically sets your phone's Sync Key and links both devices!
+          </p>
+          <div class="qr-code-wrapper" id="qrContainer">
+            <!-- QR code rendered by qr-generator.js -->
+          </div>
+          <div style="font-size: 0.75rem; color: var(--text-faint); word-break: break-all;" id="pairingUrlText">
+            <!-- Pairing URL text -->
+          </div>
+        </div>
+
+        <!-- BACKUP & RESTORE -->
+        <div style="border-top: 1px solid var(--border-subtle); padding-top: 16px; margin-top: 16px;">
+          <h3 style="font-size: 1rem; font-weight: 800; margin-bottom: 6px;">1-Click Local Data Backup</h3>
+          <p style="font-size: 0.8rem; color: var(--text-muted);">
+            Save your entire database as a JSON file to your Google Drive, Downloads, or send to WhatsApp.
+          </p>
+          <div class="backup-actions-grid">
+            <button class="btn-backup" onclick="exportDataJSON()">
+              <span>📥</span> Export Backup File (.json)
+            </button>
+            <button class="btn-backup" onclick="triggerFileInput()">
+              <span>📤</span> Restore from Backup File
+            </button>
+            <input type="file" id="backupFileInput" accept=".json" style="display: none;" onchange="importDataJSON(event)">
+          </div>
+        </div>
+
+        <!-- ANDROID INSTALL INSTRUCTIONS -->
+        <div style="border-top: 1px solid var(--border-subtle); padding-top: 16px; margin-top: 16px;">
+          <h3 style="font-size: 1rem; font-weight: 800; margin-bottom: 6px;">📱 Install as Native Android App</h3>
+          <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5;">
+            <strong>Step 1:</strong> Open this URL in Chrome on your Android phone.<br>
+            <strong>Step 2:</strong> Tap the <strong>⋮ (three dots)</strong> menu in top-right.<br>
+            <strong>Step 3:</strong> Tap <strong>"Install app"</strong> or <strong>"Add to Home screen"</strong>.<br>
+            <strong>Result:</strong> Android compiles this as a standalone native app (WebAPK) with an app icon on your home screen and 100% offline access in the gym!
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================================================
+       FLOATING REST TIMER DOCK (MOBILE OPTIMIZED)
+       ======================================================================== -->
+  <aside class="floating-rest-dock" id="floatingRestDock" aria-label="Rest Countdown Timer">
+    <div class="dock-timer-info">
+      <span class="dock-clock-icon">⏱️</span>
+      <div>
+        <div class="dock-label">REST COUNTDOWN</div>
+        <div class="dock-time-countdown" id="dockTimeCountdown">02:00</div>
+      </div>
+    </div>
+    <div class="dock-btn-group">
+      <button class="btn-dock-action" onclick="addRestTimerSeconds(30)">+30s</button>
+      <button class="btn-dock-action skip" onclick="skipRestTimer()">Skip</button>
+    </div>
+  </aside>
+
+  <!-- ========================================================================
+       MODAL: EXERCISE VIDEO / FORM GUIDE
+       ======================================================================== -->
+  <div class="modal-backdrop" id="modalVideo" onclick="closeVideoModal(event)">
+    <div class="modal-content-card" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3 class="modal-title" id="videoModalTitle">Exercise Form Guide</h3>
+        <button class="btn-close-modal" onclick="closeVideoModal()">&times;</button>
+      </div>
+      <div id="videoContainer" style="margin-bottom: 16px; border-radius: var(--radius-md); overflow: hidden; background: #000; min-height: 200px; display: flex; align-items: center; justify-content: center;">
+        <!-- Embedded player or search link -->
+      </div>
+      <div style="margin-top: 12px;">
+        <label style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 6px;">
+          Custom YouTube Shorts / Tutorial Link:
+        </label>
+        <div style="display: flex; gap: 8px;">
+          <input type="url" id="inputCustomVideoUrl" placeholder="https://youtube.com/shorts/..." style="flex: 1; background: var(--bg-main); border: 1px solid var(--border-subtle); color: var(--text-main); padding: 8px 12px; border-radius: var(--radius-sm); font-size: 0.85rem;">
+          <button class="btn-vault-action" onclick="saveCustomVideoLink()">Save Video</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST CONTAINER -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- SCRIPTS -->
+  <!-- Tunnel Info (auto-generated when server is running) -->
+  
+  <!-- QR Generator Library -->
+  
+  <!-- Complete 14-Day Master Workout Program Data -->
+  
+  <!-- Main Application Logic & Progressive Overload Engine -->
+  
+<script>
+/**
+ * Minimal offline QR Code Generator for Wimpy Mobile Connect
+ * Based on Kazuhiko Arase's QR library (MIT)
+ */
+(function(window) {
+  function QR8bitByte(data) {
+    this.mode = 4;
+    this.data = data;
+  }
+  QR8bitByte.prototype = {
+    getLength: function() { return this.data.length; },
+    write: function(buffer) {
+      for (var i = 0; i < this.data.length; i++) {
+        buffer.put(this.data.charCodeAt(i), 8);
+      }
+    }
+  };
+
+  function QRCode(typeNumber, errorCorrectLevel) {
+    this.typeNumber = typeNumber;
+    this.errorCorrectLevel = errorCorrectLevel;
+    this.modules = null;
+    this.moduleCount = 0;
+    this.dataList = [];
+  }
+
+  var QRMode = { MODE_8BIT_BYTE: 4 };
+  var QRErrorCorrectLevel = { L: 1, M: 0, Q: 3, H: 2 };
+
+  QRCode.prototype = {
+    addData: function(data) {
+      this.dataList.push(new QR8bitByte(data));
+    },
+    isDark: function(row, col) {
+      return this.modules[row][col];
+    },
+    getModuleCount: function() {
+      return this.moduleCount;
+    },
+    make: function() {
+      this.makeImpl(false, this.getBestMaskPattern());
+    },
+    makeImpl: function(test, maskPattern) {
+      this.moduleCount = this.typeNumber * 4 + 17;
+      this.modules = new Array(this.moduleCount);
+      for (var row = 0; row < this.moduleCount; row++) {
+        this.modules[row] = new Array(this.moduleCount);
+        for (var col = 0; col < this.moduleCount; col++) {
+          this.modules[row][col] = null;
+        }
+      }
+      this.setupPositionProbePattern(0, 0);
+      this.setupPositionProbePattern(this.moduleCount - 7, 0);
+      this.setupPositionProbePattern(0, this.moduleCount - 7);
+      this.setupPositionAdjustPattern();
+      this.setupTimingPattern();
+      this.setupTypeInfo(test, maskPattern);
+      if (this.typeNumber >= 7) {
+        this.setupTypeNumber(test);
+      }
+      var data = QRCode.createData(this.typeNumber, this.errorCorrectLevel, this.dataList);
+      this.mapData(data, maskPattern);
+    },
+    setupPositionProbePattern: function(row, col) {
+      for (var r = -1; r <= 7; r++) {
+        if (row + r <= -1 || this.moduleCount <= row + r) continue;
+        for (var c = -1; c <= 7; c++) {
+          if (col + c <= -1 || this.moduleCount <= col + c) continue;
+          if ((0 <= r && r <= 6 && (c == 0 || c == 6)) ||
+              (0 <= c && c <= 6 && (r == 0 || r == 6)) ||
+              (2 <= r && r <= 4 && 2 <= c && c <= 4)) {
+            this.modules[row + r][col + c] = true;
+          } else {
+            this.modules[row + r][col + c] = false;
+          }
+        }
+      }
+    },
+    getBestMaskPattern: function() {
+      return 0;
+    },
+    setupTimingPattern: function() {
+      for (var r = 8; r < this.moduleCount - 8; r++) {
+        if (this.modules[r][6] !== null) continue;
+        this.modules[r][6] = (r % 2 == 0);
+      }
+      for (var c = 8; c < this.moduleCount - 8; c++) {
+        if (this.modules[6][c] !== null) continue;
+        this.modules[6][c] = (c % 2 == 0);
+      }
+    },
+    setupPositionAdjustPattern: function() {
+      var pos = [6, 26, 30, 34];
+      if (this.typeNumber == 4) pos = [6, 26];
+      else if (this.typeNumber == 5) pos = [6, 30];
+      else if (this.typeNumber == 6) pos = [6, 34];
+      else return;
+
+      for (var i = 0; i < pos.length; i++) {
+        for (var j = 0; j < pos.length; j++) {
+          var row = pos[i];
+          var col = pos[j];
+          if (this.modules[row][col] !== null) continue;
+          for (var r = -2; r <= 2; r++) {
+            for (var c = -2; c <= 2; c++) {
+              if (r == -2 || r == 2 || c == -2 || c == 2 || (r == 0 && c == 0)) {
+                this.modules[row + r][col + c] = true;
+              } else {
+                this.modules[row + r][col + c] = false;
+              }
+            }
+          }
+        }
+      }
+    },
+    setupTypeInfo: function(test, maskPattern) {
+      var data = (this.errorCorrectLevel << 3) | maskPattern;
+      var bits = QRCode.getBCHTypeInfo(data);
+      for (var i = 0; i < 15; i++) {
+        var mod = (!test && ((bits >> i) & 1) == 1);
+        if (i < 6) this.modules[i][8] = mod;
+        else if (i < 8) this.modules[i + 1][8] = mod;
+        else this.modules[this.moduleCount - 15 + i][8] = mod;
+
+        if (i < 8) this.modules[8][this.moduleCount - i - 1] = mod;
+        else if (i < 9) this.modules[8][15 - i - 1 + 1] = mod;
+        else this.modules[8][15 - i - 1] = mod;
+      }
+      this.modules[this.moduleCount - 8][8] = (!test);
+    },
+    setupTypeNumber: function(test) {},
+    mapData: function(data, maskPattern) {
+      var inc = -1;
+      var row = this.moduleCount - 1;
+      var bitIndex = 7;
+      var byteIndex = 0;
+      for (var col = this.moduleCount - 1; col > 0; col -= 2) {
+        if (col == 6) col--;
+        while (true) {
+          for (var c = 0; c < 2; c++) {
+            if (this.modules[row][col - c] === null) {
+              var dark = false;
+              if (byteIndex < data.length) {
+                dark = (((data[byteIndex] >>> bitIndex) & 1) == 1);
+              }
+              var mask = ((row + col - c) % 2 == 0);
+              if (mask) dark = !dark;
+              this.modules[row][col - c] = dark;
+              bitIndex--;
+              if (bitIndex == -1) {
+                byteIndex++;
+                bitIndex = 7;
+              }
+            }
+          }
+          row += inc;
+          if (row < 0 || this.moduleCount <= row) {
+            row -= inc;
+            inc = -inc;
+            break;
+          }
+        }
+      }
+    }
+  };
+
+  QRCode.createData = function(typeNumber, errorCorrectLevel, dataList) {
+    var buffer = new QRBitBuffer();
+    for (var i = 0; i < dataList.length; i++) {
+      var data = dataList[i];
+      buffer.put(data.mode, 4);
+      buffer.put(data.getLength(), 8);
+      data.write(buffer);
+    }
+    var totalDataCount = 34 * 8; // approx for type 4-L
+    if (buffer.getLengthInBits() + 4 <= totalDataCount) {
+      buffer.put(0, 4);
+    }
+    while (buffer.getLengthInBits() % 8 != 0) {
+      buffer.putBit(false);
+    }
+    while (true) {
+      if (buffer.getLengthInBits() >= totalDataCount) break;
+      buffer.put(0xEC, 8);
+      if (buffer.getLengthInBits() >= totalDataCount) break;
+      buffer.put(0x11, 8);
+    }
+    return QRCode.createBytes(buffer);
+  };
+
+  QRCode.createBytes = function(buffer) {
+    return buffer.buffer;
+  };
+
+  QRCode.getBCHTypeInfo = function(data) {
+    var d = data << 10;
+    while (QRCode.getBCHDigit(d) - QRCode.getBCHDigit(1335) >= 0) {
+      d ^= (1335 << (QRCode.getBCHDigit(d) - QRCode.getBCHDigit(1335)));
+    }
+    return ((data << 10) | d) ^ 21522;
+  };
+
+  QRCode.getBCHDigit = function(data) {
+    var digit = 0;
+    while (data != 0) {
+      digit++;
+      data >>>= 1;
+    }
+    return digit;
+  };
+
+  function QRBitBuffer() {
+    this.buffer = [];
+    this.length = 0;
+  }
+  QRBitBuffer.prototype = {
+    get: function(index) {
+      var bufIndex = Math.floor(index / 8);
+      return ((this.buffer[bufIndex] >>> (7 - index % 8)) & 1) == 1;
+    },
+    put: function(num, length) {
+      for (var i = 0; i < length; i++) {
+        this.putBit(((num >>> (length - i - 1)) & 1) == 1);
+      }
+    },
+    getLengthInBits: function() { return this.length; },
+    putBit: function(bit) {
+      var bufIndex = Math.floor(this.length / 8);
+      if (this.buffer.length <= bufIndex) {
+        this.buffer.push(0);
+      }
+      if (bit) {
+        this.buffer[bufIndex] |= (0x80 >>> (this.length % 8));
+      }
+      this.length++;
+    }
+  };
+
+  // Helper function to draw to canvas
+  window.renderQRToCanvas = function(canvas, text) {
+    try {
+      var qr = new QRCode(4, 1);
+      qr.addData(text);
+      qr.make();
+      var count = qr.getModuleCount();
+      var ctx = canvas.getContext('2d');
+      var size = canvas.width;
+      var cellSize = size / count;
+      ctx.fillStyle = '#fffde0';
+      ctx.fillRect(0, 0, size, size);
+      ctx.fillStyle = '#111827';
+      for (var r = 0; r < count; r++) {
+        for (var c = 0; c < count; c++) {
+          if (qr.isDark(r, c)) {
+            ctx.fillRect(Math.floor(c * cellSize), Math.floor(r * cellSize), Math.ceil(cellSize), Math.ceil(cellSize));
+          }
+        }
+      }
+    } catch(e) {
+      console.warn("QR fallback:", e);
+    }
+  };
+})(window);
+
+</script>
+<script>
+const MASTER_WORKOUT_PROGRAM = [
+  {
+    "day": 1,
+    "week": "Week A",
+    "title": "Upper Body",
+    "focus": "Heavy Compound, Frame Width & Lower Abs",
+    "preWorkout": "Incline Treadmill Walk \u2014 1 Set | Duration: 8\u201310 mins (3.5% incline, 5.2 km/h) | Rest: 0s",
+    "exercises": [
+      {
+        "id": "d1_ex1",
+        "canonName": "Flat Barbell Bench Press (Top Set)",
+        "name": "Flat Barbell Bench Press (Top Set)",
+        "sets": 1,
+        "repRange": "4\u20136 reps",
+        "minReps": 4,
+        "maxReps": 6,
+        "defaultReps": 5,
+        "restSec": 180,
+        "cue": "RPE 8.5 (leave 1\u20132 reps in reserve). Lower over 3s to chest, drive up explosively.",
+        "superset": null,
+        "isTopSet": true,
+        "isBackOff": false,
+        "defaultWeight": 20.0,
+        "videoSearchQuery": "Flat Barbell Bench Press (Top Set) exercise form tutorial shorts"
+      },
+      {
+        "id": "d1_ex2",
+        "canonName": "Flat Barbell Bench Press (Back-Off Sets)",
+        "name": "Flat Barbell Bench Press (Back-Off Sets)",
+        "sets": 2,
+        "repRange": "6\u20138 reps",
+        "minReps": 6,
+        "maxReps": 8,
+        "defaultReps": 8,
+        "restSec": 180,
+        "cue": "Drop weight by 12\u201315% from Top Set. Controlled 3s descent, crisp chest pause.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": true,
+        "defaultWeight": 20.0,
+        "videoSearchQuery": "Flat Barbell Bench Press (Back-Off Sets) exercise form tutorial shorts"
+      },
+      {
+        "id": "d1_ex3",
+        "canonName": "Wide-Grip Pull-Ups",
+        "name": "Wide-Grip Pull-Ups",
+        "sets": 4,
+        "repRange": "6\u201310 reps",
+        "minReps": 6,
+        "maxReps": 10,
+        "defaultReps": 8,
+        "restSec": 150,
+        "cue": "Pull chest to bar; after full-range failure on set 4, add 3\u20134 bottom-half stretch partials.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 0.0,
+        "videoSearchQuery": "Wide-Grip Pull-Ups exercise form tutorial shorts"
+      },
+      {
+        "id": "d1_ex4",
+        "canonName": "Seated Dumbbell Shoulder Press (75\u00b0 Bench)",
+        "name": "Seated Dumbbell Shoulder Press (75\u00b0 Bench)",
+        "sets": 3,
+        "repRange": "8\u201310 reps",
+        "minReps": 8,
+        "maxReps": 10,
+        "defaultReps": 10,
+        "restSec": 120,
+        "cue": "Press in the scapular plane (elbows tucked 30\u00b0 forward).",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 16.0,
+        "videoSearchQuery": "Seated Dumbbell Shoulder Press (75\u00b0 Bench) exercise form tutorial shorts"
+      },
+      {
+        "id": "d1_ex5",
+        "canonName": "Horizontal Two-Handle Machine Row",
+        "name": "Horizontal Two-Handle Machine Row",
+        "sets": 3,
+        "repRange": "10\u201312 reps",
+        "minReps": 10,
+        "maxReps": 12,
+        "defaultReps": 12,
+        "restSec": 120,
+        "cue": "Let shoulder blades protract at the bottom stretch, squeeze mid-back on contraction.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 45.0,
+        "videoSearchQuery": "Horizontal Two-Handle Machine Row exercise form tutorial shorts"
+      },
+      {
+        "id": "d1_ex6",
+        "canonName": "Wrist-Height Cable Lateral Raise",
+        "name": "Wrist-Height Cable Lateral Raise",
+        "sets": 4,
+        "repRange": "12\u201315 reps",
+        "minReps": 12,
+        "maxReps": 15,
+        "defaultReps": 15,
+        "restSec": 90,
+        "cue": "Set pulley to wrist height for peak tension in the bottom stretched position of the side delt.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 7.5,
+        "videoSearchQuery": "Wrist-Height Cable Lateral Raise exercise form tutorial shorts"
+      },
+      {
+        "id": "d1_ex7",
+        "canonName": "Overhead Cable Triceps Extension",
+        "name": "Overhead Cable Triceps Extension",
+        "sets": 3,
+        "repRange": "10\u201312 reps",
+        "minReps": 10,
+        "maxReps": 12,
+        "defaultReps": 12,
+        "restSec": 0,
+        "cue": "Full overhead stretch behind head, lock elbows in place.",
+        "superset": "A",
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 22.5,
+        "videoSearchQuery": "Overhead Cable Triceps Extension exercise form tutorial shorts"
+      },
+      {
+        "id": "d1_ex8",
+        "canonName": "Bayesian Cable Curl",
+        "name": "Bayesian Cable Curl",
+        "sets": 3,
+        "repRange": "10\u201312 reps",
+        "minReps": 10,
+        "maxReps": 12,
+        "defaultReps": 12,
+        "restSec": 90,
+        "cue": "Step forward so cable pulls arm behind torso for maximum bicep stretch.",
+        "superset": "B",
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 12.5,
+        "videoSearchQuery": "Bayesian Cable Curl exercise form tutorial shorts"
+      },
+      {
+        "id": "d1_ex9",
+        "canonName": "Captain's Chair Leg Raises",
+        "name": "Captain's Chair Leg Raises",
+        "sets": 3,
+        "repRange": "12\u201315 reps",
+        "minReps": 12,
+        "maxReps": 15,
+        "defaultReps": 15,
+        "restSec": 90,
+        "cue": "Actively curl pelvis/tailbone off the back pad at the top to isolate lower abs.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 0.0,
+        "videoSearchQuery": "Captain's Chair Leg Raises exercise form tutorial shorts"
+      }
+    ],
+    "isRestDay": false
+  },
+  {
+    "day": 2,
+    "week": "Week A",
+    "title": "Lower Body A",
+    "focus": "Strength, Pelvic Perfusion & Lower Back Armor",
+    "preWorkout": "Incline Treadmill Walk \u2014 1 Set | Duration: 8\u201310 mins (last 60s backward walk) | Rest: 0s",
+    "exercises": [
+      {
+        "id": "d2_ex1",
+        "canonName": "Lying Leg Curl (Pre-Activation)",
+        "name": "Lying Leg Curl (Pre-Activation)",
+        "sets": 3,
+        "repRange": "10\u201312 reps",
+        "minReps": 10,
+        "maxReps": 12,
+        "defaultReps": 12,
+        "restSec": 90,
+        "cue": "Keep hips pressed flat into pad; warms up knee joints before heavy squats.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 12.5,
+        "videoSearchQuery": "Lying Leg Curl (Pre-Activation) exercise form tutorial shorts"
+      },
+      {
+        "id": "d2_ex2",
+        "canonName": "Barbell Back Squat",
+        "name": "Barbell Back Squat",
+        "sets": 3,
+        "repRange": "5\u20138 reps",
+        "minReps": 5,
+        "maxReps": 8,
+        "defaultReps": 6,
+        "restSec": 180,
+        "cue": "360-degree core brace, sit deep between hips, drive through mid-foot.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 70.0,
+        "videoSearchQuery": "Barbell Back Squat exercise form tutorial shorts"
+      },
+      {
+        "id": "d2_ex3",
+        "canonName": "Barbell Romanian Deadlift (RDL)",
+        "name": "Barbell Romanian Deadlift (RDL)",
+        "sets": 3,
+        "repRange": "6\u20138 reps",
+        "minReps": 6,
+        "maxReps": 8,
+        "defaultReps": 8,
+        "restSec": 180,
+        "cue": "Push hips straight back, stop bar mid-shin to keep 100% tension on hamstrings/glutes.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 65.0,
+        "videoSearchQuery": "Barbell Romanian Deadlift (RDL) exercise form tutorial shorts"
+      },
+      {
+        "id": "d2_ex4",
+        "canonName": "Barbell Hip Thrust (Flat Bench)",
+        "name": "Barbell Hip Thrust (Flat Bench)",
+        "sets": 3,
+        "repRange": "8\u201312 reps",
+        "minReps": 8,
+        "maxReps": 12,
+        "defaultReps": 10,
+        "restSec": 120,
+        "cue": "Inhale to relax pelvic floor on descent, exhale and hold 2s glute/pelvic lockout at top.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 80.0,
+        "videoSearchQuery": "Barbell Hip Thrust (Flat Bench) exercise form tutorial shorts"
+      },
+      {
+        "id": "d2_ex5",
+        "canonName": "Seated Hip Adductor Machine",
+        "name": "Seated Hip Adductor Machine",
+        "sets": 3,
+        "repRange": "12\u201315 reps",
+        "minReps": 12,
+        "maxReps": 15,
+        "defaultReps": 15,
+        "restSec": 0,
+        "cue": "3s slow eccentric stretch to lengthen pelvic floor and adductor magnus before squeezing inward.",
+        "superset": "A",
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 40.0,
+        "videoSearchQuery": "Seated Hip Adductor Machine exercise form tutorial shorts"
+      },
+      {
+        "id": "d2_ex6",
+        "canonName": "Seated Hip Abductor Machine",
+        "name": "Seated Hip Abductor Machine",
+        "sets": 3,
+        "repRange": "12\u201315 reps",
+        "minReps": 12,
+        "maxReps": 15,
+        "defaultReps": 15,
+        "restSec": 90,
+        "cue": "Lean slightly forward, drive knees outward, 1s squeeze at peak contraction.",
+        "superset": "B",
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 40.0,
+        "videoSearchQuery": "Seated Hip Abductor Machine exercise form tutorial shorts"
+      },
+      {
+        "id": "d2_ex7",
+        "canonName": "Leg Press Calf Raises (Toe Press)",
+        "name": "Leg Press Calf Raises (Toe Press)",
+        "sets": 4,
+        "repRange": "12\u201315 reps",
+        "minReps": 12,
+        "maxReps": 15,
+        "defaultReps": 15,
+        "restSec": 60,
+        "cue": "2-second pause in the deep bottom stretch on every rep.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 75.0,
+        "videoSearchQuery": "Leg Press Calf Raises (Toe Press) exercise form tutorial shorts"
+      },
+      {
+        "id": "d2_ex8",
+        "canonName": "45\u00b0 Weighted Back Extensions",
+        "name": "45\u00b0 Weighted Back Extensions",
+        "sets": 3,
+        "repRange": "12\u201315 reps",
+        "minReps": 12,
+        "maxReps": 15,
+        "defaultReps": 15,
+        "restSec": 0,
+        "cue": "Hold plate/KB to chest; hinge at hips, stop at neutral spine without hyperextending.",
+        "superset": "A",
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 10.0,
+        "videoSearchQuery": "45\u00b0 Weighted Back Extensions exercise form tutorial shorts"
+      },
+      {
+        "id": "d2_ex9",
+        "canonName": "Heavy Kettlebell Suitcase Carry",
+        "name": "Heavy Kettlebell Suitcase Carry",
+        "sets": 3,
+        "repRange": "30\u201340 meters/side",
+        "minReps": 30,
+        "maxReps": 40,
+        "defaultReps": 30,
+        "restSec": 90,
+        "cue": "Walk tall with one heavy KB; resist torso tilting to armor obliques and lower back.",
+        "superset": "B",
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 20.0,
+        "videoSearchQuery": "Heavy Kettlebell Suitcase Carry exercise form tutorial shorts"
+      }
+    ],
+    "isRestDay": false
+  },
+  {
+    "day": 3,
+    "week": "Week A",
+    "title": "Active Recovery & Pelvic Mobility",
+    "focus": "Active Recovery & Pelvic Mobility",
+    "preWorkout": "",
+    "exercises": [
+      {
+        "id": "d3_ex1",
+        "canonName": "Outdoor Brisk Walk or Light Stationary Cycle",
+        "name": "Outdoor Brisk Walk or Light Stationary Cycle",
+        "sets": 1,
+        "repRange": "25\u201330 mins",
+        "minReps": 25,
+        "maxReps": 30,
+        "defaultReps": 30,
+        "restSec": 0,
+        "cue": "Easy conversational Zone 2 pace for vascular recovery.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 20.0,
+        "videoSearchQuery": "Outdoor Brisk Walk or Light Stationary Cycle exercise form tutorial shorts"
+      },
+      {
+        "id": "d3_ex2",
+        "canonName": "Deep Squat Pelvic Release Hold",
+        "name": "Deep Squat Pelvic Release Hold",
+        "sets": 2,
+        "repRange": "60 seconds",
+        "minReps": 60,
+        "maxReps": 60,
+        "defaultReps": 60,
+        "restSec": 60,
+        "cue": "Hold squat rack upright, sink deep with flat heels, breathe into lower belly to relax pelvic floor.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 70.0,
+        "videoSearchQuery": "Deep Squat Pelvic Release Hold exercise form tutorial shorts"
+      },
+      {
+        "id": "d3_ex3",
+        "canonName": "Couch / Hip Flexor Stretch",
+        "name": "Couch / Hip Flexor Stretch",
+        "sets": 2,
+        "repRange": "45 seconds/side",
+        "minReps": 45,
+        "maxReps": 45,
+        "defaultReps": 45,
+        "restSec": 30,
+        "cue": "Squeeze rear glute to open tight hip flexors.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 20.0,
+        "videoSearchQuery": "Couch / Hip Flexor Stretch exercise form tutorial shorts"
+      }
+    ],
+    "isRestDay": false
+  },
+  {
+    "day": 4,
+    "week": "Week A",
+    "title": "Push",
+    "focus": "Upper Chest, Delts & Weighted Six-Pack Thickness",
+    "preWorkout": "Incline Treadmill Walk + Band Pull-Aparts \u2014 1 Set | Duration: 8\u201310 mins | Rest: 0s",
+    "exercises": [
+      {
+        "id": "d4_ex1",
+        "canonName": "Incline Barbell Bench Press (30\u00b0 Bench)",
+        "name": "Incline Barbell Bench Press (30\u00b0 Bench)",
+        "sets": 3,
+        "repRange": "8\u201310 reps",
+        "minReps": 8,
+        "maxReps": 10,
+        "defaultReps": 10,
+        "restSec": 150,
+        "cue": "30\u00b0 incline angle; slight pause on upper chest to bias clavicular pec fibers.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 20.0,
+        "videoSearchQuery": "Incline Barbell Bench Press (30\u00b0 Bench) exercise form tutorial shorts"
+      },
+      {
+        "id": "d4_ex2",
+        "canonName": "Machine Chest Press",
+        "name": "Machine Chest Press",
+        "sets": 3,
+        "repRange": "10\u201312 reps",
+        "minReps": 10,
+        "maxReps": 12,
+        "defaultReps": 12,
+        "restSec": 120,
+        "cue": "Push close to failure (0\u20131 RIR) safely using machine stability.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 50.0,
+        "videoSearchQuery": "Machine Chest Press exercise form tutorial shorts"
+      },
+      {
+        "id": "d4_ex3",
+        "canonName": "Captain's Chair Chest Dips",
+        "name": "Captain's Chair Chest Dips",
+        "sets": 3,
+        "repRange": "8\u201312 reps",
+        "minReps": 8,
+        "maxReps": 12,
+        "defaultReps": 10,
+        "restSec": 120,
+        "cue": "Lean torso 20\u00b0 forward, lower into a deep comfortable chest stretch.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 0.0,
+        "videoSearchQuery": "Captain's Chair Chest Dips exercise form tutorial shorts"
+      },
+      {
+        "id": "d4_ex4",
+        "canonName": "Pec Deck Fly",
+        "name": "Pec Deck Fly",
+        "sets": 3,
+        "repRange": "12\u201315 reps",
+        "minReps": 12,
+        "maxReps": 15,
+        "defaultReps": 15,
+        "restSec": 90,
+        "cue": "Hold the back stretched position for 2 seconds on every rep.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 40.0,
+        "videoSearchQuery": "Pec Deck Fly exercise form tutorial shorts"
+      },
+      {
+        "id": "d4_ex5",
+        "canonName": "Behind-the-Back Cable Lateral Raise",
+        "name": "Behind-the-Back Cable Lateral Raise",
+        "sets": 4,
+        "repRange": "12\u201315 reps",
+        "minReps": 12,
+        "maxReps": 15,
+        "defaultReps": 15,
+        "restSec": 90,
+        "cue": "Cable runs behind glutes to load lateral delt at maximum stretch.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 7.5,
+        "videoSearchQuery": "Behind-the-Back Cable Lateral Raise exercise form tutorial shorts"
+      },
+      {
+        "id": "d4_ex6",
+        "canonName": "Cable Triceps Pressdown (Bar or Rope)",
+        "name": "Cable Triceps Pressdown (Bar or Rope)",
+        "sets": 3,
+        "repRange": "10\u201312 reps",
+        "minReps": 10,
+        "maxReps": 12,
+        "defaultReps": 12,
+        "restSec": 90,
+        "cue": "Keep elbows pinned to sides, full lockout at bottom.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 22.5,
+        "videoSearchQuery": "Cable Triceps Pressdown (Bar or Rope) exercise form tutorial shorts"
+      },
+      {
+        "id": "d4_ex7",
+        "canonName": "High-Pulley Kneeling Cable Crunch",
+        "name": "High-Pulley Kneeling Cable Crunch",
+        "sets": 3,
+        "repRange": "10\u201315 reps",
+        "minReps": 10,
+        "maxReps": 15,
+        "defaultReps": 12,
+        "restSec": 90,
+        "cue": "Lock hips still, curl ribcage down toward pelvis; overload weight stack over time.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 20.0,
+        "videoSearchQuery": "High-Pulley Kneeling Cable Crunch exercise form tutorial shorts"
+      }
+    ],
+    "isRestDay": false
+  },
+  {
+    "day": 5,
+    "week": "Week A",
+    "title": "Pull",
+    "focus": "V-Taper Width, Rear Delts, Lower Back & Obliques",
+    "preWorkout": "Incline Treadmill Walk + Dead Hang Scapular Shrugs \u2014 1 Set | Duration: 8\u201310 mins | Rest: 0s",
+    "exercises": [
+      {
+        "id": "d5_ex1",
+        "canonName": "Dual-Cable Lat Pulldown",
+        "name": "Dual-Cable Lat Pulldown",
+        "sets": 4,
+        "repRange": "10\u201312 reps",
+        "minReps": 10,
+        "maxReps": 12,
+        "defaultReps": 12,
+        "restSec": 120,
+        "cue": "Drive elbows down into hips, full lat stretch at top.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 45.0,
+        "videoSearchQuery": "Dual-Cable Lat Pulldown exercise form tutorial shorts"
+      },
+      {
+        "id": "d5_ex2",
+        "canonName": "Heavy T-Bar Row (With Lifting Straps)",
+        "name": "Heavy T-Bar Row (With Lifting Straps)",
+        "sets": 3,
+        "repRange": "8\u201310 reps",
+        "minReps": 8,
+        "maxReps": 10,
+        "defaultReps": 10,
+        "restSec": 150,
+        "cue": "Let shoulder blades protract at bottom, row hard into lower sternum.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 40.0,
+        "videoSearchQuery": "Heavy T-Bar Row (With Lifting Straps) exercise form tutorial shorts"
+      },
+      {
+        "id": "d5_ex3",
+        "canonName": "Single-Arm Cable Lat Prayer (Pullover)",
+        "name": "Single-Arm Cable Lat Prayer (Pullover)",
+        "sets": 3,
+        "repRange": "12\u201315 reps",
+        "minReps": 12,
+        "maxReps": 15,
+        "defaultReps": 15,
+        "restSec": 90,
+        "cue": "Keep arm straight, sweep cable in an arc from overhead down to hip.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 20.0,
+        "videoSearchQuery": "Single-Arm Cable Lat Prayer (Pullover) exercise form tutorial shorts"
+      },
+      {
+        "id": "d5_ex4",
+        "canonName": "Reverse Pec Deck (Rear Delt Fly)",
+        "name": "Reverse Pec Deck (Rear Delt Fly)",
+        "sets": 4,
+        "repRange": "12\u201315 reps",
+        "minReps": 12,
+        "maxReps": 15,
+        "defaultReps": 15,
+        "restSec": 90,
+        "cue": "Push hands outward in a wide arc rather than pinching shoulder blades together.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 40.0,
+        "videoSearchQuery": "Reverse Pec Deck (Rear Delt Fly) exercise form tutorial shorts"
+      },
+      {
+        "id": "d5_ex5",
+        "canonName": "Cable Face Pulls",
+        "name": "Cable Face Pulls",
+        "sets": 3,
+        "repRange": "12\u201315 reps",
+        "minReps": 12,
+        "maxReps": 15,
+        "defaultReps": 15,
+        "restSec": 60,
+        "cue": "Pull rope toward forehead with thumbs pointing backward (external rotation).",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 20.0,
+        "videoSearchQuery": "Cable Face Pulls exercise form tutorial shorts"
+      },
+      {
+        "id": "d5_ex6",
+        "canonName": "Incline Dumbbell Curl (45\u201360\u00b0 Bench)",
+        "name": "Incline Dumbbell Curl (45\u201360\u00b0 Bench)",
+        "sets": 3,
+        "repRange": "10\u201312 reps",
+        "minReps": 10,
+        "maxReps": 12,
+        "defaultReps": 12,
+        "restSec": 0,
+        "cue": "Let arms hang straight down behind torso for maximum long-head bicep stretch.",
+        "superset": "A",
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 12.5,
+        "videoSearchQuery": "Incline Dumbbell Curl (45\u201360\u00b0 Bench) exercise form tutorial shorts"
+      },
+      {
+        "id": "d5_ex7",
+        "canonName": "Dumbbell Hammer Curl",
+        "name": "Dumbbell Hammer Curl",
+        "sets": 3,
+        "repRange": "10\u201312 reps",
+        "minReps": 10,
+        "maxReps": 12,
+        "defaultReps": 12,
+        "restSec": 90,
+        "cue": "Neutral palms-in grip for brachialis and forearm thickness.",
+        "superset": "B",
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 12.5,
+        "videoSearchQuery": "Dumbbell Hammer Curl exercise form tutorial shorts"
+      },
+      {
+        "id": "d5_ex8",
+        "canonName": "45\u00b0 Back Extensions",
+        "name": "45\u00b0 Back Extensions",
+        "sets": 3,
+        "repRange": "12\u201315 reps",
+        "minReps": 12,
+        "maxReps": 15,
+        "defaultReps": 15,
+        "restSec": 0,
+        "cue": "Controlled lower-back and glute contraction.",
+        "superset": "A",
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 10.0,
+        "videoSearchQuery": "45\u00b0 Back Extensions exercise form tutorial shorts"
+      },
+      {
+        "id": "d5_ex9",
+        "canonName": "High-to-Low Cable Woodchoppers",
+        "name": "High-to-Low Cable Woodchoppers",
+        "sets": 3,
+        "repRange": "10\u201312 reps/side",
+        "minReps": 10,
+        "maxReps": 12,
+        "defaultReps": 12,
+        "restSec": 90,
+        "cue": "Rotate torso diagonally across body to carve external obliques and serratus.",
+        "superset": "B",
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 15.0,
+        "videoSearchQuery": "High-to-Low Cable Woodchoppers exercise form tutorial shorts"
+      }
+    ],
+    "isRestDay": false
+  },
+  {
+    "day": 6,
+    "week": "Week A",
+    "title": "Legs B",
+    "focus": "Quad Sweep, Unilateral Hip Stretch & Explosive Hip Drive",
+    "preWorkout": "Incline Treadmill Walk + McGill Bird-Dogs \u2014 1 Set | Duration: 8\u201310 mins | Rest: 0s",
+    "exercises": [
+      {
+        "id": "d6_ex1",
+        "canonName": "Deep Hack Squat Machine",
+        "name": "Deep Hack Squat Machine",
+        "sets": 3,
+        "repRange": "8\u201312 reps",
+        "minReps": 8,
+        "maxReps": 12,
+        "defaultReps": 10,
+        "restSec": 180,
+        "cue": "Feet shoulder-width on lower platform, descend until hamstrings cover calves, 1s bottom pause.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 70.0,
+        "videoSearchQuery": "Deep Hack Squat Machine exercise form tutorial shorts"
+      },
+      {
+        "id": "d6_ex2",
+        "canonName": "Dumbbell Bulgarian Split Squat",
+        "name": "Dumbbell Bulgarian Split Squat",
+        "sets": 3,
+        "repRange": "8\u201310 reps/leg",
+        "minReps": 8,
+        "maxReps": 10,
+        "defaultReps": 10,
+        "restSec": 120,
+        "cue": "Back foot on flat bench, sink deep to stretch glutes and hip flexors.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 70.0,
+        "videoSearchQuery": "Dumbbell Bulgarian Split Squat exercise form tutorial shorts"
+      },
+      {
+        "id": "d6_ex3",
+        "canonName": "Seated Hip Adductor Machine",
+        "name": "Seated Hip Adductor Machine",
+        "sets": 3,
+        "repRange": "10\u201315 reps",
+        "minReps": 10,
+        "maxReps": 15,
+        "defaultReps": 15,
+        "restSec": 90,
+        "cue": "3s slow eccentric into full inner-thigh stretch, smooth squeeze inward.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 40.0,
+        "videoSearchQuery": "Seated Hip Adductor Machine exercise form tutorial shorts"
+      },
+      {
+        "id": "d6_ex4",
+        "canonName": "Leg Extension",
+        "name": "Leg Extension",
+        "sets": 3,
+        "repRange": "12\u201315 reps",
+        "minReps": 12,
+        "maxReps": 15,
+        "defaultReps": 15,
+        "restSec": 90,
+        "cue": "1s hard quad squeeze at top, 3s slow controlled lowering.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 40.0,
+        "videoSearchQuery": "Leg Extension exercise form tutorial shorts"
+      },
+      {
+        "id": "d6_ex5",
+        "canonName": "Lying Leg Curl",
+        "name": "Lying Leg Curl",
+        "sets": 3,
+        "repRange": "10\u201312 reps",
+        "minReps": 10,
+        "maxReps": 12,
+        "defaultReps": 12,
+        "restSec": 90,
+        "cue": "Add 5 bottom-half stretch partials after reaching failure on the final set.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 12.5,
+        "videoSearchQuery": "Lying Leg Curl exercise form tutorial shorts"
+      },
+      {
+        "id": "d6_ex6",
+        "canonName": "Leg Press Calf Raises",
+        "name": "Leg Press Calf Raises",
+        "sets": 4,
+        "repRange": "12\u201315 reps",
+        "minReps": 12,
+        "maxReps": 15,
+        "defaultReps": 15,
+        "restSec": 60,
+        "cue": "2s bottom stretch pause on every rep.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 75.0,
+        "videoSearchQuery": "Leg Press Calf Raises exercise form tutorial shorts"
+      },
+      {
+        "id": "d6_ex7",
+        "canonName": "Kettlebell Swings",
+        "name": "Kettlebell Swings",
+        "sets": 3,
+        "repRange": "15\u201320 reps",
+        "minReps": 15,
+        "maxReps": 20,
+        "defaultReps": 15,
+        "restSec": 0,
+        "cue": "Explosive hip hinge and sharp glute/pelvic lockout at chest height.",
+        "superset": "A",
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 16.0,
+        "videoSearchQuery": "Kettlebell Swings exercise form tutorial shorts"
+      },
+      {
+        "id": "d6_ex8",
+        "canonName": "Hard-Style Plank",
+        "name": "Hard-Style Plank",
+        "sets": 3,
+        "repRange": "45\u201360 seconds",
+        "minReps": 45,
+        "maxReps": 60,
+        "defaultReps": 60,
+        "restSec": 90,
+        "cue": "Squeeze glutes, quads, and abs at maximum tension while breathing behind the shield.",
+        "superset": "B",
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 0.0,
+        "videoSearchQuery": "Hard-Style Plank exercise form tutorial shorts"
+      },
+      {
+        "id": "d6_ex9",
+        "canonName": "Post-Workout Deep Squat Pelvic Release",
+        "name": "Post-Workout Deep Squat Pelvic Release",
+        "sets": 2,
+        "repRange": "60 seconds",
+        "minReps": 60,
+        "maxReps": 60,
+        "defaultReps": 60,
+        "restSec": 60,
+        "cue": "Relaxed deep squat hold with slow belly breaths.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 70.0,
+        "videoSearchQuery": "Post-Workout Deep Squat Pelvic Release exercise form tutorial shorts"
+      }
+    ],
+    "isRestDay": false
+  },
+  {
+    "day": 7,
+    "week": "Week A",
+    "title": "Complete Rest",
+    "focus": "Complete Rest",
+    "preWorkout": "",
+    "exercises": [],
+    "isRestDay": true
+  },
+  {
+    "day": 8,
+    "week": "Week B",
+    "title": "Upper Body",
+    "focus": "Heavy Compound, Frame Width & Lower Abs",
+    "preWorkout": "Incline Treadmill Walk \u2014 1 Set | Duration: 8\u201310 mins | Rest: 0s",
+    "exercises": [
+      {
+        "id": "d8_ex1",
+        "canonName": "Flat Barbell Bench Press (Top Set)",
+        "name": "Flat Barbell Bench Press (Top Set)",
+        "sets": 1,
+        "repRange": "4\u20136 reps",
+        "minReps": 4,
+        "maxReps": 6,
+        "defaultReps": 5,
+        "restSec": 180,
+        "cue": "RPE 8.5 (beat Day 1 reps or load).",
+        "superset": null,
+        "isTopSet": true,
+        "isBackOff": false,
+        "defaultWeight": 20.0,
+        "videoSearchQuery": "Flat Barbell Bench Press (Top Set) exercise form tutorial shorts"
+      },
+      {
+        "id": "d8_ex2",
+        "canonName": "Flat Barbell Bench Press (Back-Off Sets)",
+        "name": "Flat Barbell Bench Press (Back-Off Sets)",
+        "sets": 2,
+        "repRange": "6\u20138 reps",
+        "minReps": 6,
+        "maxReps": 8,
+        "defaultReps": 8,
+        "restSec": 180,
+        "cue": "12\u201315% lighter than Top Set.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": true,
+        "defaultWeight": 20.0,
+        "videoSearchQuery": "Flat Barbell Bench Press (Back-Off Sets) exercise form tutorial shorts"
+      },
+      {
+        "id": "d8_ex3",
+        "canonName": "Wide-Grip Pull-Ups",
+        "name": "Wide-Grip Pull-Ups",
+        "sets": 4,
+        "repRange": "6\u201310 reps",
+        "minReps": 6,
+        "maxReps": 10,
+        "defaultReps": 8,
+        "restSec": 150,
+        "cue": "Chest to bar + 3\u20134 bottom-half stretch partials on final set.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 0.0,
+        "videoSearchQuery": "Wide-Grip Pull-Ups exercise form tutorial shorts"
+      },
+      {
+        "id": "d8_ex4",
+        "canonName": "Seated Dumbbell Shoulder Press (75\u00b0 Bench)",
+        "name": "Seated Dumbbell Shoulder Press (75\u00b0 Bench)",
+        "sets": 3,
+        "repRange": "8\u201310 reps",
+        "minReps": 8,
+        "maxReps": 10,
+        "defaultReps": 10,
+        "restSec": 120,
+        "cue": "Press in scapular plane.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 16.0,
+        "videoSearchQuery": "Seated Dumbbell Shoulder Press (75\u00b0 Bench) exercise form tutorial shorts"
+      },
+      {
+        "id": "d8_ex5",
+        "canonName": "Horizontal Two-Handle Machine Row",
+        "name": "Horizontal Two-Handle Machine Row",
+        "sets": 3,
+        "repRange": "10\u201312 reps",
+        "minReps": 10,
+        "maxReps": 12,
+        "defaultReps": 12,
+        "restSec": 120,
+        "cue": "Full scapular protraction at bottom stretch.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 45.0,
+        "videoSearchQuery": "Horizontal Two-Handle Machine Row exercise form tutorial shorts"
+      },
+      {
+        "id": "d8_ex6",
+        "canonName": "Wrist-Height Cable Lateral Raise",
+        "name": "Wrist-Height Cable Lateral Raise",
+        "sets": 4,
+        "repRange": "12\u201315 reps",
+        "minReps": 12,
+        "maxReps": 15,
+        "defaultReps": 15,
+        "restSec": 90,
+        "cue": "Wrist-height pulley, smooth 2\u20133s eccentric.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 7.5,
+        "videoSearchQuery": "Wrist-Height Cable Lateral Raise exercise form tutorial shorts"
+      },
+      {
+        "id": "d8_ex7",
+        "canonName": "Overhead Cable Triceps Extension",
+        "name": "Overhead Cable Triceps Extension",
+        "sets": 3,
+        "repRange": "10\u201312 reps",
+        "minReps": 10,
+        "maxReps": 12,
+        "defaultReps": 12,
+        "restSec": 0,
+        "cue": "Full overhead stretch.",
+        "superset": "A",
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 22.5,
+        "videoSearchQuery": "Overhead Cable Triceps Extension exercise form tutorial shorts"
+      },
+      {
+        "id": "d8_ex8",
+        "canonName": "Bayesian Cable Curl",
+        "name": "Bayesian Cable Curl",
+        "sets": 3,
+        "repRange": "10\u201312 reps",
+        "minReps": 10,
+        "maxReps": 12,
+        "defaultReps": 12,
+        "restSec": 90,
+        "cue": "Arm behind torso for deep bicep stretch.",
+        "superset": "B",
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 12.5,
+        "videoSearchQuery": "Bayesian Cable Curl exercise form tutorial shorts"
+      },
+      {
+        "id": "d8_ex9",
+        "canonName": "Captain's Chair Leg Raises",
+        "name": "Captain's Chair Leg Raises",
+        "sets": 3,
+        "repRange": "12\u201315 reps",
+        "minReps": 12,
+        "maxReps": 15,
+        "defaultReps": 15,
+        "restSec": 90,
+        "cue": "Curl tailbone off back pad at top.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 0.0,
+        "videoSearchQuery": "Captain's Chair Leg Raises exercise form tutorial shorts"
+      }
+    ],
+    "isRestDay": false
+  },
+  {
+    "day": 9,
+    "week": "Week B",
+    "title": "Lower Body A",
+    "focus": "Strength, Adductor Mass & Lower Back Armor",
+    "preWorkout": "Incline Treadmill Walk \u2014 1 Set | Duration: 8\u201310 mins (last 60s backward walk) | Rest: 0s",
+    "exercises": [
+      {
+        "id": "d9_ex1",
+        "canonName": "Lying Leg Curl (Pre-Activation)",
+        "name": "Lying Leg Curl (Pre-Activation)",
+        "sets": 3,
+        "repRange": "10\u201312 reps",
+        "minReps": 10,
+        "maxReps": 12,
+        "defaultReps": 12,
+        "restSec": 90,
+        "cue": "Warm up knees and hamstrings.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 12.5,
+        "videoSearchQuery": "Lying Leg Curl (Pre-Activation) exercise form tutorial shorts"
+      },
+      {
+        "id": "d9_ex2",
+        "canonName": "Barbell Back Squat",
+        "name": "Barbell Back Squat",
+        "sets": 3,
+        "repRange": "5\u20138 reps",
+        "minReps": 5,
+        "maxReps": 8,
+        "defaultReps": 6,
+        "restSec": 180,
+        "cue": "Deep controlled descent, explosive drive up.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 70.0,
+        "videoSearchQuery": "Barbell Back Squat exercise form tutorial shorts"
+      },
+      {
+        "id": "d9_ex3",
+        "canonName": "Barbell Romanian Deadlift (RDL)",
+        "name": "Barbell Romanian Deadlift (RDL)",
+        "sets": 3,
+        "repRange": "6\u20138 reps",
+        "minReps": 6,
+        "maxReps": 8,
+        "defaultReps": 8,
+        "restSec": 180,
+        "cue": "Stop bar mid-shin, maximum hamstring stretch.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 65.0,
+        "videoSearchQuery": "Barbell Romanian Deadlift (RDL) exercise form tutorial shorts"
+      },
+      {
+        "id": "d9_ex4",
+        "canonName": "Leg Press (Wide & High Foot Placement)",
+        "name": "Leg Press (Wide & High Foot Placement)",
+        "sets": 3,
+        "repRange": "10\u201312 reps",
+        "minReps": 10,
+        "maxReps": 12,
+        "defaultReps": 12,
+        "restSec": 120,
+        "cue": "Deep descent to bias glutes, adductors, and overall thigh mass.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 100.0,
+        "videoSearchQuery": "Leg Press (Wide & High Foot Placement) exercise form tutorial shorts"
+      },
+      {
+        "id": "d9_ex5",
+        "canonName": "Seated Hip Adductor Machine",
+        "name": "Seated Hip Adductor Machine",
+        "sets": 3,
+        "repRange": "12\u201315 reps",
+        "minReps": 12,
+        "maxReps": 15,
+        "defaultReps": 15,
+        "restSec": 0,
+        "cue": "3s slow eccentric stretch on inner thighs/pelvic floor.",
+        "superset": "A",
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 40.0,
+        "videoSearchQuery": "Seated Hip Adductor Machine exercise form tutorial shorts"
+      },
+      {
+        "id": "d9_ex6",
+        "canonName": "Seated Hip Abductor Machine",
+        "name": "Seated Hip Abductor Machine",
+        "sets": 3,
+        "repRange": "12\u201315 reps",
+        "minReps": 12,
+        "maxReps": 15,
+        "defaultReps": 15,
+        "restSec": 90,
+        "cue": "Drive knees out, 1s glute medius pause.",
+        "superset": "B",
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 40.0,
+        "videoSearchQuery": "Seated Hip Abductor Machine exercise form tutorial shorts"
+      },
+      {
+        "id": "d9_ex7",
+        "canonName": "Leg Press Calf Raises (Toe Press)",
+        "name": "Leg Press Calf Raises (Toe Press)",
+        "sets": 4,
+        "repRange": "12\u201315 reps",
+        "minReps": 12,
+        "maxReps": 15,
+        "defaultReps": 15,
+        "restSec": 60,
+        "cue": "2s bottom stretch pause.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 75.0,
+        "videoSearchQuery": "Leg Press Calf Raises (Toe Press) exercise form tutorial shorts"
+      },
+      {
+        "id": "d9_ex8",
+        "canonName": "45\u00b0 Weighted Back Extensions",
+        "name": "45\u00b0 Weighted Back Extensions",
+        "sets": 3,
+        "repRange": "12\u201315 reps",
+        "minReps": 12,
+        "maxReps": 15,
+        "defaultReps": 15,
+        "restSec": 0,
+        "cue": "Hold plate/KB against chest.",
+        "superset": "A",
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 10.0,
+        "videoSearchQuery": "45\u00b0 Weighted Back Extensions exercise form tutorial shorts"
+      },
+      {
+        "id": "d9_ex9",
+        "canonName": "Heavy Kettlebell Suitcase Carry",
+        "name": "Heavy Kettlebell Suitcase Carry",
+        "sets": 3,
+        "repRange": "30\u201340 meters/side",
+        "minReps": 30,
+        "maxReps": 40,
+        "defaultReps": 30,
+        "restSec": 90,
+        "cue": "Anti-lateral flexion walk.",
+        "superset": "B",
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 20.0,
+        "videoSearchQuery": "Heavy Kettlebell Suitcase Carry exercise form tutorial shorts"
+      }
+    ],
+    "isRestDay": false
+  },
+  {
+    "day": 10,
+    "week": "Week B",
+    "title": "Active Recovery & Pelvic Mobility",
+    "focus": "Active Recovery & Pelvic Mobility",
+    "preWorkout": "",
+    "exercises": [
+      {
+        "id": "d10_ex1",
+        "canonName": "Outdoor Brisk Walk or Light Stationary Cycle",
+        "name": "Outdoor Brisk Walk or Light Stationary Cycle",
+        "sets": 1,
+        "repRange": "25\u201330 mins",
+        "minReps": 25,
+        "maxReps": 30,
+        "defaultReps": 30,
+        "restSec": 0,
+        "cue": "Easy Zone 2 pace.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 20.0,
+        "videoSearchQuery": "Outdoor Brisk Walk or Light Stationary Cycle exercise form tutorial shorts"
+      },
+      {
+        "id": "d10_ex2",
+        "canonName": "Deep Squat Pelvic Release Hold",
+        "name": "Deep Squat Pelvic Release Hold",
+        "sets": 2,
+        "repRange": "60 seconds",
+        "minReps": 60,
+        "maxReps": 60,
+        "defaultReps": 60,
+        "restSec": 60,
+        "cue": "Relaxed deep belly breathing to release pelvic floor.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 70.0,
+        "videoSearchQuery": "Deep Squat Pelvic Release Hold exercise form tutorial shorts"
+      },
+      {
+        "id": "d10_ex3",
+        "canonName": "Couch / Hip Flexor Stretch",
+        "name": "Couch / Hip Flexor Stretch",
+        "sets": 2,
+        "repRange": "45 seconds/side",
+        "minReps": 45,
+        "maxReps": 45,
+        "defaultReps": 45,
+        "restSec": 30,
+        "cue": "Open hip flexors.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 20.0,
+        "videoSearchQuery": "Couch / Hip Flexor Stretch exercise form tutorial shorts"
+      }
+    ],
+    "isRestDay": false
+  },
+  {
+    "day": 11,
+    "week": "Week B",
+    "title": "Push",
+    "focus": "Upper Chest, Delts & Weighted Six-Pack Thickness",
+    "preWorkout": "Incline Treadmill Walk + Band Pull-Aparts \u2014 1 Set | Duration: 8\u201310 mins | Rest: 0s",
+    "exercises": [
+      {
+        "id": "d11_ex1",
+        "canonName": "Incline Barbell Bench Press (30\u00b0 Bench)",
+        "name": "Incline Barbell Bench Press (30\u00b0 Bench)",
+        "sets": 3,
+        "repRange": "8\u201310 reps",
+        "minReps": 8,
+        "maxReps": 10,
+        "defaultReps": 10,
+        "restSec": 150,
+        "cue": "Pause lightly on upper chest.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 20.0,
+        "videoSearchQuery": "Incline Barbell Bench Press (30\u00b0 Bench) exercise form tutorial shorts"
+      },
+      {
+        "id": "d11_ex2",
+        "canonName": "Machine Chest Press",
+        "name": "Machine Chest Press",
+        "sets": 3,
+        "repRange": "10\u201312 reps",
+        "minReps": 10,
+        "maxReps": 12,
+        "defaultReps": 12,
+        "restSec": 120,
+        "cue": "Push to 0\u20131 RIR.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 50.0,
+        "videoSearchQuery": "Machine Chest Press exercise form tutorial shorts"
+      },
+      {
+        "id": "d11_ex3",
+        "canonName": "Captain's Chair Chest Dips",
+        "name": "Captain's Chair Chest Dips",
+        "sets": 3,
+        "repRange": "8\u201312 reps",
+        "minReps": 8,
+        "maxReps": 12,
+        "defaultReps": 10,
+        "restSec": 120,
+        "cue": "Slight forward torso lean.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 0.0,
+        "videoSearchQuery": "Captain's Chair Chest Dips exercise form tutorial shorts"
+      },
+      {
+        "id": "d11_ex4",
+        "canonName": "Pec Deck Fly",
+        "name": "Pec Deck Fly",
+        "sets": 3,
+        "repRange": "12\u201315 reps",
+        "minReps": 12,
+        "maxReps": 15,
+        "defaultReps": 15,
+        "restSec": 90,
+        "cue": "2s pause in deep pec stretch.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 40.0,
+        "videoSearchQuery": "Pec Deck Fly exercise form tutorial shorts"
+      },
+      {
+        "id": "d11_ex5",
+        "canonName": "Behind-the-Back Cable Lateral Raise",
+        "name": "Behind-the-Back Cable Lateral Raise",
+        "sets": 4,
+        "repRange": "12\u201315 reps",
+        "minReps": 12,
+        "maxReps": 15,
+        "defaultReps": 15,
+        "restSec": 90,
+        "cue": "Constant tension from behind glutes.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 7.5,
+        "videoSearchQuery": "Behind-the-Back Cable Lateral Raise exercise form tutorial shorts"
+      },
+      {
+        "id": "d11_ex6",
+        "canonName": "Cable Triceps Pressdown (Bar or Rope)",
+        "name": "Cable Triceps Pressdown (Bar or Rope)",
+        "sets": 3,
+        "repRange": "10\u201312 reps",
+        "minReps": 10,
+        "maxReps": 12,
+        "defaultReps": 12,
+        "restSec": 90,
+        "cue": "Full lockout.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 22.5,
+        "videoSearchQuery": "Cable Triceps Pressdown (Bar or Rope) exercise form tutorial shorts"
+      },
+      {
+        "id": "d11_ex7",
+        "canonName": "High-Pulley Kneeling Cable Crunch",
+        "name": "High-Pulley Kneeling Cable Crunch",
+        "sets": 3,
+        "repRange": "10\u201315 reps",
+        "minReps": 10,
+        "maxReps": 15,
+        "defaultReps": 12,
+        "restSec": 90,
+        "cue": "Flex upper spine down, progressively overload stack.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 20.0,
+        "videoSearchQuery": "High-Pulley Kneeling Cable Crunch exercise form tutorial shorts"
+      }
+    ],
+    "isRestDay": false
+  },
+  {
+    "day": 12,
+    "week": "Week B",
+    "title": "Pull",
+    "focus": "V-Taper Width, Rear Delts, Lower Back & Obliques",
+    "preWorkout": "Incline Treadmill Walk + Dead Hang Scapular Shrugs \u2014 1 Set | Duration: 8\u201310 mins | Rest: 0s",
+    "exercises": [
+      {
+        "id": "d12_ex1",
+        "canonName": "Dual-Cable Lat Pulldown",
+        "name": "Dual-Cable Lat Pulldown",
+        "sets": 4,
+        "repRange": "10\u201312 reps",
+        "minReps": 10,
+        "maxReps": 12,
+        "defaultReps": 12,
+        "restSec": 120,
+        "cue": "Drive elbows down to hips.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 45.0,
+        "videoSearchQuery": "Dual-Cable Lat Pulldown exercise form tutorial shorts"
+      },
+      {
+        "id": "d12_ex2",
+        "canonName": "Heavy T-Bar Row (With Lifting Straps)",
+        "name": "Heavy T-Bar Row (With Lifting Straps)",
+        "sets": 3,
+        "repRange": "8\u201310 reps",
+        "minReps": 8,
+        "maxReps": 10,
+        "defaultReps": 10,
+        "restSec": 150,
+        "cue": "Full upper-back stretch and hard sternum pull.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 40.0,
+        "videoSearchQuery": "Heavy T-Bar Row (With Lifting Straps) exercise form tutorial shorts"
+      },
+      {
+        "id": "d12_ex3",
+        "canonName": "Single-Arm Cable Lat Prayer (Pullover)",
+        "name": "Single-Arm Cable Lat Prayer (Pullover)",
+        "sets": 3,
+        "repRange": "12\u201315 reps",
+        "minReps": 12,
+        "maxReps": 15,
+        "defaultReps": 15,
+        "restSec": 90,
+        "cue": "Overhead stretch to hip sweep.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 20.0,
+        "videoSearchQuery": "Single-Arm Cable Lat Prayer (Pullover) exercise form tutorial shorts"
+      },
+      {
+        "id": "d12_ex4",
+        "canonName": "Reverse Pec Deck (Rear Delt Fly)",
+        "name": "Reverse Pec Deck (Rear Delt Fly)",
+        "sets": 4,
+        "repRange": "12\u201315 reps",
+        "minReps": 12,
+        "maxReps": 15,
+        "defaultReps": 15,
+        "restSec": 90,
+        "cue": "Wide arc sweep for rear delts.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 40.0,
+        "videoSearchQuery": "Reverse Pec Deck (Rear Delt Fly) exercise form tutorial shorts"
+      },
+      {
+        "id": "d12_ex5",
+        "canonName": "Cable Face Pulls",
+        "name": "Cable Face Pulls",
+        "sets": 3,
+        "repRange": "12\u201315 reps",
+        "minReps": 12,
+        "maxReps": 15,
+        "defaultReps": 15,
+        "restSec": 60,
+        "cue": "External shoulder rotation at forehead.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 20.0,
+        "videoSearchQuery": "Cable Face Pulls exercise form tutorial shorts"
+      },
+      {
+        "id": "d12_ex6",
+        "canonName": "Incline Dumbbell Curl (45\u201360\u00b0 Bench)",
+        "name": "Incline Dumbbell Curl (45\u201360\u00b0 Bench)",
+        "sets": 3,
+        "repRange": "10\u201312 reps",
+        "minReps": 10,
+        "maxReps": 12,
+        "defaultReps": 12,
+        "restSec": 0,
+        "cue": "Deep bicep stretch.",
+        "superset": "A",
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 12.5,
+        "videoSearchQuery": "Incline Dumbbell Curl (45\u201360\u00b0 Bench) exercise form tutorial shorts"
+      },
+      {
+        "id": "d12_ex7",
+        "canonName": "Dumbbell Hammer Curl",
+        "name": "Dumbbell Hammer Curl",
+        "sets": 3,
+        "repRange": "10\u201312 reps",
+        "minReps": 10,
+        "maxReps": 12,
+        "defaultReps": 12,
+        "restSec": 90,
+        "cue": "Controlled reps.",
+        "superset": "B",
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 12.5,
+        "videoSearchQuery": "Dumbbell Hammer Curl exercise form tutorial shorts"
+      },
+      {
+        "id": "d12_ex8",
+        "canonName": "45\u00b0 Back Extensions",
+        "name": "45\u00b0 Back Extensions",
+        "sets": 3,
+        "repRange": "12\u201315 reps",
+        "minReps": 12,
+        "maxReps": 15,
+        "defaultReps": 15,
+        "restSec": 0,
+        "cue": "Lower back erector strength.",
+        "superset": "A",
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 10.0,
+        "videoSearchQuery": "45\u00b0 Back Extensions exercise form tutorial shorts"
+      },
+      {
+        "id": "d12_ex9",
+        "canonName": "High-to-Low Cable Woodchoppers",
+        "name": "High-to-Low Cable Woodchoppers",
+        "sets": 3,
+        "repRange": "10\u201312 reps/side",
+        "minReps": 10,
+        "maxReps": 12,
+        "defaultReps": 12,
+        "restSec": 90,
+        "cue": "Diagonal core rotation.",
+        "superset": "B",
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 15.0,
+        "videoSearchQuery": "High-to-Low Cable Woodchoppers exercise form tutorial shorts"
+      }
+    ],
+    "isRestDay": false
+  },
+  {
+    "day": 13,
+    "week": "Week B",
+    "title": "Legs B",
+    "focus": "Quad Sweep, Pelvic Blood Flow & VO2 Max HIIT",
+    "preWorkout": "Incline Treadmill Walk + McGill Bird-Dogs \u2014 1 Set | Duration: 8\u201310 mins | Rest: 0s",
+    "exercises": [
+      {
+        "id": "d13_ex1",
+        "canonName": "Deep Hack Squat Machine",
+        "name": "Deep Hack Squat Machine",
+        "sets": 3,
+        "repRange": "8\u201312 reps",
+        "minReps": 8,
+        "maxReps": 12,
+        "defaultReps": 10,
+        "restSec": 180,
+        "cue": "Deep knee flexion, 1s bottom pause.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 70.0,
+        "videoSearchQuery": "Deep Hack Squat Machine exercise form tutorial shorts"
+      },
+      {
+        "id": "d13_ex2",
+        "canonName": "Seated Hip Adductor Machine",
+        "name": "Seated Hip Adductor Machine",
+        "sets": 3,
+        "repRange": "10\u201315 reps",
+        "minReps": 10,
+        "maxReps": 15,
+        "defaultReps": 15,
+        "restSec": 0,
+        "cue": "Heavy focus on 3s stretched open position + full inner-thigh squeeze.",
+        "superset": "A",
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 40.0,
+        "videoSearchQuery": "Seated Hip Adductor Machine exercise form tutorial shorts"
+      },
+      {
+        "id": "d13_ex3",
+        "canonName": "Seated Hip Abductor Machine",
+        "name": "Seated Hip Abductor Machine",
+        "sets": 3,
+        "repRange": "12\u201315 reps",
+        "minReps": 12,
+        "maxReps": 15,
+        "defaultReps": 15,
+        "restSec": 90,
+        "cue": "Lateral hip stability.",
+        "superset": "B",
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 40.0,
+        "videoSearchQuery": "Seated Hip Abductor Machine exercise form tutorial shorts"
+      },
+      {
+        "id": "d13_ex4",
+        "canonName": "Dumbbell Bulgarian Split Squat (Or Walking Lunges)",
+        "name": "Dumbbell Bulgarian Split Squat (Or Walking Lunges)",
+        "sets": 3,
+        "repRange": "8\u201310 reps/leg",
+        "minReps": 8,
+        "maxReps": 10,
+        "defaultReps": 10,
+        "restSec": 120,
+        "cue": "Deep hip-flexor stretch on back leg.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 70.0,
+        "videoSearchQuery": "Dumbbell Bulgarian Split Squat (Or Walking Lunges) exercise form tutorial shorts"
+      },
+      {
+        "id": "d13_ex5",
+        "canonName": "Leg Extension",
+        "name": "Leg Extension",
+        "sets": 3,
+        "repRange": "12\u201315 reps",
+        "minReps": 12,
+        "maxReps": 15,
+        "defaultReps": 15,
+        "restSec": 90,
+        "cue": "3s slow lowering.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 40.0,
+        "videoSearchQuery": "Leg Extension exercise form tutorial shorts"
+      },
+      {
+        "id": "d13_ex6",
+        "canonName": "Lying Leg Curl",
+        "name": "Lying Leg Curl",
+        "sets": 3,
+        "repRange": "10\u201312 reps",
+        "minReps": 10,
+        "maxReps": 12,
+        "defaultReps": 12,
+        "restSec": 90,
+        "cue": "Finish final set with 5 bottom-half partial reps.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 12.5,
+        "videoSearchQuery": "Lying Leg Curl exercise form tutorial shorts"
+      },
+      {
+        "id": "d13_ex7",
+        "canonName": "Leg Press Calf Raises",
+        "name": "Leg Press Calf Raises",
+        "sets": 4,
+        "repRange": "12\u201315 reps",
+        "minReps": 12,
+        "maxReps": 15,
+        "defaultReps": 15,
+        "restSec": 60,
+        "cue": "2s bottom stretch pause.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 75.0,
+        "videoSearchQuery": "Leg Press Calf Raises exercise form tutorial shorts"
+      },
+      {
+        "id": "d13_ex8",
+        "canonName": "Rowing / SkiErg (\"Hyrox\") Machine VO2 Max HIIT",
+        "name": "Rowing / SkiErg (\"Hyrox\") Machine VO2 Max HIIT",
+        "sets": 4,
+        "repRange": "30s All-Out Sprint",
+        "minReps": 30,
+        "maxReps": 30,
+        "defaultReps": 30,
+        "restSec": 90,
+        "cue": "30 seconds maximum sustainable output followed by 90 seconds slow recovery pacing (eNOS vascular booster).",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 20.0,
+        "videoSearchQuery": "Rowing / SkiErg (\"Hyrox\") Machine VO2 Max HIIT exercise form tutorial shorts"
+      },
+      {
+        "id": "d13_ex9",
+        "canonName": "Post-Workout Deep Squat Pelvic Release",
+        "name": "Post-Workout Deep Squat Pelvic Release",
+        "sets": 2,
+        "repRange": "60 seconds",
+        "minReps": 60,
+        "maxReps": 60,
+        "defaultReps": 60,
+        "restSec": 60,
+        "cue": "Relaxed deep squat hold with slow belly breaths.",
+        "superset": null,
+        "isTopSet": false,
+        "isBackOff": false,
+        "defaultWeight": 70.0,
+        "videoSearchQuery": "Post-Workout Deep Squat Pelvic Release exercise form tutorial shorts"
+      }
+    ],
+    "isRestDay": false
+  },
+  {
+    "day": 14,
+    "week": "Week B",
+    "title": "Complete Rest",
+    "focus": "Complete Rest",
+    "preWorkout": "",
+    "exercises": [],
+    "isRestDay": true
+  }
+];
+
+</script>
+<script>
+/**
+ * TITAN WORKOUT JOURNAL - MASTER PROGRESSIVE OVERLOAD ENGINE
+ * Master 14-Day A/B Program | 77kg Lean Bulk Protocol
+ */
+
+// Storage Key
+const APP_STORAGE_KEY = 'titan_workout_journal_v2';
+
+// Application State
+let appState = {
+  currentDay: 1,
+  currentWeek: 'A',
+  sessionStartTime: null,
+  sessionSeconds: 0,
+  sessionTimerRunning: false,
+  sessionTimerInterval: null,
+  
+  restTimerRunning: false,
+  restTimerSeconds: 0,
+  restTimerInterval: null,
+  
+  syncKey: '',
+  completedWorkouts: [],
+  inProgressLogs: {}, // { [day]: { [exId]: [{ weight, reps, done }] } }
+  personalRecords: {}, // { [canonName]: { maxWeight, reps, date } }
+  customVideos: {}, // { [canonName]: url }
+  activeModalExCanon: null
+};
+
+// Web Audio API Context for Gym Alert Chimes (No external sound files required)
+let audioCtx = null;
+function playGymChime() {
+  try {
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (!audioCtx) audioCtx = new AudioContext();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    
+    const now = audioCtx.currentTime;
+    
+    // Pleasant two-tone chime
+    const osc1 = audioCtx.createOscillator();
+    const gain1 = audioCtx.createGain();
+    osc1.type = 'sine';
+    osc1.frequency.setValueAtTime(587.33, now); // D5
+    gain1.gain.setValueAtTime(0.2, now);
+    gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+    osc1.connect(gain1);
+    gain1.connect(audioCtx.destination);
+    osc1.start(now);
+    osc1.stop(now + 0.35);
+    
+    const osc2 = audioCtx.createOscillator();
+    const gain2 = audioCtx.createGain();
+    osc2.type = 'sine';
+    osc2.frequency.setValueAtTime(880.00, now + 0.15); // A5
+    gain2.gain.setValueAtTime(0.25, now + 0.15);
+    gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.65);
+    osc2.connect(gain2);
+    gain2.connect(audioCtx.destination);
+    osc2.start(now + 0.15);
+    osc2.stop(now + 0.65);
+    
+    // Trigger mobile haptic vibration if supported
+    if (navigator.vibrate) {
+      navigator.vibrate([200, 100, 300]);
+    }
+  } catch (e) {
+    console.log('Audio chime not supported:', e);
+  }
+}
+
+/* ==========================================================================
+   INITIALIZATION & PERSISTENCE
+   ========================================================================== */
+
+document.addEventListener('DOMContentLoaded', () => {
+  loadLocalState();
+  handleUrlSyncKey();
+  initWeekAndDayPills();
+  renderCurrentDay();
+  renderSplitRoadmap();
+  renderPRsAndHistory();
+  initSyncKeyUI();
+  
+  // Register Service Worker for PWA
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js').catch(err => console.log('SW registration note:', err));
+  }
+  
+  // Try silent cloud pull
+  silentCloudPull();
+});
+
+function loadLocalState() {
+  try {
+    const raw = localStorage.getItem(APP_STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      appState.currentDay = parsed.currentDay || 1;
+      appState.currentWeek = parsed.currentDay > 7 ? 'B' : 'A';
+      appState.syncKey = parsed.syncKey || '';
+      appState.completedWorkouts = parsed.completedWorkouts || [];
+      appState.inProgressLogs = parsed.inProgressLogs || {};
+      appState.personalRecords = parsed.personalRecords || {};
+      appState.customVideos = parsed.customVideos || {};
+    }
+  } catch (e) {
+    console.error('Failed to load local state:', e);
+  }
+
+  // Ensure default sync key if none exists
+  if (!appState.syncKey) {
+    const randomHex = Math.floor(1000 + Math.random() * 9000);
+    appState.syncKey = `TITAN-77KG-${randomHex}`;
+    saveLocalState();
+  }
+}
+
+function saveLocalState() {
+  try {
+    const toSave = {
+      currentDay: appState.currentDay,
+      syncKey: appState.syncKey,
+      completedWorkouts: appState.completedWorkouts,
+      inProgressLogs: appState.inProgressLogs,
+      personalRecords: appState.personalRecords,
+      customVideos: appState.customVideos
+    };
+    localStorage.setItem(APP_STORAGE_KEY, JSON.stringify(toSave));
+  } catch (e) {
+    console.error('Failed to save local state:', e);
+  }
+}
+
+// Handle URL query parameter `?sync=KEY` for 1-second instant phone pairing
+function handleUrlSyncKey() {
+  try {
+    const urlParams = new URLSearchParams(window.location.search);
+    const syncParam = urlParams.get('sync');
+    if (syncParam && syncParam.trim() !== '') {
+      appState.syncKey = syncParam.trim();
+      saveLocalState();
+      showToast(`📲 Synced to device vault: ${appState.syncKey}`);
+      // Clean up URL without reloading
+      const cleanUrl = window.location.origin + window.location.pathname;
+      window.history.replaceState({}, document.title, cleanUrl);
+      silentCloudPull();
+    }
+  } catch (e) {
+    console.error('Sync key URL parsing error:', e);
+  }
+}
+
+/* ==========================================================================
+   TABS NAVIGATION
+   ========================================================================== */
+
+function switchTab(tabName) {
+  // Update nav buttons
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
+
+  if (tabName === 'workout') {
+    document.getElementById('tabBtnWorkout').classList.add('active');
+    document.getElementById('panelWorkout').classList.add('active');
+  } else if (tabName === 'split') {
+    document.getElementById('tabBtnSplit').classList.add('active');
+    document.getElementById('panelSplit').classList.add('active');
+    renderSplitRoadmap();
+  } else if (tabName === 'history') {
+    document.getElementById('tabBtnHistory').classList.add('active');
+    document.getElementById('panelHistory').classList.add('active');
+    renderPRsAndHistory();
+  } else if (tabName === 'sync') {
+    document.getElementById('tabBtnSync').classList.add('active');
+    document.getElementById('panelSync').classList.add('active');
+    renderSyncQR();
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ==========================================================================
+   WEEK & DAY SELECTION
+   ========================================================================== */
+
+function selectWeek(week) {
+  appState.currentWeek = week;
+  document.getElementById('btnWeekA').classList.toggle('active', week === 'A');
+  document.getElementById('btnWeekB').classList.toggle('active', week === 'B');
+
+  // If active day is not in selected week, switch to the first day of that week
+  if (week === 'A' && appState.currentDay > 7) {
+    selectDay(1);
+  } else if (week === 'B' && appState.currentDay <= 7) {
+    selectDay(8);
+  } else {
+    initWeekAndDayPills();
+  }
+}
+
+function selectDay(dayNum) {
+  appState.currentDay = dayNum;
+  appState.currentWeek = dayNum <= 7 ? 'A' : 'B';
+  document.getElementById('btnWeekA').classList.toggle('active', appState.currentWeek === 'A');
+  document.getElementById('btnWeekB').classList.toggle('active', appState.currentWeek === 'B');
+
+  saveLocalState();
+  initWeekAndDayPills();
+  renderCurrentDay();
+  switchTab('workout');
+}
+
+function initWeekAndDayPills() {
+  const container = document.getElementById('daysScrollRow');
+  container.innerHTML = '';
+
+  const startDay = appState.currentWeek === 'A' ? 1 : 8;
+  const endDay = appState.currentWeek === 'A' ? 7 : 14;
+
+  for (let d = startDay; d <= endDay; d++) {
+    const dayData = MASTER_WORKOUT_PROGRAM.find(item => item.day === d);
+    if (!dayData) continue;
+
+    const btn = document.createElement('button');
+    btn.className = `day-pill-btn ${d === appState.currentDay ? 'active' : ''}`;
+    btn.onclick = () => selectDay(d);
+
+    const titleParts = dayData.title.split(' ');
+    const shortTitle = titleParts[0];
+
+    btn.innerHTML = `
+      <span class="day-pill-num">Day ${d}</span>
+      <span class="day-pill-name">${shortTitle}</span>
+    `;
+    container.appendChild(btn);
+  }
+}
+
+/* ==========================================================================
+   PROGRESSIVE OVERLOAD & PREVIOUS SESSION LOOKUP ENGINE
+   ========================================================================== */
+
+/**
+ * Looks up the most recent completed session containing this exact exercise (by canonical name).
+ * Evaluates whether the athlete achieved max reps across all completed sets to trigger overload.
+ */
+function getPreviousSessionForExercise(canonName) {
+  if (!appState.completedWorkouts || appState.completedWorkouts.length === 0) {
+    return null;
+  }
+
+  // Iterate backwards from newest completed workout
+  for (let i = appState.completedWorkouts.length - 1; i >= 0; i--) {
+    const workout = appState.completedWorkouts[i];
+    if (!workout.exercises) continue;
+
+    const match = workout.exercises.find(e => e.canonName === canonName || e.name === canonName);
+    if (match && match.sets && match.sets.length > 0) {
+      // Find weights and reps
+      const completedSets = match.sets.filter(s => s.done);
+      if (completedSets.length === 0) continue;
+
+      let maxWeight = 0;
+      let minWeight = Infinity;
+      let totalReps = 0;
+
+      completedSets.forEach(s => {
+        const w = parseFloat(s.weight) || 0;
+        if (w > maxWeight) maxWeight = w;
+        if (w < minWeight) minWeight = w;
+        totalReps += parseInt(s.reps, 10) || 0;
+      });
+
+      // Format previous summary string: e.g. "20kg x 10" or "60kg x 5, 5"
+      const prevString = completedSets.map(s => `${s.weight}kg × ${s.reps}`).join(' | ');
+
+      return {
+        date: workout.date || 'Previous',
+        sets: completedSets,
+        maxWeight: maxWeight,
+        firstSetWeight: completedSets[0].weight,
+        prevString: prevString,
+        allSetsHitMaxReps: (maxReps) => completedSets.every(s => (parseInt(s.reps, 10) || 0) >= maxReps)
+      };
+    }
+  }
+
+  return null;
+}
+
+/* ==========================================================================
+   RENDER CURRENT DAY & EXERCISE CARDS
+   ========================================================================== */
+
+function renderCurrentDay() {
+  const dayData = MASTER_WORKOUT_PROGRAM.find(d => d.day === appState.currentDay);
+  if (!dayData) return;
+
+  // Header badges & text
+  document.getElementById('dayWeekBadge').textContent = dayData.week;
+  document.getElementById('dayNumberBadge').textContent = `Day ${dayData.day}`;
+  document.getElementById('dayMainTitle').textContent = dayData.title;
+  document.getElementById('dayFocusDesc').textContent = dayData.focus;
+
+  // Pre-workout warm up
+  const preCard = document.getElementById('preWorkoutCard');
+  const restMessage = document.getElementById('restDayMessage');
+  const finishContainer = document.getElementById('finishWorkoutContainer');
+
+  if (dayData.isRestDay) {
+    preCard.style.display = 'none';
+    restMessage.style.display = 'block';
+    finishContainer.style.display = 'none';
+    document.getElementById('exerciseList').innerHTML = '';
+    return;
+  }
+
+  preCard.style.display = 'flex';
+  restMessage.style.display = 'none';
+  finishContainer.style.display = 'block';
+  document.getElementById('preWorkoutText').textContent = dayData.preWorkout;
+
+  // Render Exercise Cards
+  const exContainer = document.getElementById('exerciseList');
+  exContainer.innerHTML = '';
+
+  // Initialize in-progress state for this day if not present
+  if (!appState.inProgressLogs[dayData.day]) {
+    appState.inProgressLogs[dayData.day] = {};
+  }
+  const dayLogs = appState.inProgressLogs[dayData.day];
+
+  dayData.exercises.forEach(ex => {
+    // Check previous session
+    const prev = getPreviousSessionForExercise(ex.canonName);
+    const isOverloadReady = prev ? prev.allSetsHitMaxReps(ex.maxReps) : false;
+    const suggestedOverloadWeight = prev ? (prev.maxWeight + 2.5) : ex.defaultWeight;
+
+    // Check or initialize in-progress sets
+    if (!dayLogs[ex.id]) {
+      const initialSets = [];
+      const defaultSetWeight = isOverloadReady 
+        ? suggestedOverloadWeight 
+        : (prev ? prev.maxWeight : ex.defaultWeight);
+      
+      const defaultSetReps = isOverloadReady ? ex.minReps : ex.defaultReps;
+
+      for (let s = 1; s <= ex.sets; s++) {
+        initialSets.push({
+          weight: defaultSetWeight,
+          reps: defaultSetReps,
+          done: false
+        });
+      }
+      dayLogs[ex.id] = initialSets;
+    }
+
+    const currentSets = dayLogs[ex.id];
+
+    // Build Exercise Card Element
+    const card = document.createElement('div');
+    card.className = `exercise-card ${currentSets.every(s => s.done) ? 'all-done' : ''}`;
+    card.id = `card_${ex.id}`;
+
+    // Superset / TopSet badge
+    let badgesHtml = '';
+    if (ex.superset) {
+      badgesHtml += `<span class="superset-badge superset-${ex.superset}">Superset ${ex.superset}</span>`;
+    }
+    if (ex.isTopSet) {
+      badgesHtml += `<span class="topset-badge">Top Set Protocol</span>`;
+    }
+
+    // Overload Recommendation Banner
+    let overloadBannerHtml = '';
+    if (isOverloadReady) {
+      overloadBannerHtml = `
+        <div class="overload-banner ready">
+          <div class="overload-text">
+            🔥 <strong>Ready to Overload: +2.5 kg (${suggestedOverloadWeight} kg)</strong>
+            <div style="font-size: 0.74rem; opacity: 0.9;">Hit all ${ex.maxReps} reps last session! Building back up from ${ex.minReps} reps.</div>
+          </div>
+          <button class="btn-apply-overload" onclick="applyOverload('${ex.id}', ${suggestedOverloadWeight}, ${ex.minReps})">
+            ⚡ Apply +2.5 kg
+          </button>
+        </div>
+      `;
+    } else if (prev) {
+      overloadBannerHtml = `
+        <div class="overload-banner hold">
+          <div class="overload-text">
+            🎯 <strong>Keep ${prev.maxWeight} kg</strong> — Aim to beat last session (Target: ${ex.maxReps} reps across all sets).
+          </div>
+        </div>
+      `;
+    } else {
+      overloadBannerHtml = `
+        <div class="overload-banner baseline">
+          <div class="overload-text">
+            🌱 <strong>Baseline Session:</strong> Establish starting weight with 1–2 Reps in Reserve (RIR).
+          </div>
+        </div>
+      `;
+    }
+
+    // Build Sets Rows
+    let setsRowsHtml = '';
+    currentSets.forEach((set, sIdx) => {
+      const prevSetDisplay = (prev && prev.sets[sIdx]) 
+        ? `${prev.sets[sIdx].weight}kg × ${prev.sets[sIdx].reps}`
+        : (prev && prev.sets[0] ? `${prev.sets[0].weight}kg × ${prev.sets[0].reps}` : '—');
+
+      setsRowsHtml += `
+        <div class="set-row ${set.done ? 'done' : ''}" id="row_${ex.id}_${sIdx}">
+          <div class="set-index-badge">${sIdx + 1}</div>
+          <div class="prev-data-cell" title="Previous session">${prevSetDisplay}</div>
+          
+          <div class="input-with-stepper">
+            <button class="stepper-btn" onclick="stepWeight('${ex.id}', ${sIdx}, -2.5)">-</button>
+            <input type="number" step="0.5" class="log-number-input" id="weight_${ex.id}_${sIdx}" 
+              value="${set.weight}" onchange="updateSetData('${ex.id}', ${sIdx})" placeholder="kg">
+            <button class="stepper-btn" onclick="stepWeight('${ex.id}', ${sIdx}, 2.5)">+</button>
+          </div>
+
+          <div class="input-with-stepper">
+            <button class="stepper-btn" onclick="stepReps('${ex.id}', ${sIdx}, -1)">-</button>
+            <input type="number" step="1" class="log-number-input" id="reps_${ex.id}_${sIdx}" 
+              value="${set.reps}" onchange="updateSetData('${ex.id}', ${sIdx})" placeholder="reps">
+            <button class="stepper-btn" onclick="stepReps('${ex.id}', ${sIdx}, 1)">+</button>
+          </div>
+
+          <button class="btn-check-done ${set.done ? 'done' : ''}" 
+            onclick="toggleSetComplete('${ex.id}', ${sIdx}, ${ex.restSec})" title="Mark Set Done">
+            ${set.done ? '✓' : '○'}
+          </button>
+        </div>
+      `;
+    });
+
+    card.innerHTML = `
+      <div class="exercise-header">
+        <div class="ex-title-group">
+          <div class="ex-meta-row">
+            ${badgesHtml}
+            <span class="target-badge">${ex.sets} Sets &bull; Target: ${ex.repRange} &bull; ⏱️ ${ex.restSec}s Rest</span>
+          </div>
+          <h3 class="ex-name">${ex.name}</h3>
+        </div>
+
+        <button class="ex-video-btn" onclick="openVideoModal('${encodeURIComponent(ex.canonName)}', '${encodeURIComponent(ex.name)}')">
+          🎬 Form Guide
+        </button>
+      </div>
+
+      ${overloadBannerHtml}
+
+      <div class="cue-box">
+        <strong>💡 Execution Cue:</strong> ${ex.cue}
+      </div>
+
+      <div class="sets-table">
+        <div class="sets-header-row">
+          <span>Set</span>
+          <span>Prev</span>
+          <span>Weight (kg)</span>
+          <span>Reps</span>
+          <span>Done</span>
+        </div>
+        ${setsRowsHtml}
+      </div>
+
+      <div class="card-footer-actions">
+        <button class="btn-text-action" onclick="addSetToExercise('${ex.id}', ${ex.minReps})">
+          + Add Extra Set
+        </button>
+        <span style="font-size: 0.72rem; color: var(--text-faint);">
+          Target: ${ex.minReps}–${ex.maxReps} reps
+        </span>
+      </div>
+    `;
+
+    exContainer.appendChild(card);
+  });
+}
+
+/* ==========================================================================
+   ONE-TAP PROGRESSIVE OVERLOAD APPLY & SET INTERACTIONS
+   ========================================================================== */
+
+function applyOverload(exId, newWeight, bottomReps) {
+  const dayData = MASTER_WORKOUT_PROGRAM.find(d => d.day === appState.currentDay);
+  if (!dayData) return;
+
+  const sets = appState.inProgressLogs[dayData.day][exId];
+  if (!sets) return;
+
+  sets.forEach((set, idx) => {
+    set.weight = newWeight;
+    set.reps = bottomReps;
+    const wInput = document.getElementById(`weight_${exId}_${idx}`);
+    const rInput = document.getElementById(`reps_${exId}_${idx}`);
+    if (wInput) wInput.value = newWeight;
+    if (rInput) rInput.value = bottomReps;
+  });
+
+  saveLocalState();
+  showToast(`⚡ Overload Applied: ${newWeight} kg × ${bottomReps} reps!`);
+}
+
+function stepWeight(exId, setIdx, delta) {
+  const day = appState.currentDay;
+  const set = appState.inProgressLogs[day][exId][setIdx];
+  let cur = parseFloat(set.weight) || 0;
+  cur = Math.max(0, cur + delta);
+  set.weight = cur;
+  const input = document.getElementById(`weight_${exId}_${setIdx}`);
+  if (input) input.value = cur;
+  saveLocalState();
+}
+
+function stepReps(exId, setIdx, delta) {
+  const day = appState.currentDay;
+  const set = appState.inProgressLogs[day][exId][setIdx];
+  let cur = parseInt(set.reps, 10) || 0;
+  cur = Math.max(1, cur + delta);
+  set.reps = cur;
+  const input = document.getElementById(`reps_${exId}_${setIdx}`);
+  if (input) input.value = cur;
+  saveLocalState();
+}
+
+function updateSetData(exId, setIdx) {
+  const day = appState.currentDay;
+  const set = appState.inProgressLogs[day][exId][setIdx];
+  const wInput = document.getElementById(`weight_${exId}_${setIdx}`);
+  const rInput = document.getElementById(`reps_${exId}_${setIdx}`);
+  
+  if (wInput) set.weight = parseFloat(wInput.value) || 0;
+  if (rInput) set.reps = parseInt(rInput.value, 10) || 0;
+  saveLocalState();
+}
+
+function addSetToExercise(exId, defaultReps) {
+  const day = appState.currentDay;
+  const sets = appState.inProgressLogs[day][exId];
+  const lastSet = sets[sets.length - 1] || { weight: 20, reps: defaultReps };
+  sets.push({
+    weight: lastSet.weight,
+    reps: lastSet.reps,
+    done: false
+  });
+  saveLocalState();
+  renderCurrentDay();
+  showToast('Set added!');
+}
+
+function toggleSetComplete(exId, setIdx, restSec) {
+  const day = appState.currentDay;
+  const set = appState.inProgressLogs[day][exId][setIdx];
+  
+  // Read latest input values
+  const wInput = document.getElementById(`weight_${exId}_${setIdx}`);
+  const rInput = document.getElementById(`reps_${exId}_${setIdx}`);
+  if (wInput) set.weight = parseFloat(wInput.value) || 0;
+  if (rInput) set.reps = parseInt(rInput.value, 10) || 0;
+
+  set.done = !set.done;
+
+  // Update UI row
+  const row = document.getElementById(`row_${exId}_${setIdx}`);
+  const btn = row.querySelector('.btn-check-done');
+  if (set.done) {
+    row.classList.add('done');
+    btn.classList.add('done');
+    btn.textContent = '✓';
+    
+    // Automatically start session stopwatch if not started
+    if (!appState.sessionTimerRunning) {
+      startSessionTimer();
+    }
+
+    // Trigger Rest Timer Countdown
+    if (restSec && restSec > 0) {
+      startRestTimer(restSec);
+    }
+
+    showToast(`Set ${setIdx + 1} Done: ${set.weight} kg × ${set.reps} reps`);
+  } else {
+    row.classList.remove('done');
+    btn.classList.remove('done');
+    btn.textContent = '○';
+  }
+
+  // Update card border if all sets are done
+  const card = document.getElementById(`card_${exId}`);
+  const allDone = appState.inProgressLogs[day][exId].every(s => s.done);
+  card.classList.toggle('all-done', allDone);
+
+  saveLocalState();
+  silentCloudPush();
+}
+
+/* ==========================================================================
+   REST TIMER & AUDIO ALERTS
+   ========================================================================== */
+
+function startRestTimer(seconds) {
+  clearInterval(appState.restTimerInterval);
+  appState.restTimerSeconds = seconds;
+  appState.restTimerRunning = true;
+
+  const dock = document.getElementById('floatingRestDock');
+  const clock = document.getElementById('dockTimeCountdown');
+  dock.classList.add('visible');
+
+  function updateDisplay() {
+    const m = Math.floor(appState.restTimerSeconds / 60);
+    const s = appState.restTimerSeconds % 60;
+    clock.textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+  }
+
+  updateDisplay();
+
+  appState.restTimerInterval = setInterval(() => {
+    appState.restTimerSeconds--;
+    if (appState.restTimerSeconds <= 0) {
+      clearInterval(appState.restTimerInterval);
+      appState.restTimerRunning = false;
+      dock.classList.remove('visible');
+      playGymChime();
+      showToast('🔔 Rest Over! Next Set Ready!');
+    } else {
+      updateDisplay();
+    }
+  }, 1000);
+}
+
+function addRestTimerSeconds(secs) {
+  appState.restTimerSeconds += secs;
+  const m = Math.floor(appState.restTimerSeconds / 60);
+  const s = appState.restTimerSeconds % 60;
+  document.getElementById('dockTimeCountdown').textContent = 
+    `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+}
+
+function skipRestTimer() {
+  clearInterval(appState.restTimerInterval);
+  appState.restTimerRunning = false;
+  document.getElementById('floatingRestDock').classList.remove('visible');
+}
+
+/* ==========================================================================
+   WORKOUT SESSION TIMER & 75–85 MIN CORTISOL CAP
+   ========================================================================== */
+
+function toggleSessionTimer() {
+  if (appState.sessionTimerRunning) {
+    pauseSessionTimer();
+  } else {
+    startSessionTimer();
+  }
+}
+
+function startSessionTimer() {
+  if (appState.sessionTimerRunning) return;
+  appState.sessionTimerRunning = true;
+  document.getElementById('btnToggleTimer').textContent = 'Pause';
+  document.getElementById('btnToggleTimer').classList.add('running');
+
+  appState.sessionTimerInterval = setInterval(() => {
+    appState.sessionSeconds++;
+    const h = Math.floor(appState.sessionSeconds / 3600);
+    const m = Math.floor((appState.sessionSeconds % 3600) / 60);
+    const s = appState.sessionSeconds % 60;
+    document.getElementById('sessionTimerClock').textContent = 
+      `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+
+    // Cortisol threshold monitoring
+    const pill = document.getElementById('cortisolPill');
+    if (appState.sessionSeconds < 75 * 60) {
+      pill.className = 'cortisol-pill';
+      pill.textContent = '🟢 Anabolic (<75m)';
+    } else if (appState.sessionSeconds <= 85 * 60) {
+      pill.className = 'cortisol-pill warning';
+      pill.textContent = '🟡 Cortisol Zone (75-85m)';
+    } else {
+      pill.className = 'cortisol-pill danger';
+      pill.textContent = '🔴 85m Cap Exceeded! Wrap Up';
+    }
+  }, 1000);
+}
+
+function pauseSessionTimer() {
+  appState.sessionTimerRunning = false;
+  clearInterval(appState.sessionTimerInterval);
+  document.getElementById('btnToggleTimer').textContent = 'Resume';
+  document.getElementById('btnToggleTimer').classList.remove('running');
+}
+
+/* ==========================================================================
+   FINISH WORKOUT & LOG TO HISTORY
+   ========================================================================== */
+
+function finishCurrentWorkout() {
+  const dayData = MASTER_WORKOUT_PROGRAM.find(d => d.day === appState.currentDay);
+  if (!dayData || dayData.isRestDay) return;
+
+  const dayLogs = appState.inProgressLogs[dayData.day];
+  if (!dayLogs) {
+    showToast('No exercise sets logged yet!');
+    return;
+  }
+
+  // Compile exercise data
+  const workoutExercises = [];
+  let totalVolume = 0;
+  let totalCompletedSets = 0;
+
+  dayData.exercises.forEach(ex => {
+    const sets = dayLogs[ex.id] || [];
+    const completedSets = sets.filter(s => s.done);
+    if (completedSets.length > 0) {
+      completedSets.forEach(s => {
+        totalVolume += (parseFloat(s.weight) || 0) * (parseInt(s.reps, 10) || 0);
+        totalCompletedSets++;
+        
+        // Update Personal Records
+        const w = parseFloat(s.weight) || 0;
+        if (!appState.personalRecords[ex.canonName] || w > appState.personalRecords[ex.canonName].maxWeight) {
+          appState.personalRecords[ex.canonName] = {
+            maxWeight: w,
+            reps: s.reps,
+            date: new Date().toLocaleDateString()
+          };
+        }
+      });
+
+      workoutExercises.push({
+        id: ex.id,
+        canonName: ex.canonName,
+        name: ex.name,
+        sets: completedSets
+      });
+    }
+  });
+
+  if (totalCompletedSets === 0) {
+    if (!confirm('You have not marked any sets as done (✓). Mark workout complete anyway?')) {
+      return;
+    }
+  }
+
+  const durationMin = Math.round(appState.sessionSeconds / 60);
+  const workoutRecord = {
+    id: `workout_${Date.now()}`,
+    day: dayData.day,
+    week: dayData.week,
+    title: dayData.title,
+    focus: dayData.focus,
+    date: new Date().toLocaleDateString(),
+    timestamp: Date.now(),
+    durationMinutes: durationMin,
+    totalVolumeKg: totalVolume,
+    exercises: workoutExercises
+  };
+
+  appState.completedWorkouts.push(workoutRecord);
+  
+  // Reset active session
+  delete appState.inProgressLogs[dayData.day];
+  pauseSessionTimer();
+  appState.sessionSeconds = 0;
+  document.getElementById('sessionTimerClock').textContent = '00:00:00';
+
+  saveLocalState();
+  silentCloudPush();
+
+  showToast(`🏆 Workout Saved! Volume: ${totalVolume} kg in ${durationMin} mins!`);
+
+  // Prompt to advance to next day
+  const nextDay = (appState.currentDay % 14) + 1;
+  setTimeout(() => {
+    if (confirm(`Great session! Advance to Day ${nextDay} in rotation?`)) {
+      selectDay(nextDay);
+    } else {
+      renderCurrentDay();
+    }
+  }, 400);
+}
+
+/* ==========================================================================
+   TAB 2: 14-DAY PROGRAM SPLIT ROADMAP
+   ========================================================================== */
+
+function renderSplitRoadmap() {
+  const container = document.getElementById('splitOverviewGrid');
+  if (!container) return;
+  container.innerHTML = '';
+
+  MASTER_WORKOUT_PROGRAM.forEach(day => {
+    const card = document.createElement('div');
+    card.className = 'split-day-card';
+    card.onclick = () => selectDay(day.day);
+
+    let exListHtml = '';
+    if (day.isRestDay) {
+      exListHtml = '<div style="color: var(--accent-emerald); font-weight: 700; margin-top: 8px;">🧘 Active Recovery / Sleep & Nutrition</div>';
+    } else {
+      exListHtml = '<ul class="split-ex-list">';
+      day.exercises.forEach(e => {
+        exListHtml += `
+          <li class="split-ex-item">
+            <span>${e.name}</span>
+            <span style="font-family: var(--font-mono); font-size: 0.75rem;">${e.sets}×${e.repRange}</span>
+          </li>
+        `;
+      });
+      exListHtml += '</ul>';
+    }
+
+    card.innerHTML = `
+      <div class="split-day-header">
+        <span class="split-day-num">${day.week} &bull; Day ${day.day}</span>
+        <span style="font-size: 0.72rem; color: var(--text-faint);">Tap to open</span>
+      </div>
+      <h3 class="split-day-title">${day.title}</h3>
+      <div class="split-day-focus">${day.focus}</div>
+      ${exListHtml}
+    `;
+
+    container.appendChild(card);
+  });
+}
+
+/* ==========================================================================
+   TAB 3: PR LEADERBOARD & WORKOUT HISTORY
+   ========================================================================== */
+
+function renderPRsAndHistory() {
+  // PR Leaderboard
+  const prGrid = document.getElementById('prGrid');
+  if (prGrid) {
+    prGrid.innerHTML = '';
+    const prKeys = Object.keys(appState.personalRecords);
+    if (prKeys.length === 0) {
+      prGrid.innerHTML = '<div style="color: var(--text-muted); font-size: 0.85rem;">No PRs logged yet. Complete workouts to set records!</div>';
+    } else {
+      prKeys.forEach(key => {
+        const pr = appState.personalRecords[key];
+        const card = document.createElement('div');
+        card.className = 'pr-card';
+        card.innerHTML = `
+          <div class="pr-exercise-name">${key}</div>
+          <div class="pr-weight-display">${pr.maxWeight} kg</div>
+          <div class="pr-date-tag">${pr.reps} reps &bull; ${pr.date}</div>
+        `;
+        prGrid.appendChild(card);
+      });
+    }
+  }
+
+  // Completed Workouts Timeline
+  const historyContainer = document.getElementById('historyTimeline');
+  if (historyContainer) {
+    historyContainer.innerHTML = '';
+    if (appState.completedWorkouts.length === 0) {
+      historyContainer.innerHTML = '<div style="color: var(--text-muted); font-size: 0.85rem;">No completed workouts yet.</div>';
+    } else {
+      // Show newest first
+      [...appState.completedWorkouts].reverse().forEach(w => {
+        const item = document.createElement('div');
+        item.className = 'history-card';
+        
+        let exSummary = '';
+        if (w.exercises) {
+          exSummary = w.exercises.map(e => {
+            const setStr = e.sets.map(s => `${s.weight}kg×${s.reps}`).join(', ');
+            return `<div style="font-size: 0.8rem; margin-top: 3px;"><strong>${e.name}:</strong> ${setStr}</div>`;
+          }).join('');
+        }
+
+        item.innerHTML = `
+          <div class="history-header">
+            <div>
+              <span class="badge-tag badge-blue">${w.week}</span>
+              <span class="history-day-title">Day ${w.day}: ${w.title}</span>
+            </div>
+            <span class="history-date">${w.date} &bull; ${w.durationMinutes || 60}m</span>
+          </div>
+          <div style="font-size: 0.78rem; color: var(--accent-emerald); font-weight: 700; margin-bottom: 6px;">
+            Total Volume: ${(w.totalVolumeKg || 0).toLocaleString()} kg
+          </div>
+          <div style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 6px;">
+            ${exSummary}
+          </div>
+        `;
+        historyContainer.appendChild(item);
+      });
+    }
+  }
+}
+
+/* ==========================================================================
+   TAB 4: SYNC VAULT & CLOUD BACKEND
+   ========================================================================== */
+
+function initSyncKeyUI() {
+  const input = document.getElementById('inputSyncKey');
+  if (input) input.value = appState.syncKey;
+  renderSyncQR();
+}
+
+function saveCustomSyncKey() {
+  const input = document.getElementById('inputSyncKey');
+  if (!input) return;
+  const val = input.value.trim();
+  if (!val) {
+    alert('Please enter a valid Sync Key.');
+    return;
+  }
+  appState.syncKey = val;
+  saveLocalState();
+  renderSyncQR();
+  showToast(`Sync Key Updated: ${val}`);
+  silentCloudPull();
+}
+
+function getPairingUrl() {
+  // If running via python server with tunnel, use public HTTPS tunnel
+  const baseUrl = (window.PUBLIC_TUNNEL_URL && window.PUBLIC_TUNNEL_URL.startsWith('http'))
+    ? window.PUBLIC_TUNNEL_URL
+    : window.location.origin + window.location.pathname;
+
+  return `${baseUrl}?sync=${encodeURIComponent(appState.syncKey)}`;
+}
+
+function renderSyncQR() {
+  const qrContainer = document.getElementById('qrContainer');
+  const pairingUrlText = document.getElementById('pairingUrlText');
+  if (!qrContainer) return;
+
+  const url = getPairingUrl();
+  if (pairingUrlText) pairingUrlText.textContent = url;
+
+  qrContainer.innerHTML = '';
+  if (typeof qrcode !== 'undefined') {
+    try {
+      const qr = qrcode(0, 'M');
+      qr.addData(url);
+      qr.make();
+      qrContainer.innerHTML = qr.createImgTag(5, 8);
+    } catch (e) {
+      qrContainer.innerHTML = `<a href="${url}" target="_blank" style="color: #38bdf8; word-break: break-all;">${url}</a>`;
+    }
+  }
+}
+
+/**
+ * Multi-Channel Silent Sync:
+ * Channel 1: Local PC REST API (/api/sync) when connected via local network or tunnel
+ * Channel 2: LocalStorage (Always instant offline fallback)
+ */
+async function silentCloudPush() {
+  updateSyncStatus('Syncing...', false);
+  try {
+    const payload = JSON.stringify({
+      syncKey: appState.syncKey,
+      completedWorkouts: appState.completedWorkouts,
+      personalRecords: appState.personalRecords,
+      customVideos: appState.customVideos,
+      inProgressLogs: appState.inProgressLogs,
+      timestamp: Date.now()
+    });
+
+    // Try posting to local PC server
+    const serverRes = await fetch('/api/sync', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: payload
+    });
+
+    if (serverRes.ok) {
+      updateSyncStatus('Synced', true);
+      return;
+    }
+  } catch (e) {
+    // If PC server offline, local storage is already safely preserved
+  }
+  updateSyncStatus('Saved Locally', true);
+}
+
+async function silentCloudPull() {
+  try {
+    const res = await fetch('/api/sync');
+    if (res.ok) {
+      const serverData = await res.json();
+      if (serverData && serverData.completedWorkouts) {
+        // Merge without losing data
+        if (serverData.completedWorkouts.length >= appState.completedWorkouts.length) {
+          appState.completedWorkouts = serverData.completedWorkouts;
+        }
+        if (serverData.personalRecords) {
+          appState.personalRecords = { ...appState.personalRecords, ...serverData.personalRecords };
+        }
+        if (serverData.customVideos) {
+          appState.customVideos = { ...appState.customVideos, ...serverData.customVideos };
+        }
+        saveLocalState();
+        renderCurrentDay();
+        renderPRsAndHistory();
+        updateSyncStatus('Synced', true);
+        return;
+      }
+    }
+  } catch (e) {
+    // Offline or standalone
+  }
+  updateSyncStatus('Saved Locally', true);
+}
+
+function forceCloudPush() {
+  silentCloudPush().then(() => showToast('Data pushed to sync vault!'));
+}
+
+function forceCloudPull() {
+  silentCloudPull().then(() => showToast('Data refreshed from sync vault!'));
+}
+
+async function testLocalServerConnection() {
+  try {
+    const res = await fetch('/api/sync');
+    if (res.ok) {
+      showToast('✅ PC Sync Server is ONLINE and connected!');
+    } else {
+      showToast('⚠️ PC Server returned code ' + res.status);
+    }
+  } catch (e) {
+    showToast('ℹ️ PC Server unreachable. Running 100% offline via LocalStorage.');
+  }
+}
+
+function updateSyncStatus(text, isSynced) {
+  const icon = document.getElementById('syncStatusIcon');
+  const label = document.getElementById('syncStatusText');
+  const btn = document.getElementById('btnHeaderSync');
+  if (label) label.textContent = text;
+  if (icon) icon.textContent = isSynced ? '☁️' : '⏳';
+  if (btn) btn.classList.toggle('synced', isSynced);
+}
+
+/* ==========================================================================
+   JSON BACKUP & RESTORE
+   ========================================================================== */
+
+function exportDataJSON() {
+  const exportObj = {
+    app: 'TITAN_WORKOUT_JOURNAL',
+    version: 2,
+    athlete: "6'3\" 77kg Lean Bulk",
+    exportedAt: new Date().toISOString(),
+    syncKey: appState.syncKey,
+    completedWorkouts: appState.completedWorkouts,
+    personalRecords: appState.personalRecords,
+    customVideos: appState.customVideos,
+    inProgressLogs: appState.inProgressLogs
+  };
+
+  const str = JSON.stringify(exportObj, null, 2);
+  const blob = new Blob([str], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `titan_bulk_backup_${new Date().toISOString().slice(0, 10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('📥 Backup file downloaded!');
+}
+
+function triggerFileInput() {
+  const input = document.getElementById('backupFileInput');
+  if (input) input.click();
+}
+
+function importDataJSON(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (data.completedWorkouts) {
+        appState.completedWorkouts = data.completedWorkouts;
+        if (data.personalRecords) appState.personalRecords = data.personalRecords;
+        if (data.customVideos) appState.customVideos = data.customVideos;
+        if (data.inProgressLogs) appState.inProgressLogs = data.inProgressLogs;
+        if (data.syncKey) appState.syncKey = data.syncKey;
+
+        saveLocalState();
+        renderCurrentDay();
+        renderPRsAndHistory();
+        initSyncKeyUI();
+        silentCloudPush();
+        showToast('📤 Workout database restored successfully!');
+      } else {
+        alert('Invalid backup file format.');
+      }
+    } catch (err) {
+      alert('Error parsing JSON backup file: ' + err.message);
+    }
+  };
+  reader.readAsText(file);
+}
+
+/* ==========================================================================
+   MODAL: EXERCISE VIDEO / FORM GUIDE
+   ========================================================================== */
+
+function openVideoModal(canonNameEncoded, nameEncoded) {
+  const canonName = decodeURIComponent(canonNameEncoded);
+  const exName = decodeURIComponent(nameEncoded);
+  appState.activeModalExCanon = canonName;
+
+  document.getElementById('videoModalTitle').textContent = `Form Guide: ${exName}`;
+  const videoContainer = document.getElementById('videoContainer');
+  const customUrlInput = document.getElementById('inputCustomVideoUrl');
+
+  const customUrl = appState.customVideos[canonName] || '';
+  customUrlInput.value = customUrl;
+
+  if (customUrl) {
+    let embedUrl = customUrl;
+    if (customUrl.includes('youtube.com/shorts/')) {
+      const id = customUrl.split('shorts/')[1].split('?')[0];
+      embedUrl = `https://www.youtube.com/embed/${id}`;
+    } else if (customUrl.includes('watch?v=')) {
+      const id = customUrl.split('watch?v=')[1].split('&')[0];
+      embedUrl = `https://www.youtube.com/embed/${id}`;
+    }
+
+    videoContainer.innerHTML = `
+      <iframe width="100%" height="280" src="${embedUrl}" frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen style="border: none; border-radius: var(--radius-md);"></iframe>
+    `;
+  } else {
+    const searchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(canonName + ' exercise form tutorial shorts')}`;
+    videoContainer.innerHTML = `
+      <div style="text-align: center; padding: 24px;">
+        <div style="font-size: 2.2rem; margin-bottom: 8px;">🎬</div>
+        <div style="font-size: 0.95rem; font-weight: 700; margin-bottom: 8px;">Form Video Guide Slot</div>
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 14px;">
+          Paste your YouTube Shorts or video link below to pin it right to this exercise.
+        </p>
+        <a href="${searchUrl}" target="_blank" rel="noopener noreferrer" class="btn-vault-action" style="display: inline-flex; align-items: center; gap: 6px; text-decoration: none;">
+          🔍 Search YouTube Form Shorts for "${exName}"
+        </a>
+      </div>
+    `;
+  }
+
+  document.getElementById('modalVideo').classList.add('open');
+}
+
+function closeVideoModal(event) {
+  if (event && event.target && event.target.id !== 'modalVideo') return;
+  document.getElementById('modalVideo').classList.remove('open');
+  const videoContainer = document.getElementById('videoContainer');
+  if (videoContainer) videoContainer.innerHTML = '';
+}
+
+function saveCustomVideoLink() {
+  const url = document.getElementById('inputCustomVideoUrl').value.trim();
+  if (!appState.activeModalExCanon) return;
+
+  appState.customVideos[appState.activeModalExCanon] = url;
+  saveLocalState();
+  silentCloudPush();
+  showToast('Video link saved for this exercise!');
+  openVideoModal(encodeURIComponent(appState.activeModalExCanon), encodeURIComponent(appState.activeModalExCanon));
+}
+
+/* ==========================================================================
+   TOAST NOTIFICATIONS
+   ========================================================================== */
+
+function showToast(message) {
+  const container = document.getElementById('toastContainer');
+  if (!container) return;
+
+  const toast = document.createElement('div');
+  toast.className = 'toast-item';
+  toast.innerHTML = `<span>⚡</span><span>${message}</span>`;
+  container.appendChild(toast);
+
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateY(-10px)';
+    toast.style.transition = 'all 0.25s ease';
+    setTimeout(() => toast.remove(), 250);
+  }, 2600);
+}
+
+</script>
+
+</body>
+</html>

@@ -1,14 +1,14 @@
 {
-  "id": "wimpy-bulk-journal-77kg",
-  "name": "Wimpy Bulk Journal - 77kg A/B Program",
-  "short_name": "WimpyBulk",
+  "id": "titan-bulk-journal-77kg",
+  "name": "Titan Bulk Journal - 77kg A/B Program",
+  "short_name": "TitanBulk",
   "description": "Master 14-Day (Week A / Week B) Hypertrophy, Core & Vitality Journal",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "background_color": "#2b2b36",
-  "theme_color": "#fffde0",
+  "background_color": "#0a0e17",
+  "theme_color": "#0a0e17",
   "prefer_related_applications": false,
   "icons": [
     {

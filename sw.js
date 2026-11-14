@@ -1,8 +1,10 @@
-const CACHE_NAME = 'wimpy-journal-cache-v1';
+const CACHE_NAME = 'titan-journal-cache-v2';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './styles.css',
+  './program_data.js',
+  './qr-generator.js',
   './app.js',
   './manifest.json',
   './icon-192.png',
@@ -32,14 +34,17 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  // Offline-first strategy
+  // Offline-first strategy for static assets, network-first for /api/sync
+  if (event.request.url.includes('/api/sync')) {
+    return; // Pass through to network
+  }
+
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
       if (cachedResponse) {
         return cachedResponse;
       }
       return fetch(event.request).then((networkResponse) => {
-        // Cache external fonts or resources dynamically
         if (event.request.url.includes('fonts.googleapis.com') || event.request.url.includes('fonts.gstatic.com')) {
           const responseToCache = networkResponse.clone();
           caches.open(CACHE_NAME).then((cache) => {
@@ -48,7 +53,6 @@ self.addEventListener('fetch', (event) => {
         }
         return networkResponse;
       }).catch(() => {
-        // Fallback to index.html if offline navigation
         if (event.request.mode === 'navigate') {
           return caches.match('./index.html');
         }

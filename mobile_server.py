@@ -7,9 +7,11 @@ import subprocess
 import threading
 import time
 import re
+import json
 import webbrowser
 
 PORT = 8080
+DB_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "workout_database.json")
 
 def get_local_ip():
     try:
@@ -28,8 +30,49 @@ def get_local_ip():
 class CustomHandler(http.server.SimpleHTTPRequestHandler):
     def end_headers(self):
         self.send_header('Access-Control-Allow-Origin', '*')
-        self.send_header('Cache-Control', 'no-cache')
+        self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+        self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+        self.send_header('Cache-Control', 'no-cache, no-store, must-revalidate')
         super().end_headers()
+
+    def do_OPTIONS(self):
+        self.send_response(200)
+        self.end_headers()
+
+    def do_GET(self):
+        if self.path.startswith('/api/sync'):
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json')
+            self.end_headers()
+            if os.path.exists(DB_FILE):
+                with open(DB_FILE, 'r', encoding='utf-8') as f:
+                    content = f.read()
+                self.wfile.write(content.encode('utf-8'))
+            else:
+                self.wfile.write(b'{"workouts":[],"version":2}')
+            return
+        super().do_GET()
+
+    def do_POST(self):
+        if self.path.startswith('/api/sync'):
+            length = int(self.headers.get('Content-Length', 0))
+            body = self.rfile.read(length).decode('utf-8')
+            try:
+                data = json.loads(body)
+                with open(DB_FILE, 'w', encoding='utf-8') as f:
+                    json.dump(data, f, indent=2)
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json')
+                self.end_headers()
+                self.wfile.write(b'{"success":true,"message":"Data synced to PC server successfully"}')
+            except Exception as e:
+                self.send_response(500)
+                self.send_header('Content-Type', 'application/json')
+                self.end_headers()
+                err_msg = json.dumps({"success": False, "error": str(e)})
+                self.wfile.write(err_msg.encode('utf-8'))
+            return
+        super().do_POST()
 
 tunnel_url = None
 
@@ -47,11 +90,10 @@ def start_public_tunnel():
             match = re.search(r'https://[a-zA-Z0-9\-]+\.lhr\.life', line)
             if match:
                 tunnel_url = match.group(0)
-                print(f"\n   [OK] PUBLIC HTTPS TUNNEL CREATED:")
+                print(f"\n   [OK] SECURE HTTPS MOBILE TUNNEL CREATED:")
                 print(f"   ---> {tunnel_url}")
-                print(f"   (This link opens on ANY phone anywhere - no local Wi-Fi / firewall required!)\n")
+                print(f"   (Scan or open this on phone to sync with PC in real-time!)\n")
                 
-                # Write tunnel URL to a js file so the app can read it automatically for the QR code!
                 js_content = f"window.PUBLIC_TUNNEL_URL = '{tunnel_url}';\n"
                 with open('tunnel_info.js', 'w', encoding='utf-8') as f:
                     f.write(js_content)
@@ -63,46 +105,38 @@ def run_server():
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
     local_ip = get_local_ip()
     local_url = f"http://{local_ip}:{PORT}"
-    loopback_url = f"http://localhost:{PORT}"
 
-    print("=" * 70)
-    print("   DIARY OF A WIMPY KID - WORKOUT JOURNAL SERVER & MOBILE LAUNCHER")
-    print("=" * 70)
-    print("\n   [1] Starting Local Server on Port 8080...")
-    print(f"       Local Address: {local_url}")
+    print("=" * 72)
+    print("   MASTER 14-DAY HYPERTROPHY JOURNAL - SYNC SERVER & MOBILE LAUNCHER")
+    print("=" * 72)
+    print(f"\n   [1] Local Wi-Fi Address : {local_url}")
 
-    print("\n   [2] Starting Secure HTTPS Tunnel for Phone Access...")
     tunnel_thread = threading.Thread(target=start_public_tunnel, daemon=True)
     tunnel_thread.start()
 
-    # Wait a few seconds for tunnel to register
     time.sleep(3.5)
 
     display_url = tunnel_url if tunnel_url else local_url
 
-    print("=" * 70)
-    print(f"   📲 SCAN OR OPEN THIS ON YOUR MOBILE PHONE:")
-    print(f"      ---> {display_url}")
-    print("=" * 70)
-    print("   HOW TO INSTALL AS A NATIVE MOBILE APP:")
-    print("   1. Open the link above in your phone's browser.")
-    print("   2. iPhone: Tap 'Share' ➔ 'Add to Home Screen'.")
-    print("   3. Android: Tap 'Install App' or 'Add to Home screen'.")
-    print("   4. Runs 100% full-screen offline with custom icon!")
-    print("=" * 70)
-    print("   (Press Ctrl+C to stop the server anytime)\n")
-
-    try:
-        webbrowser.open(display_url)
-    except Exception:
-        pass
+    print("=" * 72)
+    print(f"   PHONE LINK (Scan or Open on Phone):")
+    print(f"   ---> {display_url}")
+    print("=" * 72)
+    print("   [PWA / Mobile App Features]:")
+    print("   1. Auto-filled reps & Smart +2.5kg Progressive Overload")
+    print("   2. Real-time sync to PC 'workout_database.json'")
+    print("   3. 100% offline-ready in gym basements via LocalStorage")
+    print("   4. Install on Android: Chrome menu -> 'Install app'")
+    print("=" * 72)
+    print("   (Press Ctrl+C to close server)\n")
 
     socketserver.TCPServer.allow_reuse_address = True
     with socketserver.TCPServer(("", PORT), CustomHandler) as httpd:
-        try:
-            httpd.serve_forever()
-        except KeyboardInterrupt:
-            print("\nShutting down server...")
+        httpd.serve_forever()
 
-if __name__ == "__main__":
-    run_server()
+if __name__ == '__main__':
+    try:
+        run_server()
+    except KeyboardInterrupt:
+        print("\nServer stopped.")
+        sys.exit(0)

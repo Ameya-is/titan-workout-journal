@@ -5,495 +5,316 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Master 14-Day A/B Hypertrophy Journal | 77kg Lean Bulk</title>
   
-  <!-- Mobile & PWA Meta Tags -->
+  <!-- Mobile PWA Meta Tags -->
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#fffde0">
+  <meta name="theme-color" content="#0a0e17">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="WimpyBulk">
+  <meta name="apple-mobile-web-app-title" content="TitanBulk">
   <link rel="apple-touch-icon" href="icon-192.png">
   <meta name="mobile-web-app-capable" content="yes">
 
-  <!-- Google Fonts: 100% Authentic Handwritten Notebook Typography -->
+  <!-- Inter / Modern Athletic Font Stack -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Caveat:wght@600;700&family=Kalam:wght@400;700&family=Patrick+Hand&family=Permanent+Marker&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&family=JetBrains+Mono:wght@600;700;800&display=swap" rel="stylesheet">
+  
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="notebook-wrapper">
-    <!-- Spiral Binding Decoration (Left Edge) -->
-    <div class="spiral-binding" aria-hidden="true">
-      <div class="spiral-ring"></div>
-      <div class="spiral-ring"></div>
-      <div class="spiral-ring"></div>
-      <div class="spiral-ring"></div>
-      <div class="spiral-ring"></div>
-      <div class="spiral-ring"></div>
-      <div class="spiral-ring"></div>
-      <div class="spiral-ring"></div>
-      <div class="spiral-ring"></div>
-      <div class="spiral-ring"></div>
-      <div class="spiral-ring"></div>
-      <div class="spiral-ring"></div>
-      <div class="spiral-ring"></div>
-      <div class="spiral-ring"></div>
-      <div class="spiral-ring"></div>
-      <div class="spiral-ring"></div>
+
+  <!-- ========================================================================
+       STICKY APP HEADER
+       ======================================================================== -->
+  <header class="app-header">
+    <div class="header-top">
+      <div class="brand-badge-group">
+        <div class="brand-pill">
+          <span class="pulse-dot"></span>
+          <span>14-Day A/B Hypertrophy</span>
+        </div>
+        <h1 class="app-title">TITAN WORKOUT JOURNAL</h1>
+        <div class="athlete-tag">Athlete: 6'3" &bull; 77kg Lean Bulk &bull; 75–85m Cap</div>
+      </div>
+
+      <div class="header-actions">
+        <button class="btn-icon-header btn-sync-status" id="btnHeaderSync" onclick="switchTab('sync')" title="Cloud Sync Status">
+          <span id="syncStatusIcon">☁️</span>
+          <span id="syncStatusText">Synced</span>
+        </button>
+      </div>
     </div>
 
-    <!-- Main Notebook Page -->
-    <main class="notebook-page">
-      <!-- Tape Accents -->
-      <div class="tape-strip top-tape">14-DAY ROTATING BLOCK</div>
-      <div class="tape-strip right-tape">75–85 MIN SESSION CAP</div>
+    <!-- TABS BAR -->
+    <nav class="tabs-nav-bar" role="tablist">
+      <button class="tab-btn active" id="tabBtnWorkout" onclick="switchTab('workout')">
+        <span>💪</span> Today's Log
+      </button>
+      <button class="tab-btn" id="tabBtnSplit" onclick="switchTab('split')">
+        <span>📋</span> 14-Day Split
+      </button>
+      <button class="tab-btn" id="tabBtnHistory" onclick="switchTab('history')">
+        <span>🏆</span> PRs & History
+      </button>
+      <button class="tab-btn" id="tabBtnSync" onclick="switchTab('sync')">
+        <span>☁️</span> Sync Vault
+      </button>
+    </nav>
+  </header>
 
-      <!-- Header Banner -->
-      <header class="journal-header">
-        <div class="header-sketch-left">
-          <svg viewBox="0 0 100 100" width="70" height="70">
-            <circle cx="50" cy="22" r="14" fill="#fff" stroke="#111" stroke-width="3"/>
-            <path d="M50 8 Q55 2 60 8" stroke="#111" stroke-width="3" fill="none" stroke-linecap="round"/>
-            <circle cx="45" cy="20" r="2" fill="#111"/>
-            <circle cx="55" cy="20" r="2" fill="#111"/>
-            <path d="M46 28 Q50 31 54 28" stroke="#111" stroke-width="2" fill="none"/>
-            <line x1="50" y1="36" x2="50" y2="65" stroke="#111" stroke-width="3.5"/>
-            <path d="M50 42 L25 22 L15 15" stroke="#111" stroke-width="3" stroke-linecap="round"/>
-            <path d="M50 42 L75 22 L85 15" stroke="#111" stroke-width="3" stroke-linecap="round"/>
-            <line x1="5" y1="12" x2="95" y2="12" stroke="#111" stroke-width="4.5"/>
-            <rect x="5" y="4" width="7" height="16" rx="2" fill="#111"/>
-            <rect x="88" y="4" width="7" height="16" rx="2" fill="#111"/>
-            <path d="M50 65 L36 90 L28 92" stroke="#111" stroke-width="3.5" stroke-linecap="round"/>
-            <path d="M50 65 L64 90 L72 92" stroke="#111" stroke-width="3.5" stroke-linecap="round"/>
-            <path d="M68 20 C68 18 72 15 72 15 C72 15 76 18 76 20 C76 22 72 24 68 20 Z" fill="#3b82f6"/>
-          </svg>
-        </div>
+  <!-- ========================================================================
+       MAIN APP CONTAINER
+       ======================================================================== -->
+  <main class="app-container">
 
-        <div class="header-titles">
-          <div class="stamp-badge">14-DAY ROTATING BLOCK &bull; 77KG LEAN BULK</div>
-          <h1 class="main-title">DIARY OF A LEAN BULK BEAST</h1>
-          <p class="subtitle">The Master 14-Day (Week A / Week B) Hypertrophy, Core & Vitality Program</p>
-        </div>
-
-        <!-- Mobile & Quick Actions (Added Cloud Sync Button) -->
-        <div class="mobile-action-pill-bar">
-          <button class="sketch-btn small sync-btn" id="btnOpenSyncModal" onclick="openCloudSyncModal()">
-            🔄 <span id="syncStatusBadge">Cloud Sync: Setup</span>
-          </button>
-          <button class="sketch-btn small qr-connect-btn" onclick="openQRConnectModal()">
-            📱 QR Connect
-          </button>
-          <button class="sketch-btn small app-install-btn" id="btnInstallApp" onclick="triggerAppInstall()">
-            📲 Install Android App
-          </button>
-          <button class="sketch-btn small wakelock-btn" id="btnWakeLock" onclick="toggleWakeLock()">
-            ☀️ Screen Awake: Off
-          </button>
-        </div>
-
-        <div class="header-stats-badge">
-          <div class="sticky-note">
-            <span class="pin">📌</span>
-            <div class="sticky-title">ATHLETE TARGET</div>
-            <div class="sticky-body" style="font-family:'Patrick Hand'; line-height:1.3;">
-              <strong>Height:</strong> 6'3" (190.5cm)<br>
-              <strong>Weight:</strong> 77 kg<br>
-              <strong>Cycle:</strong> 14-Day A/B<br>
-              <strong>Cap:</strong> 75-85 mins
-            </div>
-          </div>
-        </div>
-      </header>
-
-      <!-- Athlete Profile Parameters Ribbon -->
-      <div class="athlete-profile-bar">
-        <div class="profile-item"><strong>📏 Height:</strong> 6'3" (190.5 cm)</div>
-        <div class="profile-item"><strong>⚖️ Weight:</strong> 77 kg (Lean Bulk)</div>
-        <div class="profile-item"><strong>⏱️ Cap:</strong> 75–85 min max</div>
-        <div class="profile-item"><strong>🔄 Protocol:</strong> 14-Day Rotating Block (Week A = Days 1–7, Week B = Days 8–14)</div>
-      </div>
-
-      <!-- Navigation Tabs (Desktop Top Tabs + Mobile Bottom App Bar) -->
-      <nav class="notebook-tabs" id="notebookTabsNav">
-        <button class="tab-btn active" data-tab="logger" id="tabLoggerBtn">
-          <span class="tab-icon">📝</span> <span class="tab-text">Today</span>
-        </button>
-        <button class="tab-btn" data-tab="roadmap" id="tabRoadmapBtn">
-          <span class="tab-icon">📅</span> <span class="tab-text">14-Day Plan</span>
-        </button>
-        <button class="tab-btn" data-tab="analytics" id="tabAnalyticsBtn">
-          <span class="tab-icon">📈</span> <span class="tab-text">PRs & Overload</span>
-        </button>
-        <button class="tab-btn" data-tab="history" id="tabHistoryBtn">
-          <span class="tab-icon">📚</span> <span class="tab-text">Past Logs</span>
-        </button>
-        <button class="tab-btn calorie-tab" data-tab="calories" id="tabCaloriesBtn">
-          <span class="tab-icon">🍎</span> <span class="tab-text">Calories</span>
-        </button>
-      </nav>
-
-      <!-- TAB 1: TODAY'S WORKOUT LOGGER -->
-      <section class="tab-content active" id="view-logger">
-        <!-- Date, Cycle & Day Selector Bar -->
-        <div class="session-control-bar hand-drawn-box">
-          <div class="control-group date-group">
-            <label for="workoutDateInput" class="sketch-label">📅 Date:</label>
-            <input type="date" id="workoutDateInput" class="handwritten-input">
-          </div>
-
-          <div class="control-group cycle-group">
-            <span class="sketch-label">🔄 Cycle:</span>
-            <div class="ab-toggle-switch">
-              <button type="button" class="ab-btn active" id="btnWeekA" onclick="setWeekCycle('A')">WEEK A (1–7)</button>
-              <button type="button" class="ab-btn" id="btnWeekB" onclick="setWeekCycle('B')">WEEK B (8–14)</button>
-            </div>
-          </div>
-
-          <div class="control-group day-picker-group">
-            <label for="daySelect" class="sketch-label">🏋️ Day:</label>
-            <select id="daySelect" class="handwritten-select" onchange="changeDay(this.value)"></select>
-          </div>
-
-          <div class="control-actions">
-            <button class="sketch-btn primary" onclick="saveCurrentSession(true)">
-              💾 Save Workout
-            </button>
-            <button class="sketch-btn secondary" onclick="loadPreviousWeights()" title="Auto-fill weights from last time">
-              ⚡ Pre-fill Prev
-            </button>
+    <!-- ====================================================================
+         TAB 1: TODAY'S WORKOUT LOGGER
+         ==================================================================== -->
+    <section class="tab-panel active" id="panelWorkout">
+      
+      <!-- WEEK & DAY SELECTOR -->
+      <div class="week-switch-card">
+        <div class="week-toggle-row">
+          <span style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted);">PROGRAM BLOCK:</span>
+          <div class="week-btn-group">
+            <button class="week-toggle-btn active" id="btnWeekA" onclick="selectWeek('A')">Week A (Days 1–7)</button>
+            <button class="week-toggle-btn" id="btnWeekB" onclick="selectWeek('B')">Week B (Days 8–14)</button>
           </div>
         </div>
 
-        <!-- Overload Rule Banner -->
-        <div id="coachAlertBanner" class="coach-banner hand-drawn-box" style="background:#eff6ff; border-color:#3b82f6; display:flex; align-items:center; gap:12px;">
-          <div class="coach-doodle">
-            <svg viewBox="0 0 50 50" width="34" height="34">
-              <circle cx="25" cy="20" r="12" fill="#fff" stroke="#111" stroke-width="2.5"/>
-              <circle cx="21" cy="18" r="2" fill="#111"/>
-              <circle cx="29" cy="18" r="2" fill="#111"/>
-              <path d="M21 26 Q25 22 29 26" stroke="#111" stroke-width="2" fill="none"/>
-              <line x1="25" y1="32" x2="25" y2="48" stroke="#111" stroke-width="2.5"/>
-            </svg>
-          </div>
-          <div class="coach-text" style="font-family:'Patrick Hand'; font-size:18px;">
-            <strong>Double Progression Rule:</strong> Keep weight fixed until you hit the top of the rep range across all sets at 1–2 RIR. Then increase load by <strong>+2.5 kg</strong> (or 1 cable pin) next workout! Check off all sets to see the realistic notebook scribble cross-out animation!
-          </div>
-        </div>
-
-        <!-- Daily Protocol Card (Pre-Workout Warmup) -->
-        <div class="daily-protocol-card hand-drawn-box">
-          <div class="protocol-header">
-            <span class="scribble-icon">🔥</span>
-            <h3>DAILY PRE-WORKOUT PROTOCOL (MANDATORY)</h3>
-            <span class="badge-pill">eNOS & Synovial Warmth</span>
-          </div>
-          <div class="protocol-details">
-            <p style="font-family:'Patrick Hand'; font-size:18px;"><strong>Zone 2 Incline Treadmill Walking:</strong> 8–10 mins at <strong>3.5% incline</strong>, <strong>5.2 km/h</strong>.</p>
-            <div class="protocol-actions">
-              <button class="sketch-btn small" onclick="startRestTimer(480, '8m Treadmill Warmup')">⏱️ 8m Timer</button>
-              <button class="sketch-btn small" onclick="startRestTimer(600, '10m Treadmill Warmup')">⏱️ 10m Timer</button>
-              <label class="custom-checkbox warm-check">
-                <input type="checkbox" id="warmupDoneCheck" onchange="toggleWarmupDone(this.checked)">
-                <span class="checkbox-box"></span>
-                <span class="checkbox-label" style="font-family:'Permanent Marker'; font-size:15px;">Warm-Up Done</span>
-              </label>
-            </div>
-          </div>
-        </div>
-
-        <!-- Day Title & Summary -->
-        <div class="day-overview-header">
-          <div class="day-title-wrap">
-            <span class="day-number-tag" id="currentDayBadge">DAY 1 (WEEK A)</span>
-            <h2 id="currentDayTitle" class="day-main-title">Upper Body (Heavy Compound, Frame Width & Lower Abs)</h2>
-          </div>
-        </div>
-
-        <!-- Active Recovery / Rest View (Days 3, 7, 10, 14) -->
-        <div id="restDayContainer" class="rest-day-card hand-drawn-box" style="display:none;">
-          <div class="rest-doodle-center">
-            <svg viewBox="0 0 120 80" width="120" height="80">
-              <line x1="10" y1="65" x2="110" y2="65" stroke="#111" stroke-width="3"/>
-              <rect x="20" y="45" width="80" height="20" rx="3" fill="#fff" stroke="#111" stroke-width="2.5"/>
-              <circle cx="35" cy="40" r="10" fill="#fff" stroke="#111" stroke-width="2.5"/>
-              <line x1="45" y1="46" x2="85" y2="46" stroke="#111" stroke-width="3"/>
-              <text x="65" y="30" font-family="'Permanent Marker', cursive" font-size="16" fill="#111">Zzz...</text>
-            </svg>
-          </div>
-          <h3 id="restDayTitle" style="font-family:'Permanent Marker'; font-size:24px;">Day 3: Active Recovery</h3>
-          <div id="restDayInstructions" class="rest-instructions"></div>
-          <div class="recovery-notes-box">
-            <label class="sketch-label">📝 Recovery & Mobility Notes for Today:</label>
-            <textarea id="recoveryNotesInput" class="handwritten-textarea" placeholder="How do your joints, pelvic floor, and muscles feel? Walk distance, deep squat holds..."></textarea>
-          </div>
-          <button class="sketch-btn primary" onclick="saveCurrentSession(true)">💾 Save Recovery Log</button>
-        </div>
-
-        <!-- Exercise Logger List (Visible on Training Days) -->
-        <div id="exercisesContainer" class="exercises-list"></div>
-
-        <!-- Workout Session Notes & Completion Bar -->
-        <div class="session-footer-card hand-drawn-box">
-          <div class="notes-section">
-            <label class="sketch-label" for="sessionNotesInput">📝 Workout Notes, Energy & Cues:</label>
-            <textarea id="sessionNotesInput" class="handwritten-textarea" rows="2" placeholder="e.g. Bench top set flew up cleanly @ RPE 8. Increase +2.5kg next week! Duration under 80 mins."></textarea>
-          </div>
-
-          <div class="session-summary-strip">
-            <div class="stat-pill">
-              <span class="label">Sets Finished:</span>
-              <span class="val" id="summarySetsFinished">0 / 0</span>
-            </div>
-            <div class="stat-pill">
-              <span class="label">Total Volume:</span>
-              <span class="val" id="summaryTotalVolume">0 kg</span>
-            </div>
-            <div class="stat-pill">
-              <span class="label">Status:</span>
-              <span class="val" id="summarySessionStatus">In Progress</span>
-            </div>
-            <button class="sketch-btn big-finish-btn" onclick="saveCurrentSession(true)">
-              🏆 Complete & Save Workout
-            </button>
-          </div>
-        </div>
-      </section>
-
-      <!-- TAB 2: 14-DAY ROADMAP & 26 WEEKS -->
-      <section class="tab-content" id="view-roadmap">
-        <div class="roadmap-page hand-drawn-box">
-          <div class="page-title-banner">
-            <h2>THE 14-DAY ROTATING BLOCK ROADMAP</h2>
-            <p style="font-family:'Patrick Hand'; font-size:18px;">Week A (Days 1–7) &bull; Week B (Days 8–14) &bull; Target: 77kg Lean Bulk</p>
-          </div>
-
-          <div class="roadmap-info-grid">
-            <div class="info-card sticky-note yellow">
-              <span class="pin">📌</span>
-              <h4>HOW THE A/B ROTATION WORKS</h4>
-              <p>&bull; <strong>Week A:</strong> Day 2 has Barbell Hip Thrust & Day 6 has DB Split Squat + KB Swings/Plank.</p>
-              <p>&bull; <strong>Week B:</strong> Day 9 has Leg Press Wide/High & Day 13 has Adductor/Abductor Superset + Rowing VO2 Max HIIT.</p>
-            </div>
-
-            <div class="info-card sticky-note pink">
-              <span class="pin">📌</span>
-              <h4>75–85 MIN DURATION CAP</h4>
-              <p>&bull; Strictly capped under 90 minutes to keep cortisol low and preserve baseline free testosterone for growth.</p>
-            </div>
-
-            <div class="info-card sticky-note blue">
-              <span class="pin">📌</span>
-              <h4>BACKUP YOUR 6 MONTHS</h4>
-              <p>Your logs, PRs, and custom YouTube videos are saved safely. Export JSON anytime to back up!</p>
-              <div class="backup-btn-row">
-                <button class="sketch-btn small" onclick="exportDataBackup()">📥 Export JSON</button>
-                <button class="sketch-btn small" onclick="document.getElementById('importFileInput').click()">📤 Import JSON</button>
-                <input type="file" id="importFileInput" style="display:none" accept=".json" onchange="importDataBackup(event)">
-              </div>
-            </div>
-          </div>
-
-          <div class="calendar-26weeks-wrap">
-            <h3 class="sketch-heading" style="font-family:'Permanent Marker'; font-size:20px;">26-WEEK MACROCYCLE CHECKER</h3>
-            <p class="sketch-sub" style="font-family:'Patrick Hand'; font-size:17px;">Tap any week to toggle Week A / Week B mode.</p>
-            <div class="weeks-grid" id="weeksGridContainer"></div>
-          </div>
-        </div>
-      </section>
-
-      <!-- TAB 3: PR BOARD & PROGRESSIVE OVERLOAD -->
-      <section class="tab-content" id="view-analytics">
-        <div class="analytics-page hand-drawn-box">
-          <div class="page-title-banner">
-            <h2>PROGRESSIVE OVERLOAD ADVISORY & PR BOARD</h2>
-            <p style="font-family:'Patrick Hand'; font-size:18px;">Double Progression Calculator: hold weight until top rep ceiling is conquered, then add +2.5kg.</p>
-          </div>
-
-          <div class="progression-inspector hand-drawn-box">
-            <div class="inspector-controls">
-              <label for="inspectorExerciseSelect" class="sketch-label">🎯 Select Exercise to Inspect Overload:</label>
-              <select id="inspectorExerciseSelect" class="handwritten-select" onchange="renderExerciseProgressionDetail(this.value)"></select>
-            </div>
-            <div id="inspectorDetailCard" class="inspector-card"></div>
-          </div>
-
-          <div class="pr-board-section">
-            <h3 class="sketch-heading" style="font-family:'Permanent Marker'; font-size:22px;">🏆 ALL-TIME PERSONAL RECORDS (PRs)</h3>
-            <div class="pr-grid" id="prBoardGrid"></div>
-          </div>
-        </div>
-      </section>
-
-      <!-- TAB 4: PAST LOGS HISTORY -->
-      <section class="tab-content" id="view-history">
-        <div class="history-page hand-drawn-box">
-          <div class="page-title-banner">
-            <h2>LOGBOOK ARCHIVE</h2>
-            <p style="font-family:'Patrick Hand'; font-size:18px;">Every recorded lift, set, rep, and coach comment preserved in ink</p>
-          </div>
-
-          <div class="history-filters">
-            <input type="text" id="historySearchInput" class="handwritten-input" placeholder="🔍 Search exercises, notes, or dates..." oninput="filterHistoryLogs()">
-            <button class="sketch-btn small" onclick="clearAllHistoryPrompt()">🗑️ Clear Old Logs</button>
-          </div>
-
-          <div class="history-list" id="historyListContainer"></div>
-        </div>
-      </section>
-
-      <!-- TAB 5: CALORIE TRACKER (RESERVED) -->
-      <section class="tab-content" id="view-calories">
-        <div class="calorie-page hand-drawn-box">
-          <div class="tape-strip center-tape">RESERVED SECTION</div>
-          <div class="page-title-banner">
-            <h2>CALORIE & NUTRITION TRACKER</h2>
-            <p style="font-family:'Patrick Hand'; font-size:18px;">Staged & Ready For Your Specific Calorie & Macro Rules</p>
-          </div>
-
-          <div class="sticky-note yellow large-note" style="max-width:550px; margin:20px auto;">
-            <span class="pin">📌</span>
-            <h3 style="font-family:'Permanent Marker'; font-size:20px;">"I will tell you calorie tracker is later. First, you build this and tell me."</h3>
-            <p style="font-family:'Patrick Hand'; font-size:18px;">Reserved and ready for your exact calorie & macro structure whenever you want to set it up!</p>
-            <div class="calorie-quick-box" style="margin-top:14px;">
-              <div class="input-row" style="margin-bottom:8px;">
-                <label class="sketch-label">Today's Calories (kcal):</label>
-                <input type="number" id="quickCalorieInput" class="handwritten-input" placeholder="e.g. 2900" onchange="saveQuickCalories(this.value)">
-              </div>
-              <div class="input-row" style="margin-bottom:8px;">
-                <label class="sketch-label">Protein (g):</label>
-                <input type="number" id="quickProteinInput" class="handwritten-input" placeholder="e.g. 165" onchange="saveQuickProtein(this.value)">
-              </div>
-              <div class="input-row">
-                <label class="sketch-label">Morning Weigh-In (kg):</label>
-                <input type="number" step="0.1" id="quickWeightInput" class="handwritten-input" placeholder="e.g. 77.0" onchange="saveQuickWeight(this.value)">
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-    </main>
-  </div>
-
-  <!-- FLOATING REST STOPWATCH WIDGET -->
-  <div id="floatingTimerWidget" class="floating-timer-box" style="display: none;">
-    <div class="timer-paper">
-      <button class="timer-close-btn" onclick="closeRestTimer()">&times;</button>
-      <div class="timer-doodle">
-        <svg viewBox="0 0 40 40" width="30" height="30">
-          <circle cx="20" cy="22" r="15" fill="#fff" stroke="#111" stroke-width="2.5"/>
-          <line x1="20" y1="22" x2="20" y2="12" stroke="#e63946" stroke-width="2.5"/>
-          <line x1="20" y1="22" x2="27" y2="22" stroke="#111" stroke-width="2.5"/>
-          <line x1="20" y1="7" x2="20" y2="4" stroke="#111" stroke-width="3"/>
-          <line x1="16" y1="4" x2="24" y2="4" stroke="#111" stroke-width="3"/>
-        </svg>
-      </div>
-      <div class="timer-info">
-        <div class="timer-title" id="timerLabel">Rest Timer</div>
-        <div class="timer-clock" id="timerDisplay">03:00</div>
-      </div>
-      <div class="timer-controls">
-        <button class="sketch-btn micro" id="timerToggleBtn" onclick="toggleTimerPause()">⏸ Pause</button>
-        <button class="sketch-btn micro" onclick="adjustTimer(30)">+30s</button>
-        <button class="sketch-btn micro" onclick="adjustTimer(-30)">-30s</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL: QR CODE PHONE CONNECT -->
-  <div id="qrConnectModal" class="modal-overlay" style="display: none;">
-    <div class="modal-card hand-drawn-box">
-      <button class="modal-close-btn" onclick="closeQRConnectModal()">&times;</button>
-      <div class="modal-header">
-        <h3 style="font-family:'Permanent Marker'; font-size:22px; color:#111;">📲 OPEN ON YOUR PHONE</h3>
-        <p style="font-family:'Patrick Hand'; font-size:16px; color:#475569;">Point your phone camera at this QR code to open the mobile app instantly!</p>
-      </div>
-      <div class="modal-body" style="text-align:center; padding:12px 0;">
-        <canvas id="qrCanvas" width="220" height="220" style="border:3px solid #111; border-radius:12px; box-shadow:3px 3px 0 #111;"></canvas>
-        <div style="margin-top:12px;">
-          <input type="text" id="manualUrlInput" class="handwritten-input" style="width:90%; text-align:center; font-size:16px;" readonly>
-        </div>
-        <div class="sticky-note yellow" style="margin:16px auto 0; text-align:left; max-width:340px; font-size:15px; transform:none;">
-          <strong>⚡ How to install on your phone:</strong>
-          <p style="margin:4px 0 2px;">• <strong>iPhone:</strong> Tap <strong>Share</strong> ➔ <strong>"Add to Home Screen"</strong>.</p>
-          <p style="margin:2px 0;">• <strong>Android:</strong> Tap <strong>"Install App"</strong> in Chrome banner or 3-dots menu.</p>
-          <p style="margin-top:4px; font-size:13px; color:#666;">Runs 100% full-screen & offline in the gym!</p>
+        <div class="days-scroll-row" id="daysScrollRow">
+          <!-- Day pills generated dynamically via app.js -->
         </div>
       </div>
-    </div>
-  </div>
 
-  <!-- MODAL: CLOUD SYNC SETTINGS (PHONE <-> LAPTOP) -->
-  <div id="cloudSyncModal" class="modal-overlay" style="display: none;">
-    <div class="modal-card hand-drawn-box" style="max-width: 520px;">
-      <button class="modal-close-btn" onclick="closeCloudSyncModal()">&times;</button>
-      <div class="modal-header">
-        <h3 style="font-family:'Permanent Marker'; font-size:22px; color:#111;">🔄 CLOUD SYNC (PHONE ↔ LAPTOP)</h3>
-        <p style="font-family:'Patrick Hand'; font-size:16px; color:#475569;">Keep your workouts identical across your Android phone and Laptop</p>
-      </div>
-      <div class="modal-body" style="padding:10px 0; font-family:'Patrick Hand'; font-size:17px;">
-        <div class="sync-status-card" style="background:#f0fdf4; border:1.5px solid #16a34a; border-radius:8px; padding:10px; margin-bottom:14px; display:flex; align-items:center; justify-content:space-between;">
+      <!-- ACTIVE DAY SUMMARY BANNER -->
+      <div class="active-day-banner" id="activeDayBanner">
+        <div class="day-banner-header">
           <div>
-            <strong>Status:</strong> <span id="syncModalStatusText" style="color:#15803d; font-weight:bold;">Offline Storage Active (100% Safe)</span>
-          </div>
-          <button class="sketch-btn micro primary" onclick="triggerManualCloudSync()">🔄 Sync Now</button>
-        </div>
-
-        <div class="sticky-note yellow" style="margin-bottom:16px; transform:none; max-width:100%;">
-          <div class="sticky-title">SECRET SYNC KEY / ROOM</div>
-          <p style="margin:4px 0 8px;">Enter the <strong>exact same Secret Key</strong> on your Android phone and on your Laptop:</p>
-          <div style="display:flex; gap:8px;">
-            <input type="text" id="syncSecretKeyInput" class="handwritten-input" style="flex:1; font-weight:bold; letter-spacing:1px;" placeholder="e.g. 77KG-LEAN-BULK">
-            <button class="sketch-btn small primary" onclick="saveSyncSettings()">Save Key</button>
+            <div class="day-badge-line">
+              <span class="badge-tag badge-blue" id="dayWeekBadge">Week A</span>
+              <span class="badge-tag badge-emerald" id="dayNumberBadge">Day 1</span>
+              <span class="badge-tag badge-amber" id="sessionCapBadge">75–85 Min Cap</span>
+            </div>
+            <h2 class="day-main-title" id="dayMainTitle">Upper Body</h2>
+            <p class="day-focus-desc" id="dayFocusDesc">Heavy Compound, Frame Width & Lower Abs</p>
           </div>
         </div>
 
-        <div style="background:#f8fafc; border:1.5px dashed #64748b; border-radius:8px; padding:12px; margin-bottom:14px;">
-          <h4 style="font-family:'Permanent Marker'; font-size:15px; color:#1e293b; margin-bottom:4px;">GOOGLE FIREBASE REALTIME DB (100% FREE & GOOGLE-BACKED):</h4>
-          <p style="font-size:14px; color:#475569; margin-bottom:6px;">If you have a Google Firebase database URL, paste it below. Data updates in real time (< 1 sec):</p>
-          <input type="text" id="firebaseDbUrlInput" class="handwritten-input" style="width:100%; font-size:14px;" placeholder="https://your-project-default-rtdb.firebaseio.com">
+        <!-- Session Duration Timer with Cortisol Warning -->
+        <div class="session-timer-bar">
+          <div class="timer-digits-group">
+            <span style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted);">SESSION:</span>
+            <span class="timer-clock" id="sessionTimerClock">00:00:00</span>
+            <span class="cortisol-pill" id="cortisolPill">🟢 Anabolic (&lt;75m)</span>
+          </div>
+          <button class="timer-btn-toggle" id="btnToggleTimer" onclick="toggleSessionTimer()">Start Workout</button>
         </div>
+      </div>
 
-        <div style="border-top:1.5px dashed #cbd5e1; padding-top:12px; display:flex; justify-content:space-between; align-items:center;">
-          <span style="font-size:15px; color:#64748b;">Instant Backup:</span>
-          <div>
-            <button class="sketch-btn small" onclick="exportDataBackup()">📥 Export File</button>
-            <button class="sketch-btn small" onclick="document.getElementById('importFileInput').click()">📤 Import File</button>
+      <!-- PRE-WORKOUT PROTOCOL -->
+      <div class="pre-workout-card" id="preWorkoutCard">
+        <div class="pre-workout-icon">🏃</div>
+        <div>
+          <div class="pre-workout-title">Daily Pre-Workout Nitric Oxide Warm-Up</div>
+          <div class="pre-workout-text" id="preWorkoutText">
+            Incline Treadmill Walk — 1 Set | Duration: 8–10 mins (3.5% incline, 5.2 km/h) | Rest: 0s
           </div>
         </div>
       </div>
-    </div>
-  </div>
 
-  <!-- MODAL: ANDROID INSTALL GUIDE -->
-  <div id="installGuideModal" class="modal-overlay" style="display: none;">
-    <div class="modal-card hand-drawn-box">
-      <button class="modal-close-btn" onclick="closeInstallGuideModal()">&times;</button>
+      <!-- REST DAY SPECIAL BANNER (WHEN ACTIVE DAY IS REST) -->
+      <div id="restDayMessage" style="display: none; background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 32px 20px; text-align: center; margin-bottom: 24px;">
+        <div style="font-size: 2.5rem; margin-bottom: 8px;">🧘‍♂️</div>
+        <h3 style="font-size: 1.3rem; font-weight: 800; margin-bottom: 6px;">Complete CNS & Muscular Recovery</h3>
+        <p style="color: var(--text-muted); font-size: 0.9rem; max-width: 480px; margin: 0 auto;">
+          No resistance training today. Focus on deep hydration, 77kg lean protein intake (160–175g), and 8+ hours of deep REM sleep to prime androgen receptors for tomorrow.
+        </p>
+      </div>
+
+      <!-- EXERCISE CARDS CONTAINER -->
+      <div class="exercise-list" id="exerciseList">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+
+      <!-- FINISH WORKOUT BUTTON -->
+      <div class="workout-finish-container" id="finishWorkoutContainer">
+        <button class="btn-finish-workout" onclick="finishCurrentWorkout()">
+          <span>✓</span> Complete & Save Today's Workout
+        </button>
+      </div>
+
+    </section>
+
+    <!-- ====================================================================
+         TAB 2: 14-DAY PROGRAM SPLIT ROADMAP
+         ==================================================================== -->
+    <section class="tab-panel" id="panelSplit">
+      <div style="margin-bottom: 16px;">
+        <h2 style="font-size: 1.35rem; font-weight: 800;">14-Day A/B Master Program Split</h2>
+        <p style="color: var(--text-muted); font-size: 0.85rem;">
+          Continuous 14-day rotating periodization. Tap any day card to view and log its exercises.
+        </p>
+      </div>
+
+      <div class="split-overview-grid" id="splitOverviewGrid">
+        <!-- Generated dynamically via app.js -->
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         TAB 3: PR LEADERBOARD & WORKOUT HISTORY
+         ==================================================================== -->
+    <section class="tab-panel" id="panelHistory">
+      <div style="margin-bottom: 16px;">
+        <h2 style="font-size: 1.35rem; font-weight: 800;">Personal Records Leaderboard</h2>
+        <p style="color: var(--text-muted); font-size: 0.85rem;">
+          Highest recorded working weight for each exercise in the 14-day rotation.
+        </p>
+      </div>
+
+      <div class="pr-grid" id="prGrid">
+        <!-- Populated dynamically via app.js -->
+      </div>
+
+      <div style="margin: 24px 0 16px 0;">
+        <h2 style="font-size: 1.35rem; font-weight: 800;">Completed Workouts History</h2>
+        <p style="color: var(--text-muted); font-size: 0.85rem;">
+          Chronological log of completed sessions with volume and overload progression.
+        </p>
+      </div>
+
+      <div class="history-timeline" id="historyTimeline">
+        <!-- Populated dynamically via app.js -->
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         TAB 4: SYNC & CLOUD VAULT SETTINGS
+         ==================================================================== -->
+    <section class="tab-panel" id="panelSync">
+      <div class="sync-vault-card">
+        <div class="vault-header">
+          <h2 class="vault-title">Seamless Device Sync Vault</h2>
+          <p class="vault-desc">
+            Your workout logs, PRs, and progressive overload history stay synchronized between your Phone and PC.
+            Enter your permanent Sync Key once or scan the QR code from your laptop—you will never need to type it again.
+          </p>
+        </div>
+
+        <div style="font-size: 0.78rem; font-weight: 800; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase;">
+          Permanent Device Sync Key
+        </div>
+        <div class="vault-key-box">
+          <input type="text" class="vault-key-input" id="inputSyncKey" placeholder="TITAN-77KG-..." spellcheck="false" autocomplete="off">
+          <button class="btn-vault-action" onclick="saveCustomSyncKey()">Save Key</button>
+        </div>
+
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <button class="btn-vault-action" onclick="forceCloudPull()">⬇️ Pull Latest from Cloud</button>
+          <button class="btn-vault-action" onclick="forceCloudPush()">⬆️ Push to Cloud Now</button>
+          <button class="btn-vault-action" onclick="testLocalServerConnection()">🔄 Check PC Server Sync</button>
+        </div>
+
+        <!-- QR PAIRING CODE -->
+        <div class="qr-sync-container">
+          <div style="font-weight: 800; font-size: 0.95rem; margin-bottom: 4px;">📲 Instant 1-Second Phone Pairing</div>
+          <p class="qr-helper-text">
+            Open the Camera app on your Android phone and scan this code. It automatically sets your phone's Sync Key and links both devices!
+          </p>
+          <div class="qr-code-wrapper" id="qrContainer">
+            <!-- QR code rendered by qr-generator.js -->
+          </div>
+          <div style="font-size: 0.75rem; color: var(--text-faint); word-break: break-all;" id="pairingUrlText">
+            <!-- Pairing URL text -->
+          </div>
+        </div>
+
+        <!-- BACKUP & RESTORE -->
+        <div style="border-top: 1px solid var(--border-subtle); padding-top: 16px; margin-top: 16px;">
+          <h3 style="font-size: 1rem; font-weight: 800; margin-bottom: 6px;">1-Click Local Data Backup</h3>
+          <p style="font-size: 0.8rem; color: var(--text-muted);">
+            Save your entire database as a JSON file to your Google Drive, Downloads, or send to WhatsApp.
+          </p>
+          <div class="backup-actions-grid">
+            <button class="btn-backup" onclick="exportDataJSON()">
+              <span>📥</span> Export Backup File (.json)
+            </button>
+            <button class="btn-backup" onclick="triggerFileInput()">
+              <span>📤</span> Restore from Backup File
+            </button>
+            <input type="file" id="backupFileInput" accept=".json" style="display: none;" onchange="importDataJSON(event)">
+          </div>
+        </div>
+
+        <!-- ANDROID INSTALL INSTRUCTIONS -->
+        <div style="border-top: 1px solid var(--border-subtle); padding-top: 16px; margin-top: 16px;">
+          <h3 style="font-size: 1rem; font-weight: 800; margin-bottom: 6px;">📱 Install as Native Android App</h3>
+          <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5;">
+            <strong>Step 1:</strong> Open this URL in Chrome on your Android phone.<br>
+            <strong>Step 2:</strong> Tap the <strong>⋮ (three dots)</strong> menu in top-right.<br>
+            <strong>Step 3:</strong> Tap <strong>"Install app"</strong> or <strong>"Add to Home screen"</strong>.<br>
+            <strong>Result:</strong> Android compiles this as a standalone native app (WebAPK) with an app icon on your home screen and 100% offline access in the gym!
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================================================
+       FLOATING REST TIMER DOCK (MOBILE OPTIMIZED)
+       ======================================================================== -->
+  <aside class="floating-rest-dock" id="floatingRestDock" aria-label="Rest Countdown Timer">
+    <div class="dock-timer-info">
+      <span class="dock-clock-icon">⏱️</span>
+      <div>
+        <div class="dock-label">REST COUNTDOWN</div>
+        <div class="dock-time-countdown" id="dockTimeCountdown">02:00</div>
+      </div>
+    </div>
+    <div class="dock-btn-group">
+      <button class="btn-dock-action" onclick="addRestTimerSeconds(30)">+30s</button>
+      <button class="btn-dock-action skip" onclick="skipRestTimer()">Skip</button>
+    </div>
+  </aside>
+
+  <!-- ========================================================================
+       MODAL: EXERCISE VIDEO / FORM GUIDE
+       ======================================================================== -->
+  <div class="modal-backdrop" id="modalVideo" onclick="closeVideoModal(event)">
+    <div class="modal-content-card" onclick="event.stopPropagation()">
       <div class="modal-header">
-        <h3 style="font-family:'Permanent Marker'; font-size:22px; color:#111;">📲 INSTALL ON ANDROID IN 2 TAPS</h3>
+        <h3 class="modal-title" id="videoModalTitle">Exercise Form Guide</h3>
+        <button class="btn-close-modal" onclick="closeVideoModal()">&times;</button>
       </div>
-      <div class="modal-body" style="padding:10px 0; font-family:'Patrick Hand'; font-size:18px;">
-        <div id="installPromptDirect" style="display:none; text-align:center; margin-bottom:14px;">
-          <button class="sketch-btn primary" style="font-size:18px; padding:10px 20px;" onclick="executeNativeInstall()">
-            ⚡ Tap to Install Standalone App Now
-          </button>
-        </div>
-        <p>If Chrome didn't automatically pop up the install banner, follow these 2 quick steps:</p>
-        <ol style="margin-left:24px; margin-top:8px; line-height:1.6;">
-          <li>In Chrome on your phone, tap the <strong>three vertical dots (⋮)</strong> in the top-right corner.</li>
-          <li>Tap <strong>"Install app"</strong> (or <strong>"Add to Home screen"</strong>).</li>
-          <li>Tap <strong>Install</strong> when prompted.</li>
-        </ol>
-        <div class="sticky-note yellow" style="margin-top:16px; transform:none; max-width:100%;">
-          <strong>Why this is awesome:</strong>
-          <p style="margin-top:4px;">Android compiles a real <strong>WebAPK</strong> and places the <strong>WimpyBulk</strong> icon in your Android App Drawer! It runs full-screen with no browser address bar and works 100% offline in the gym.</p>
+      <div id="videoContainer" style="margin-bottom: 16px; border-radius: var(--radius-md); overflow: hidden; background: #000; min-height: 200px; display: flex; align-items: center; justify-content: center;">
+        <!-- Embedded player or search link -->
+      </div>
+      <div style="margin-top: 12px;">
+        <label style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 6px;">
+          Custom YouTube Shorts / Tutorial Link:
+        </label>
+        <div style="display: flex; gap: 8px;">
+          <input type="url" id="inputCustomVideoUrl" placeholder="https://youtube.com/shorts/..." style="flex: 1; background: var(--bg-main); border: 1px solid var(--border-subtle); color: var(--text-main); padding: 8px 12px; border-radius: var(--radius-sm); font-size: 0.85rem;">
+          <button class="btn-vault-action" onclick="saveCustomVideoLink()">Save Video</button>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- TOAST CONTAINER -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- SCRIPTS -->
+  <!-- Tunnel Info (auto-generated when server is running) -->
   <script src="tunnel_info.js"></script>
+  <!-- QR Generator Library -->
   <script src="qr-generator.js"></script>
+  <!-- Complete 14-Day Master Workout Program Data -->
+  <script src="program_data.js"></script>
+  <!-- Main Application Logic & Progressive Overload Engine -->
   <script src="app.js"></script>
 </body>
 </html>
