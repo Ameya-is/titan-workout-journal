@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Register Service Worker for PWA with auto-update
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js?v=6.0')
+    navigator.serviceWorker.register('sw.js?v=7.0')
       .then(reg => reg.update())
       .catch(err => console.log('SW registration note:', err));
   }
@@ -123,6 +123,14 @@ function loadLocalState() {
   } catch (e) {
     console.error('Failed to load local state:', e);
   }
+
+  // STRICT 90-DAY PROGRESSION LAW:
+  // Days unlock strictly based on completed workouts.
+  // If user has not completed Day 1 (0 completed workouts), ONLY Day 1 is unlocked!
+  const completedCount = Array.isArray(appState.completedWorkouts) ? appState.completedWorkouts.length : 0;
+  appState.unlockedDay = Math.min(14, completedCount + 1);
+  appState.currentDay = appState.unlockedDay;
+  appState.currentWeek = appState.currentDay > 7 ? 'B' : 'A';
 
   // Ensure default sync key if none exists
   if (!appState.syncKey) {
@@ -220,24 +228,24 @@ function selectWeek(week) {
     showToast('🔒 Week B is locked! Complete all 7 days of Week A first.');
     return;
   }
+  if (week === 'A' && appState.unlockedDay >= 8) {
+    showToast(`🔒 Week A is already completed! Active training is Week B (Day ${appState.unlockedDay}).`);
+    return;
+  }
 
   appState.currentWeek = week;
   document.getElementById('btnWeekA').classList.toggle('active', week === 'A');
   document.getElementById('btnWeekB').classList.toggle('active', week === 'B');
-
-  // If active day is not in selected week, switch to the first day of that week
-  if (week === 'A' && appState.currentDay > 7) {
-    selectDay(1);
-  } else if (week === 'B' && appState.currentDay <= 7) {
-    selectDay(8);
-  } else {
-    initWeekAndDayPills();
-  }
+  initWeekAndDayPills();
 }
 
 function selectDay(dayNum) {
   if (dayNum > appState.unlockedDay) {
     showToast(`🔒 Day ${dayNum} is locked! Complete Day ${dayNum - 1} first.`);
+    return;
+  }
+  if (dayNum < appState.unlockedDay) {
+    showToast(`🔒 Day ${dayNum} is completed! Strict progression requires completing Day ${appState.unlockedDay} next.`);
     return;
   }
 
@@ -280,16 +288,17 @@ function initWeekAndDayPills() {
     if (!dayData) continue;
 
     const isLocked = d > appState.unlockedDay;
-    const isCompleted = d < appState.unlockedDay || (appState.completedWorkouts.some(w => w.day === d));
+    const isCompleted = d < appState.unlockedDay;
+    const isActive = d === appState.currentDay;
 
     const btn = document.createElement('button');
-    btn.className = `day-pill-btn ${d === appState.currentDay ? 'active' : ''} ${isLocked ? 'locked' : ''} ${isCompleted ? 'completed' : ''}`;
+    btn.className = `day-pill-btn ${isActive ? 'active' : ''} ${isLocked ? 'locked' : ''} ${isCompleted ? 'completed' : ''}`;
     btn.onclick = () => selectDay(d);
 
     const titleParts = dayData.title.split(' ');
     const shortTitle = titleParts[0];
 
-    const lockIcon = isLocked ? '🔒' : (isCompleted ? '✓' : '');
+    const lockIcon = isLocked ? '🔒' : (isCompleted ? '✓' : '▶');
 
     btn.innerHTML = `
       <span class="day-pill-num">Day ${d} ${lockIcon}</span>
@@ -980,6 +989,10 @@ function updateWorkoutControlBarUI() {
 }
 
 function startWorkoutSession() {
+  if (appState.currentDay !== appState.unlockedDay) {
+    alert(`🔒 Strict Progression Law: You can only train Day ${appState.unlockedDay}! Completed days are sealed.`);
+    return;
+  }
   appState.workoutActive = true;
   appState.restartsRemaining = 2;
   appState.workoutStartTimeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -1025,6 +1038,46 @@ function restartWorkoutSession() {
   renderCurrentDay();
   updateWorkoutControlBarUI();
   showToast(`🔄 Workout restarted! Weights & reps preserved (${appState.restartsRemaining} restart left).`);
+}
+
+function resetChallengeToDayOne() {
+  const confirmed = confirm(
+    "⚠️ RESET 90-DAY CHALLENGE TO DAY 1?\n\n" +
+    "This will enforce the strict law:\n" +
+    "• Days 2 through 14 will be LOCKED 🔒\n" +
+    "• Current active workout will be set to Day 1\n" +
+    "• Previous workout log history will be cleared\n\n" +
+    "Are you sure you want to reset and start fresh from Day 1?"
+  );
+  if (!confirmed) return;
+
+  appState.completedWorkouts = [];
+  appState.unlockedDay = 1;
+  appState.currentDay = 1;
+  appState.currentWeek = 'A';
+  appState.inProgressLogs = {};
+  appState.workoutActive = false;
+  appState.restartsRemaining = 2;
+  appState.sessionSeconds = 0;
+  appState.sessionTimerRunning = false;
+  appState.workoutStartTimeStr = '';
+  pauseSessionTimer();
+  resetTreadmillTimer();
+  dismissRestTimer();
+  const clockEl = document.getElementById('sessionTimerClock');
+  if (clockEl) clockEl.textContent = '00:00:00';
+
+  saveLocalState();
+  silentCloudPush(); // Pushes Day 1 reset to Firebase so Phone is also synchronized to Day 1
+
+  initWeekAndDayPills();
+  renderCurrentDay();
+  renderSplitRoadmap();
+  renderPRsAndHistory();
+  updateWorkoutControlBarUI();
+  switchTab('workout');
+
+  showToast('🚀 90-Day Challenge Reset! Only Day 1 is unlocked.');
 }
 
 function toggleSessionTimer() {
@@ -1172,9 +1225,10 @@ function finishCurrentWorkout() {
   appState.completedWorkouts.push(workoutRecord);
   
   // UNLOCK NEXT DAY IN STRICT PROGRESSION
-  if (appState.currentDay === appState.unlockedDay) {
-    appState.unlockedDay = (appState.unlockedDay % 14) + 1;
-  }
+  const completedCount = appState.completedWorkouts.length;
+  appState.unlockedDay = Math.min(14, completedCount + 1);
+  appState.currentDay = appState.unlockedDay;
+  appState.currentWeek = appState.currentDay > 7 ? 'B' : 'A';
 
   // Reset active session
   delete appState.inProgressLogs[dayData.day];
@@ -1210,11 +1264,19 @@ function renderSplitRoadmap() {
 
   MASTER_WORKOUT_PROGRAM.forEach(day => {
     const isLocked = day.day > appState.unlockedDay;
-    const isCompleted = day.day < appState.unlockedDay || (appState.completedWorkouts && appState.completedWorkouts.some(w => w.day === day.day));
+    const isCompleted = day.day < appState.unlockedDay;
+    const isCurrentActive = day.day === appState.unlockedDay;
 
     const card = document.createElement('div');
-    card.className = `split-day-card ${isLocked ? 'locked' : ''} ${isCompleted ? 'completed' : ''}`;
-    card.onclick = () => selectDay(day.day);
+    card.className = `split-day-card ${isLocked ? 'locked' : ''} ${isCompleted ? 'completed' : ''} ${isCurrentActive ? 'active-ready' : ''}`;
+    
+    if (isLocked) {
+      card.onclick = () => showToast(`🔒 Day ${day.day} is locked! Complete Day ${day.day - 1} first.`);
+    } else if (isCompleted) {
+      card.onclick = () => showToast(`✓ Day ${day.day} already completed. Active challenge workout is Day ${appState.unlockedDay}.`);
+    } else {
+      card.onclick = () => selectDay(day.day);
+    }
 
     let statusBadge = '';
     if (isLocked) {
@@ -1222,11 +1284,19 @@ function renderSplitRoadmap() {
     } else if (isCompleted) {
       statusBadge = '<span style="font-size: 0.72rem; color: var(--accent-emerald); font-weight: 700;">✓ Completed</span>';
     } else {
-      statusBadge = '<span style="font-size: 0.72rem; color: var(--accent-blue); font-weight: 700;">▶ Ready</span>';
+      statusBadge = '<span style="font-size: 0.72rem; color: var(--accent-blue); font-weight: 800;">▶ ACTIVE WORKOUT</span>';
     }
 
     let exListHtml = '';
-    if (day.isRestDay) {
+    if (isLocked) {
+      exListHtml = `
+        <div style="background: rgba(0,0,0,0.3); border: 1px dashed rgba(244, 63, 94, 0.35); border-radius: 8px; padding: 14px; text-align: center; margin-top: 10px;">
+          <div style="font-size: 1.15rem; margin-bottom: 4px;">🔒</div>
+          <div style="font-size: 0.78rem; font-weight: 700; color: var(--accent-rose);">Locked: Complete Day ${day.day - 1} first</div>
+          <div style="font-size: 0.7rem; color: var(--text-faint); margin-top: 2px;">Strict linear 90-day challenge law</div>
+        </div>
+      `;
+    } else if (day.isRestDay) {
       exListHtml = '<div style="color: var(--accent-emerald); font-weight: 700; margin-top: 8px;">🧘 Active Recovery / Sleep & Nutrition</div>';
     } else {
       exListHtml = '<ul class="split-ex-list">';
@@ -1407,35 +1477,36 @@ function renderSyncQR() {
 
   qrContainer.innerHTML = '';
 
-  let rendered = false;
-  if (typeof QRCode !== 'undefined') {
-    try {
-      new QRCode(qrContainer, {
-        text: url,
-        width: 180,
-        height: 180,
-        colorDark: '#0a0e17',
-        colorLight: '#ffffff',
-        correctLevel: (QRCode.CorrectLevel && QRCode.CorrectLevel.M) ? QRCode.CorrectLevel.M : 0
-      });
-      if (qrContainer.children.length > 0) {
-        rendered = true;
-      }
-    } catch (e) {
-      console.warn('QRCode library error, falling back to image API:', e);
-    }
-  }
+  // 1. Primary: Direct high-resolution Image API (guarantees instant, clean render on mobile & desktop)
+  const encodedUrl = encodeURIComponent(url);
+  const img = document.createElement('img');
+  img.src = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodedUrl}&margin=8`;
+  img.alt = 'Scan to pair mobile phone';
+  img.style.width = '180px';
+  img.style.height = '180px';
+  img.style.display = 'block';
+  img.style.borderRadius = '8px';
 
-  if (!rendered) {
-    const encodedUrl = encodeURIComponent(url);
-    const img = document.createElement('img');
-    img.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodedUrl}`;
-    img.alt = 'Scan to pair mobile phone';
-    img.style.width = '180px';
-    img.style.height = '180px';
-    img.style.display = 'block';
-    qrContainer.appendChild(img);
-  }
+  // 2. Offline fallback: If offline or image error, use QRCode canvas generator
+  img.onerror = () => {
+    qrContainer.innerHTML = '';
+    if (typeof QRCode !== 'undefined') {
+      try {
+        new QRCode(qrContainer, {
+          text: url,
+          width: 180,
+          height: 180,
+          colorDark: '#0a0e17',
+          colorLight: '#ffffff',
+          correctLevel: 0
+        });
+      } catch (e) {
+        console.warn('QRCode library error:', e);
+      }
+    }
+  };
+
+  qrContainer.appendChild(img);
 }
 
 /**
@@ -1558,8 +1629,10 @@ async function silentCloudPull() {
 }
 
 function mergeSyncedData(incoming) {
-  if (incoming.completedWorkouts && incoming.completedWorkouts.length >= appState.completedWorkouts.length) {
-    appState.completedWorkouts = incoming.completedWorkouts;
+  if (incoming.completedWorkouts && Array.isArray(incoming.completedWorkouts)) {
+    if (incoming.completedWorkouts.length >= appState.completedWorkouts.length) {
+      appState.completedWorkouts = incoming.completedWorkouts;
+    }
   }
   if (incoming.personalRecords) {
     appState.personalRecords = { ...appState.personalRecords, ...incoming.personalRecords };
@@ -1567,12 +1640,18 @@ function mergeSyncedData(incoming) {
   if (incoming.customVideos) {
     appState.customVideos = { ...appState.customVideos, ...incoming.customVideos };
   }
-  if (incoming.unlockedDay && incoming.unlockedDay > appState.unlockedDay) {
-    appState.unlockedDay = incoming.unlockedDay;
-    initWeekAndDayPills();
-  }
+  
+  // STRICT PROGRESSION LAW:
+  // Unlocked day is strictly dictated by completed workouts
+  const completedCount = Array.isArray(appState.completedWorkouts) ? appState.completedWorkouts.length : 0;
+  appState.unlockedDay = Math.min(14, completedCount + 1);
+  appState.currentDay = appState.unlockedDay;
+  appState.currentWeek = appState.currentDay > 7 ? 'B' : 'A';
+
+  initWeekAndDayPills();
   saveLocalState();
   renderCurrentDay();
+  renderSplitRoadmap();
   renderPRsAndHistory();
 }
 

@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&family=JetBrains+Mono:wght@600;700;800&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="styles.css?v=6.0">
+  <link rel="stylesheet" href="styles.css?v=7.0">
 </head>
 <body>
 
@@ -225,11 +225,17 @@
          TAB 2: 14-DAY PROGRAM SPLIT ROADMAP
          ==================================================================== -->
     <section class="tab-panel" id="panelSplit">
-      <div style="margin-bottom: 16px;">
-        <h2 style="font-size: 1.35rem; font-weight: 800;">14-Day A/B Master Program Split</h2>
-        <p style="color: var(--text-muted); font-size: 0.85rem;">
-          Continuous 14-day rotating periodization. Tap any day card to view and log its exercises.
-        </p>
+      <div style="margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 14px 16px;">
+        <div>
+          <div style="font-size: 0.72rem; font-weight: 800; text-transform: uppercase; color: var(--accent-blue); letter-spacing: 0.05em;">90-Day Challenge Progression</div>
+          <h2 style="font-size: 1.25rem; font-weight: 800; margin: 2px 0;">14-Day A/B Periodization Split</h2>
+          <p style="color: var(--text-muted); font-size: 0.8rem; margin: 0;">
+            Strict linear law: Days unlock one-by-one. Completed days are sealed.
+          </p>
+        </div>
+        <button onclick="resetChallengeToDayOne()" style="background: rgba(244, 63, 94, 0.12); border: 1.5px solid var(--accent-rose); color: var(--accent-rose); font-size: 0.78rem; font-weight: 800; padding: 8px 14px; border-radius: var(--radius-full); cursor: pointer; display: inline-flex; align-items: center; gap: 6px;" title="Reset challenge back to Day 1">
+          <span>🔄</span> Reset to Day 1
+        </button>
       </div>
 
       <div class="split-overview-grid" id="splitOverviewGrid">
@@ -339,6 +345,17 @@
           </div>
         </div>
 
+        <!-- 90-DAY CHALLENGE MASTER CONTROL -->
+        <div style="border-top: 1px solid rgba(244, 63, 94, 0.25); padding-top: 16px; margin-top: 16px;">
+          <h3 style="font-size: 1rem; font-weight: 800; margin-bottom: 6px; color: var(--accent-rose);">⚠️ 90-Day Challenge Master Control</h3>
+          <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px;">
+            Strict linear progression law: If you want to start fresh from Day 1 and re-lock Days 2–14, tap below.
+          </p>
+          <button class="btn-backup" onclick="resetChallengeToDayOne()" style="border-color: rgba(244, 63, 94, 0.45); color: var(--accent-rose); font-weight: 800; width: 100%; justify-content: center;">
+            <span>🔄</span> Reset 90-Day Challenge to Day 1
+          </button>
+        </div>
+
         <!-- ANDROID INSTALL INSTRUCTIONS -->
         <div style="border-top: 1px solid var(--border-subtle); padding-top: 16px; margin-top: 16px;">
           <h3 style="font-size: 1rem; font-weight: 800; margin-bottom: 6px;">📱 Install as Native Android App</h3>
@@ -402,12 +419,12 @@
 
   <!-- SCRIPTS -->
   <!-- Tunnel Info (auto-generated when server is running) -->
-  <script src="tunnel_info.js?v=6.0"></script>
+  <script src="tunnel_info.js?v=7.0"></script>
   <!-- QR Generator Library -->
-  <script src="qr-generator.js?v=6.0"></script>
+  <script src="qr-generator.js?v=7.0"></script>
   <!-- Complete 14-Day Master Workout Program Data -->
-  <script src="program_data.js?v=6.0"></script>
+  <script src="program_data.js?v=7.0"></script>
   <!-- Main Application Logic & Progressive Overload Engine -->
-  <script src="app.js?v=6.0"></script>
+  <script src="app.js?v=7.0"></script>
 </body>
 </html>

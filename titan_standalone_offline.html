@@ -1208,7 +1208,6 @@ a[href*="netlify.app"] {
   border-color: var(--accent-emerald);
   font-weight: 800;
 }
-}
 
 .btn-treadmill:active {
   transform: scale(0.97);
@@ -1306,16 +1305,30 @@ a[href*="netlify.app"] {
 }
 
 .split-day-card.locked {
-  opacity: 0.52;
-  filter: grayscale(40%);
-  border-style: dashed;
+  opacity: 0.45;
+  filter: grayscale(60%);
+  border: 1.5px dashed rgba(244, 63, 94, 0.45);
   cursor: not-allowed;
+  user-select: none;
+  background: rgba(15, 20, 30, 0.7);
 }
 
 .split-day-card.locked:hover {
-  border-color: var(--border-subtle);
+  border-color: rgba(244, 63, 94, 0.7);
   transform: none;
   box-shadow: none;
+}
+
+.split-day-card.active-ready {
+  border: 2px solid var(--accent-blue);
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.3);
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.09) 0%, rgba(19, 27, 40, 0.95) 100%);
+}
+
+.split-day-card.completed {
+  border: 1px solid rgba(16, 185, 129, 0.45);
+  background: rgba(16, 185, 129, 0.04);
+  opacity: 0.88;
 }
 
 .split-day-header {
@@ -1506,23 +1519,24 @@ a[href*="netlify.app"] {
 }
 
 .qr-code-wrapper {
-  background: #ffffff;
-  padding: 12px;
-  border-radius: var(--radius-md);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 12px;
-  min-width: 180px;
-  min-height: 180px;
+  background: #ffffff !important;
+  padding: 12px !important;
+  border-radius: var(--radius-md) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin-bottom: 12px !important;
+  min-width: 180px !important;
+  min-height: 180px !important;
+  box-sizing: content-box !important;
 }
 
 .qr-code-wrapper canvas, .qr-code-wrapper img {
-  display: block;
-  width: 180px;
-  height: 180px;
-  max-width: 180px;
-  max-height: 180px;
+  display: block !important;
+  width: 180px !important;
+  height: 180px !important;
+  max-width: 180px !important;
+  max-height: 180px !important;
 }
 
 .qr-helper-text {
@@ -1835,27 +1849,40 @@ a[href*="netlify.app"] {
 
   /* Treadmill Card */
   .treadmill-hub-card {
+    display: block !important;
     padding: 12px 10px;
     margin-bottom: 12px;
+    width: 100% !important;
+    box-sizing: border-box !important;
   }
   .treadmill-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 6px;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 6px !important;
+    width: 100% !important;
   }
   .treadmill-header > div:first-child {
-    width: 100%;
+    width: 100% !important;
   }
   .treadmill-timer-display {
-    font-size: 1.9rem;
-    margin: 4px 0 6px 0;
+    display: block !important;
+    width: 100% !important;
+    text-align: center !important;
+    font-size: 2.1rem !important;
+    margin: 6px 0 !important;
   }
   .treadmill-metrics-grid {
-    gap: 4px;
-    margin: 8px 0;
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 4px !important;
+    margin: 8px 0 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
   }
   .treadmill-metric-box {
     padding: 5px 3px;
+    min-width: 0 !important;
   }
   .treadmill-metric-label {
     font-size: 0.6rem;
@@ -1864,13 +1891,17 @@ a[href*="netlify.app"] {
     font-size: 0.88rem;
   }
   .treadmill-btn-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6px;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 6px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
   }
   .btn-treadmill {
     padding: 8px 4px;
     font-size: 0.74rem;
+    min-height: 42px !important;
+  }
   }
 
   /* Exercise Cards */
@@ -2231,11 +2262,17 @@ a[href*="netlify.app"] {
          TAB 2: 14-DAY PROGRAM SPLIT ROADMAP
          ==================================================================== -->
     <section class="tab-panel" id="panelSplit">
-      <div style="margin-bottom: 16px;">
-        <h2 style="font-size: 1.35rem; font-weight: 800;">14-Day A/B Master Program Split</h2>
-        <p style="color: var(--text-muted); font-size: 0.85rem;">
-          Continuous 14-day rotating periodization. Tap any day card to view and log its exercises.
-        </p>
+      <div style="margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 14px 16px;">
+        <div>
+          <div style="font-size: 0.72rem; font-weight: 800; text-transform: uppercase; color: var(--accent-blue); letter-spacing: 0.05em;">90-Day Challenge Progression</div>
+          <h2 style="font-size: 1.25rem; font-weight: 800; margin: 2px 0;">14-Day A/B Periodization Split</h2>
+          <p style="color: var(--text-muted); font-size: 0.8rem; margin: 0;">
+            Strict linear law: Days unlock one-by-one. Completed days are sealed.
+          </p>
+        </div>
+        <button onclick="resetChallengeToDayOne()" style="background: rgba(244, 63, 94, 0.12); border: 1.5px solid var(--accent-rose); color: var(--accent-rose); font-size: 0.78rem; font-weight: 800; padding: 8px 14px; border-radius: var(--radius-full); cursor: pointer; display: inline-flex; align-items: center; gap: 6px;" title="Reset challenge back to Day 1">
+          <span>🔄</span> Reset to Day 1
+        </button>
       </div>
 
       <div class="split-overview-grid" id="splitOverviewGrid">
@@ -2343,6 +2380,17 @@ a[href*="netlify.app"] {
             </button>
             <input type="file" id="backupFileInput" accept=".json" style="display: none;" onchange="importDataJSON(event)">
           </div>
+        </div>
+
+        <!-- 90-DAY CHALLENGE MASTER CONTROL -->
+        <div style="border-top: 1px solid rgba(244, 63, 94, 0.25); padding-top: 16px; margin-top: 16px;">
+          <h3 style="font-size: 1rem; font-weight: 800; margin-bottom: 6px; color: var(--accent-rose);">⚠️ 90-Day Challenge Master Control</h3>
+          <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px;">
+            Strict linear progression law: If you want to start fresh from Day 1 and re-lock Days 2–14, tap below.
+          </p>
+          <button class="btn-backup" onclick="resetChallengeToDayOne()" style="border-color: rgba(244, 63, 94, 0.45); color: var(--accent-rose); font-weight: 800; width: 100%; justify-content: center;">
+            <span>🔄</span> Reset 90-Day Challenge to Day 1
+          </button>
         </div>
 
         <!-- ANDROID INSTALL INSTRUCTIONS -->
@@ -4217,7 +4265,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Register Service Worker for PWA with auto-update
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js?v=6.0')
+    navigator.serviceWorker.register('sw.js?v=7.0')
       .then(reg => reg.update())
       .catch(err => console.log('SW registration note:', err));
   }
@@ -4251,6 +4299,14 @@ function loadLocalState() {
   } catch (e) {
     console.error('Failed to load local state:', e);
   }
+
+  // STRICT 90-DAY PROGRESSION LAW:
+  // Days unlock strictly based on completed workouts.
+  // If user has not completed Day 1 (0 completed workouts), ONLY Day 1 is unlocked!
+  const completedCount = Array.isArray(appState.completedWorkouts) ? appState.completedWorkouts.length : 0;
+  appState.unlockedDay = Math.min(14, completedCount + 1);
+  appState.currentDay = appState.unlockedDay;
+  appState.currentWeek = appState.currentDay > 7 ? 'B' : 'A';
 
   // Ensure default sync key if none exists
   if (!appState.syncKey) {
@@ -4348,24 +4404,24 @@ function selectWeek(week) {
     showToast('🔒 Week B is locked! Complete all 7 days of Week A first.');
     return;
   }
+  if (week === 'A' && appState.unlockedDay >= 8) {
+    showToast(`🔒 Week A is already completed! Active training is Week B (Day ${appState.unlockedDay}).`);
+    return;
+  }
 
   appState.currentWeek = week;
   document.getElementById('btnWeekA').classList.toggle('active', week === 'A');
   document.getElementById('btnWeekB').classList.toggle('active', week === 'B');
-
-  // If active day is not in selected week, switch to the first day of that week
-  if (week === 'A' && appState.currentDay > 7) {
-    selectDay(1);
-  } else if (week === 'B' && appState.currentDay <= 7) {
-    selectDay(8);
-  } else {
-    initWeekAndDayPills();
-  }
+  initWeekAndDayPills();
 }
 
 function selectDay(dayNum) {
   if (dayNum > appState.unlockedDay) {
     showToast(`🔒 Day ${dayNum} is locked! Complete Day ${dayNum - 1} first.`);
+    return;
+  }
+  if (dayNum < appState.unlockedDay) {
+    showToast(`🔒 Day ${dayNum} is completed! Strict progression requires completing Day ${appState.unlockedDay} next.`);
     return;
   }
 
@@ -4408,16 +4464,17 @@ function initWeekAndDayPills() {
     if (!dayData) continue;
 
     const isLocked = d > appState.unlockedDay;
-    const isCompleted = d < appState.unlockedDay || (appState.completedWorkouts.some(w => w.day === d));
+    const isCompleted = d < appState.unlockedDay;
+    const isActive = d === appState.currentDay;
 
     const btn = document.createElement('button');
-    btn.className = `day-pill-btn ${d === appState.currentDay ? 'active' : ''} ${isLocked ? 'locked' : ''} ${isCompleted ? 'completed' : ''}`;
+    btn.className = `day-pill-btn ${isActive ? 'active' : ''} ${isLocked ? 'locked' : ''} ${isCompleted ? 'completed' : ''}`;
     btn.onclick = () => selectDay(d);
 
     const titleParts = dayData.title.split(' ');
     const shortTitle = titleParts[0];
 
-    const lockIcon = isLocked ? '🔒' : (isCompleted ? '✓' : '');
+    const lockIcon = isLocked ? '🔒' : (isCompleted ? '✓' : '▶');
 
     btn.innerHTML = `
       <span class="day-pill-num">Day ${d} ${lockIcon}</span>
@@ -5108,6 +5165,10 @@ function updateWorkoutControlBarUI() {
 }
 
 function startWorkoutSession() {
+  if (appState.currentDay !== appState.unlockedDay) {
+    alert(`🔒 Strict Progression Law: You can only train Day ${appState.unlockedDay}! Completed days are sealed.`);
+    return;
+  }
   appState.workoutActive = true;
   appState.restartsRemaining = 2;
   appState.workoutStartTimeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -5153,6 +5214,46 @@ function restartWorkoutSession() {
   renderCurrentDay();
   updateWorkoutControlBarUI();
   showToast(`🔄 Workout restarted! Weights & reps preserved (${appState.restartsRemaining} restart left).`);
+}
+
+function resetChallengeToDayOne() {
+  const confirmed = confirm(
+    "⚠️ RESET 90-DAY CHALLENGE TO DAY 1?\n\n" +
+    "This will enforce the strict law:\n" +
+    "• Days 2 through 14 will be LOCKED 🔒\n" +
+    "• Current active workout will be set to Day 1\n" +
+    "• Previous workout log history will be cleared\n\n" +
+    "Are you sure you want to reset and start fresh from Day 1?"
+  );
+  if (!confirmed) return;
+
+  appState.completedWorkouts = [];
+  appState.unlockedDay = 1;
+  appState.currentDay = 1;
+  appState.currentWeek = 'A';
+  appState.inProgressLogs = {};
+  appState.workoutActive = false;
+  appState.restartsRemaining = 2;
+  appState.sessionSeconds = 0;
+  appState.sessionTimerRunning = false;
+  appState.workoutStartTimeStr = '';
+  pauseSessionTimer();
+  resetTreadmillTimer();
+  dismissRestTimer();
+  const clockEl = document.getElementById('sessionTimerClock');
+  if (clockEl) clockEl.textContent = '00:00:00';
+
+  saveLocalState();
+  silentCloudPush(); // Pushes Day 1 reset to Firebase so Phone is also synchronized to Day 1
+
+  initWeekAndDayPills();
+  renderCurrentDay();
+  renderSplitRoadmap();
+  renderPRsAndHistory();
+  updateWorkoutControlBarUI();
+  switchTab('workout');
+
+  showToast('🚀 90-Day Challenge Reset! Only Day 1 is unlocked.');
 }
 
 function toggleSessionTimer() {
@@ -5300,9 +5401,10 @@ function finishCurrentWorkout() {
   appState.completedWorkouts.push(workoutRecord);
   
   // UNLOCK NEXT DAY IN STRICT PROGRESSION
-  if (appState.currentDay === appState.unlockedDay) {
-    appState.unlockedDay = (appState.unlockedDay % 14) + 1;
-  }
+  const completedCount = appState.completedWorkouts.length;
+  appState.unlockedDay = Math.min(14, completedCount + 1);
+  appState.currentDay = appState.unlockedDay;
+  appState.currentWeek = appState.currentDay > 7 ? 'B' : 'A';
 
   // Reset active session
   delete appState.inProgressLogs[dayData.day];
@@ -5338,11 +5440,19 @@ function renderSplitRoadmap() {
 
   MASTER_WORKOUT_PROGRAM.forEach(day => {
     const isLocked = day.day > appState.unlockedDay;
-    const isCompleted = day.day < appState.unlockedDay || (appState.completedWorkouts && appState.completedWorkouts.some(w => w.day === day.day));
+    const isCompleted = day.day < appState.unlockedDay;
+    const isCurrentActive = day.day === appState.unlockedDay;
 
     const card = document.createElement('div');
-    card.className = `split-day-card ${isLocked ? 'locked' : ''} ${isCompleted ? 'completed' : ''}`;
-    card.onclick = () => selectDay(day.day);
+    card.className = `split-day-card ${isLocked ? 'locked' : ''} ${isCompleted ? 'completed' : ''} ${isCurrentActive ? 'active-ready' : ''}`;
+    
+    if (isLocked) {
+      card.onclick = () => showToast(`🔒 Day ${day.day} is locked! Complete Day ${day.day - 1} first.`);
+    } else if (isCompleted) {
+      card.onclick = () => showToast(`✓ Day ${day.day} already completed. Active challenge workout is Day ${appState.unlockedDay}.`);
+    } else {
+      card.onclick = () => selectDay(day.day);
+    }
 
     let statusBadge = '';
     if (isLocked) {
@@ -5350,11 +5460,19 @@ function renderSplitRoadmap() {
     } else if (isCompleted) {
       statusBadge = '<span style="font-size: 0.72rem; color: var(--accent-emerald); font-weight: 700;">✓ Completed</span>';
     } else {
-      statusBadge = '<span style="font-size: 0.72rem; color: var(--accent-blue); font-weight: 700;">▶ Ready</span>';
+      statusBadge = '<span style="font-size: 0.72rem; color: var(--accent-blue); font-weight: 800;">▶ ACTIVE WORKOUT</span>';
     }
 
     let exListHtml = '';
-    if (day.isRestDay) {
+    if (isLocked) {
+      exListHtml = `
+        <div style="background: rgba(0,0,0,0.3); border: 1px dashed rgba(244, 63, 94, 0.35); border-radius: 8px; padding: 14px; text-align: center; margin-top: 10px;">
+          <div style="font-size: 1.15rem; margin-bottom: 4px;">🔒</div>
+          <div style="font-size: 0.78rem; font-weight: 700; color: var(--accent-rose);">Locked: Complete Day ${day.day - 1} first</div>
+          <div style="font-size: 0.7rem; color: var(--text-faint); margin-top: 2px;">Strict linear 90-day challenge law</div>
+        </div>
+      `;
+    } else if (day.isRestDay) {
       exListHtml = '<div style="color: var(--accent-emerald); font-weight: 700; margin-top: 8px;">🧘 Active Recovery / Sleep & Nutrition</div>';
     } else {
       exListHtml = '<ul class="split-ex-list">';
@@ -5535,35 +5653,36 @@ function renderSyncQR() {
 
   qrContainer.innerHTML = '';
 
-  let rendered = false;
-  if (typeof QRCode !== 'undefined') {
-    try {
-      new QRCode(qrContainer, {
-        text: url,
-        width: 180,
-        height: 180,
-        colorDark: '#0a0e17',
-        colorLight: '#ffffff',
-        correctLevel: (QRCode.CorrectLevel && QRCode.CorrectLevel.M) ? QRCode.CorrectLevel.M : 0
-      });
-      if (qrContainer.children.length > 0) {
-        rendered = true;
-      }
-    } catch (e) {
-      console.warn('QRCode library error, falling back to image API:', e);
-    }
-  }
+  // 1. Primary: Direct high-resolution Image API (guarantees instant, clean render on mobile & desktop)
+  const encodedUrl = encodeURIComponent(url);
+  const img = document.createElement('img');
+  img.src = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodedUrl}&margin=8`;
+  img.alt = 'Scan to pair mobile phone';
+  img.style.width = '180px';
+  img.style.height = '180px';
+  img.style.display = 'block';
+  img.style.borderRadius = '8px';
 
-  if (!rendered) {
-    const encodedUrl = encodeURIComponent(url);
-    const img = document.createElement('img');
-    img.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodedUrl}`;
-    img.alt = 'Scan to pair mobile phone';
-    img.style.width = '180px';
-    img.style.height = '180px';
-    img.style.display = 'block';
-    qrContainer.appendChild(img);
-  }
+  // 2. Offline fallback: If offline or image error, use QRCode canvas generator
+  img.onerror = () => {
+    qrContainer.innerHTML = '';
+    if (typeof QRCode !== 'undefined') {
+      try {
+        new QRCode(qrContainer, {
+          text: url,
+          width: 180,
+          height: 180,
+          colorDark: '#0a0e17',
+          colorLight: '#ffffff',
+          correctLevel: 0
+        });
+      } catch (e) {
+        console.warn('QRCode library error:', e);
+      }
+    }
+  };
+
+  qrContainer.appendChild(img);
 }
 
 /**
@@ -5686,8 +5805,10 @@ async function silentCloudPull() {
 }
 
 function mergeSyncedData(incoming) {
-  if (incoming.completedWorkouts && incoming.completedWorkouts.length >= appState.completedWorkouts.length) {
-    appState.completedWorkouts = incoming.completedWorkouts;
+  if (incoming.completedWorkouts && Array.isArray(incoming.completedWorkouts)) {
+    if (incoming.completedWorkouts.length >= appState.completedWorkouts.length) {
+      appState.completedWorkouts = incoming.completedWorkouts;
+    }
   }
   if (incoming.personalRecords) {
     appState.personalRecords = { ...appState.personalRecords, ...incoming.personalRecords };
@@ -5695,12 +5816,18 @@ function mergeSyncedData(incoming) {
   if (incoming.customVideos) {
     appState.customVideos = { ...appState.customVideos, ...incoming.customVideos };
   }
-  if (incoming.unlockedDay && incoming.unlockedDay > appState.unlockedDay) {
-    appState.unlockedDay = incoming.unlockedDay;
-    initWeekAndDayPills();
-  }
+  
+  // STRICT PROGRESSION LAW:
+  // Unlocked day is strictly dictated by completed workouts
+  const completedCount = Array.isArray(appState.completedWorkouts) ? appState.completedWorkouts.length : 0;
+  appState.unlockedDay = Math.min(14, completedCount + 1);
+  appState.currentDay = appState.unlockedDay;
+  appState.currentWeek = appState.currentDay > 7 ? 'B' : 'A';
+
+  initWeekAndDayPills();
   saveLocalState();
   renderCurrentDay();
+  renderSplitRoadmap();
   renderPRsAndHistory();
 }
 
